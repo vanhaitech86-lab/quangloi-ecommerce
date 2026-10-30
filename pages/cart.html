@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ Hàng - Quang Lợi E-commerce 3D</title>
+  <meta name="description" content="Giỏ hàng và thanh toán trực tuyến thiết bị văn phòng chính hãng tại Quang Lợi E-commerce.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0A0E27',
+              navy: '#0F1642',
+              cyan: '#00D4FF',
+              purple: '#7B2FBE',
+              magenta: '#EC4899',
+              gold: '#FFD700',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+</head>
+<body class="bg-[#0A0E27] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-white">
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="relative flex flex-col items-center">
+      <div class="spinner-3d mb-6"></div>
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-star text-cyan-400 animate-spin-slow"></i>
+        <span class="text-xl font-bold tracking-widest text-white font-['Poppins']">QUANG LỢI</span>
+      </div>
+      <p class="text-xs text-cyan-400/80 mt-2 tracking-wider">ĐANG TẢI GIỎ HÀNG...</p>
+    </div>
+  </div>
+
+  <!-- NAVIGATION BAR -->
+  <header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="../index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition transform">
+          <i class="fa-solid fa-star text-white text-lg animate-spin-slow"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-black tracking-tight text-white font-['Poppins'] flex items-center gap-1">
+            QUANG LỢI <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-400 font-semibold border border-cyan-400/30">3D</span>
+          </span>
+          <span class="text-[10px] tracking-widest text-gray-400 uppercase font-medium">Thiết Bị Văn Phòng Cao Cấp</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-gray-200">
+        <a href="../index.html" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-house text-xs"></i> Trang Chủ
+        </a>
+        <a href="products.html" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-xs"></i> Sản Phẩm
+        </a>
+        <a href="../index.html#brands-section" class="hover:text-cyan-400 transition">Thương Hiệu</a>
+        <a href="../index.html#why-us-section" class="hover:text-cyan-400 transition">Dịch Vụ</a>
+        <a href="about.html" class="hover:text-cyan-400 transition">Về Chúng Tôi</a>
+        <a href="../index.html#footer-section" class="hover:text-cyan-400 transition">Liên Hệ</a>
+      </nav>
+
+      <!-- Cart Button Active -->
+      <div class="flex items-center gap-4">
+        <a href="cart.html" id="nav-cart-btn" class="relative p-2.5 rounded-xl bg-cyan-500/20 border border-cyan-400/60 transition flex items-center justify-center text-cyan-300">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge-count absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 text-white text-[10px] font-bold flex items-center justify-center shadow-lg shadow-cyan-500/40">0</span>
+        </a>
+
+        <button id="mobile-menu-toggle" class="lg:hidden p-2 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CART PAGE -->
+  <main class="pt-28 pb-20 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-gray-400 mb-6">
+        <a href="../index.html" class="hover:text-cyan-400 transition">Trang Chủ</a>
+        <i class="fa-solid fa-chevron-right text-[10px] text-gray-600"></i>
+        <a href="products.html" class="hover:text-cyan-400 transition">Sản Phẩm</a>
+        <i class="fa-solid fa-chevron-right text-[10px] text-gray-600"></i>
+        <span class="text-cyan-400 font-semibold">Giỏ Hàng Của Bạn</span>
+      </nav>
+
+      <!-- Page Heading -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 mb-8 border-b border-white/10 gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-3">
+            <i class="fa-solid fa-bag-shopping text-cyan-400"></i> Giỏ Hàng Mua Sắm
+          </h1>
+          <p class="text-xs text-gray-400 mt-1">Quản lý các thiết bị văn phòng và dịch vụ bạn đã chọn trước khi thanh toán.</p>
+        </div>
+        
+        <a href="products.html" class="btn-secondary !py-2.5 !px-4 text-xs font-semibold self-start sm:self-auto">
+          <i class="fa-solid fa-arrow-left mr-1.5"></i> Tiếp Tục Chọn Hàng
+        </a>
+      </div>
+
+      <!-- CART CONTAINER: Two Columns (Table + Summary) -->
+      <div id="cart-content-wrapper" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- LEFT: Items Table (8 Cols) -->
+        <div class="lg:col-span-8 space-y-4">
+          
+          <div class="glass-card p-6 border-white/10 overflow-hidden">
+            
+            <div class="hidden sm:grid sm:grid-cols-12 text-xs font-bold text-gray-400 uppercase tracking-wider pb-3 border-b border-white/10 mb-4">
+              <div class="col-span-6">Sản Phẩm</div>
+              <div class="col-span-2 text-center">Đơn Giá</div>
+              <div class="col-span-2 text-center">Số Lượng</div>
+              <div class="col-span-2 text-right">Tạm Tính</div>
+            </div>
+
+            <!-- Dynamic Cart Items Container -->
+            <div id="cart-items-list" class="divide-y divide-white/10">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Cart Table Footer -->
+            <div class="pt-6 mt-4 flex flex-wrap items-center justify-between gap-4 border-t border-white/10">
+              <button onclick="clearEntireCart()" class="text-xs text-red-400 hover:text-red-300 flex items-center gap-1.5">
+                <i class="fa-regular fa-trash-can"></i> Xóa toàn bộ giỏ hàng
+              </button>
+              
+              <div class="text-xs text-gray-400 flex items-center gap-2">
+                <i class="fa-solid fa-shield-check text-emerald-400"></i>
+                <span>Giao hàng có bảo hiểm 100% giá trị thiết bị</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Extra Office Service Perks -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            <div class="glass-card p-4 flex items-center gap-3 border-white/5">
+              <i class="fa-solid fa-truck text-cyan-400 text-lg"></i>
+              <div class="text-xs">
+                <div class="font-bold text-white">Freeship từ 2.000.000đ</div>
+                <div class="text-gray-400 text-[10px]">Giao hỏa tốc 2 giờ</div>
+              </div>
+            </div>
+            <div class="glass-card p-4 flex items-center gap-3 border-white/5">
+              <i class="fa-solid fa-file-invoice text-purple-400 text-lg"></i>
+              <div class="text-xs">
+                <div class="font-bold text-white">Xuất Hóa Đơn VAT</div>
+                <div class="text-gray-400 text-[10px]">Hóa đơn điện tử hợp lệ</div>
+              </div>
+            </div>
+            <div class="glass-card p-4 flex items-center gap-3 border-white/5">
+              <i class="fa-solid fa-screwdriver-wrench text-amber-400 text-lg"></i>
+              <div class="text-xs">
+                <div class="font-bold text-white">Hỗ Trợ Lắp Đặt</div>
+                <div class="text-gray-400 text-[10px]">Kỹ thuật viên tận nơi</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT: Order Summary Sidebar (4 Cols) -->
+        <div class="lg:col-span-4 space-y-6">
+          
+          <div class="glass-card p-6 border-cyan-500/30 sticky top-28 shadow-2xl">
+            <h3 class="text-base font-bold text-white pb-3 border-b border-white/10 mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-receipt text-cyan-400"></i> Tóm Tắt Đơn Hàng
+            </h3>
+
+            <!-- Price Breakdown -->
+            <div class="space-y-3 text-xs text-gray-300 mb-6">
+              <div class="flex items-center justify-between">
+                <span>Tổng tiền hàng:</span>
+                <span id="summary-subtotal" class="font-bold text-white">0đ</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="flex items-center gap-1">
+                  Giảm giá voucher:
+                  <span id="summary-coupon-badge" class="hidden text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">-10%</span>
+                </span>
+                <span id="summary-discount" class="text-emerald-400 font-bold">0đ</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span>Phí vận chuyển:</span>
+                <span id="summary-shipping" class="text-cyan-400 font-bold">Miễn Phí</span>
+              </div>
+
+              <div class="flex items-center justify-between text-gray-400 text-[11px]">
+                <span>Thuế VAT (8% - 10%):</span>
+                <span>Đã bao gồm trong giá</span>
+              </div>
+            </div>
+
+            <!-- Coupon Code Input -->
+            <div class="mb-6 pt-4 border-t border-white/10">
+              <label class="text-xs font-semibold text-gray-300 block mb-2">Mã giảm giá / Voucher</label>
+              <div class="flex gap-2">
+                <input type="text" id="coupon-input" placeholder="Nhập QUANGLOI10" 
+                  class="glass-input px-3 py-2 text-xs flex-1 uppercase">
+                <button id="btn-apply-coupon" class="btn-secondary !py-2 !px-3 text-xs font-bold whitespace-nowrap">
+                  Áp Dụng
+                </button>
+              </div>
+              <p class="text-[10px] text-gray-400 mt-1.5">Gợi ý mã dùng thử: <strong class="text-cyan-400">QUANGLOI10</strong> (Giảm 10%)</p>
+            </div>
+
+            <!-- Final Grand Total -->
+            <div class="pt-4 border-t border-white/10 mb-6">
+              <div class="flex items-baseline justify-between">
+                <div>
+                  <div class="text-xs text-gray-400 font-medium">Tổng thanh toán:</div>
+                  <div class="text-[10px] text-gray-500">(Đã tính khuyến mãi & phí ship)</div>
+                </div>
+                <div id="summary-grand-total" class="text-2xl font-black text-red-500 font-['Poppins']">
+                  0đ
+                </div>
+              </div>
+            </div>
+
+            <!-- Checkout CTA Button -->
+            <button id="btn-open-checkout" class="btn-primary w-full !py-3.5 text-xs font-bold shadow-lg shadow-cyan-500/40">
+              <i class="fa-solid fa-lock mr-1.5"></i> Tiến Hành Đặt Hàng Ngay
+            </button>
+
+            <!-- Trust Badges -->
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-around text-gray-400 text-xs">
+              <div class="flex items-center gap-1.5" title="Bảo mật SSL 256-bit">
+                <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+                <span class="text-[10px]">Bảo mật 100%</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-box text-purple-400"></i>
+                <span class="text-[10px]">Đồng kiểm khi nhận</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate-left text-amber-400"></i>
+                <span class="text-[10px]">Đổi trả 30 ngày</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- EMPTY CART VIEW (Shown when items count = 0) -->
+      <div id="empty-cart-state" class="hidden glass-card p-14 text-center max-w-2xl mx-auto my-12 border-cyan-400/20">
+        <div class="w-24 h-24 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-400 text-4xl mx-auto mb-6 animate-float">
+          <i class="fa-solid fa-cart-arrow-down"></i>
+        </div>
+        <h2 class="text-2xl font-black text-white mb-2">Giỏ hàng của bạn đang trống</h2>
+        <p class="text-xs text-gray-400 max-w-md mx-auto mb-8">
+          Hãy dạo quanh showroom 3D Quang Lợi để chọn lựa những thiết bị in ấn, photocopy và vật tư văn phòng ưng ý nhất!
+        </p>
+        <a href="products.html" class="btn-primary !py-3 !px-8 text-xs font-bold">
+          <i class="fa-solid fa-cube mr-2"></i> Khám Phá Sản Phẩm Ngay
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CHECKOUT MODAL -->
+  <div id="checkout-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-xl w-full p-6 sm:p-8 border-cyan-400/40 shadow-2xl relative animate-scale-in">
+      <button id="btn-close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">&times;</button>
+      
+      <div class="flex items-center gap-3 pb-4 mb-5 border-b border-white/10">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-lg">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Xác Nhận Đặt Hàng & Giao Nhận</h3>
+          <p class="text-[11px] text-gray-400">Vui lòng điền thông tin để nhân viên Quang Lợi liên hệ xác nhận</p>
+        </div>
+      </div>
+
+      <form id="checkout-form" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs text-gray-300 block mb-1">Họ và tên người nhận *</label>
+            <input type="text" required placeholder="Nguyễn Văn A" class="glass-input w-full px-3 py-2 text-xs">
+          </div>
+          <div>
+            <label class="text-xs text-gray-300 block mb-1">Số điện thoại liên hệ *</label>
+            <input type="tel" required placeholder="0988 223 344" class="glass-input w-full px-3 py-2 text-xs">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs text-gray-300 block mb-1">Địa chỉ giao hàng (Số nhà, đường, quận/huyện) *</label>
+          <input type="text" required placeholder="Tầng 5, Tòa nhà FPT, Cầu Giấy, Hà Nội" class="glass-input w-full px-3 py-2 text-xs">
+        </div>
+
+        <div>
+          <label class="text-xs text-gray-300 block mb-1">Hình thức thanh toán</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="p-2.5 rounded-xl border border-cyan-400/50 bg-cyan-500/10 flex items-center gap-2 cursor-pointer text-white">
+              <input type="radio" name="payment" value="cod" checked class="text-cyan-400">
+              <span>Thanh toán COD khi nhận máy</span>
+            </label>
+            <label class="p-2.5 rounded-xl border border-white/10 bg-white/5 flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+              <input type="radio" name="payment" value="bank" class="text-cyan-400">
+              <span>Chuyển khoản Ngân hàng / QR</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs text-gray-300 block mb-1">Ghi chú giao hàng & Yêu cầu kỹ thuật</label>
+          <textarea rows="2" placeholder="Ví dụ: Cần kỹ thuật hỗ trợ kết nối mạng Wi-Fi và cài driver trên 5 máy tính Windows..." class="glass-input w-full px-3 py-2 text-xs"></textarea>
+        </div>
+
+        <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+          <div>
+            <div class="text-[10px] text-gray-400">Tổng thanh toán:</div>
+            <div id="modal-checkout-total" class="text-lg font-black text-red-500">0đ</div>
+          </div>
+          <button type="submit" class="btn-primary !py-2.5 !px-6 text-xs font-bold">
+            <i class="fa-solid fa-check mr-1.5"></i> Hoàn Tất Đặt Hàng
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ORDER SUCCESS DIALOG -->
+  <div id="order-success-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full p-8 text-center border-cyan-400/50 animate-scale-in">
+      <div class="w-20 h-20 rounded-full bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-400 text-3xl mx-auto mb-4">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3 class="text-xl font-black text-white mb-2">Đặt Hàng Thành Công!</h3>
+      <p class="text-xs text-gray-300 leading-relaxed mb-6">
+        Cảm ơn quý khách đã tin dùng sản phẩm tại <strong>Quang Lợi E-commerce</strong>. Đơn hàng mã <strong class="text-cyan-400">#QL-88924</strong> đang được bộ phận kho chuẩn bị và chuyên viên kỹ thuật sẽ gọi xác nhận trong 10 phút.
+      </p>
+      <button onclick="window.location.href='../index.html'" class="btn-primary !py-2.5 !px-8 text-xs font-bold w-full">
+        Quay Về Trang Chủ
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#050716] border-t border-white/10 pt-12 pb-8 relative z-10 text-gray-300 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-star text-cyan-400"></i>
+        <span class="font-bold text-white font-['Poppins']">QUANG LỢI E-COMMERCE</span>
+      </div>
+      <p class="text-gray-500">© 2026 Quang Lợi E-commerce. Tổng đài CSKH: 0988.223.344</p>
+    </div>
+  </footer>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../js/main.js"></script>
+
+  <!-- Cart Page Script -->
+  <script>
+    let discountPercent = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Seed Cart with 2 default sample items if completely empty, for immediate great UX demo
+      let currentCart = CartManager.getCart();
+      if (currentCart.length === 0) {
+        CartManager.addToCart('can-pixma-g3010', 1, { color: 'Đen Nhám Tiêu Chuẩn' });
+        CartManager.addToCart('muc-hp-85a', 2, { color: 'Mực Đen Chính Hãng' });
+      }
+
+      renderCart();
+
+      // Coupon application
+      document.getElementById('btn-apply-coupon')?.addEventListener('click', () => {
+        const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+        if (code === 'QUANGLOI10' || code === 'FREESHIP') {
+          discountPercent = 0.10;
+          document.getElementById('summary-coupon-badge').classList.remove('hidden');
+          showToast('Áp dụng mã giảm giá 10% thành công!', 'success');
+          renderCart();
+        } else if (code) {
+          showToast('Mã giảm giá không hợp lệ hoặc đã hết hạn!', 'warning');
+        }
+      });
+
+      // Checkout Modal Open
+      document.getElementById('btn-open-checkout')?.addEventListener('click', () => {
+        const cart = CartManager.getCart();
+        if (cart.length === 0) {
+          showToast('Giỏ hàng trống!', 'warning');
+          return;
+        }
+        document.getElementById('modal-checkout-total').textContent = document.getElementById('summary-grand-total').textContent;
+        document.getElementById('checkout-modal').classList.remove('hidden');
+      });
+
+      document.getElementById('btn-close-modal')?.addEventListener('click', () => {
+        document.getElementById('checkout-modal').classList.add('hidden');
+      });
+
+      // Checkout Form Submit
+      document.getElementById('checkout-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        document.getElementById('checkout-modal').classList.add('hidden');
+        CartManager.clearCart();
+        document.getElementById('order-success-modal').classList.remove('hidden');
+      });
+    });
+
+    function renderCart() {
+      const cart = CartManager.getCart();
+      const listContainer = document.getElementById('cart-items-list');
+      const contentWrapper = document.getElementById('cart-content-wrapper');
+      const emptyState = document.getElementById('empty-cart-state');
+
+      if (cart.length === 0) {
+        contentWrapper.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      contentWrapper.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+
+      // Render Items Table Rows
+      listContainer.innerHTML = cart.map(item => {
+        const subtotal = item.price * item.quantity;
+        return `
+          <div class="py-4 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+            
+            <!-- Item Details (6 cols) -->
+            <div class="sm:col-span-6 flex items-center gap-3">
+              <div class="w-16 h-16 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center p-1.5 flex-shrink-0">
+                ${generateProductSVG(item.imageType)}
+              </div>
+              <div class="min-w-0">
+                <span class="badge-brand text-[10px] !py-0.5">${item.brand}</span>
+                <h4 class="text-xs sm:text-sm font-bold text-white truncate mt-1">
+                  <a href="product-detail.html?id=${item.id}" class="hover:text-cyan-400 transition">${item.name}</a>
+                </h4>
+                <div class="text-[11px] text-gray-400">Phiên bản: <span class="text-cyan-400">${item.color || 'Tiêu Chuẩn'}</span></div>
+                <button onclick="removeItem('${item.id}')" class="text-[11px] text-red-400 hover:underline sm:hidden mt-1">
+                  <i class="fa-solid fa-trash-can text-[10px]"></i> Xóa
+                </button>
+              </div>
+            </div>
+
+            <!-- Unit Price (2 cols) -->
+            <div class="sm:col-span-2 text-left sm:text-center">
+              <span class="text-xs text-gray-400 sm:hidden">Đơn giá: </span>
+              <span class="text-xs sm:text-sm font-bold text-white">${formatVND(item.price)}</span>
+            </div>
+
+            <!-- Quantity Counter (2 cols) -->
+            <div class="sm:col-span-2 flex items-center justify-start sm:justify-center">
+              <div class="flex items-center rounded-lg bg-white/10 border border-white/10 text-xs">
+                <button onclick="changeItemQty('${item.id}', ${item.quantity - 1})" class="px-2.5 py-1 text-gray-300 hover:text-white">-</button>
+                <span class="px-2 py-1 font-bold text-white min-w-[24px] text-center">${item.quantity}</span>
+                <button onclick="changeItemQty('${item.id}', ${item.quantity + 1})" class="px-2.5 py-1 text-gray-300 hover:text-white">+</button>
+              </div>
+            </div>
+
+            <!-- Subtotal & Remove (2 cols) -->
+            <div class="sm:col-span-2 flex items-center justify-between sm:justify-end gap-3">
+              <div class="text-right">
+                <span class="text-xs text-gray-400 sm:hidden">Tổng: </span>
+                <span class="text-sm font-extrabold text-red-400 font-['Poppins']">${formatVND(subtotal)}</span>
+              </div>
+              <button onclick="removeItem('${item.id}')" class="hidden sm:inline-flex text-gray-400 hover:text-red-400 transition" title="Xóa sản phẩm">
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+
+      // Calculations
+      const subtotal = CartManager.getCartTotal();
+      const discountAmount = subtotal * discountPercent;
+      const shipping = (subtotal >= 2000000 || subtotal === 0) ? 0 : 50000;
+      const grandTotal = subtotal - discountAmount + shipping;
+
+      document.getElementById('summary-subtotal').textContent = formatVND(subtotal);
+      document.getElementById('summary-discount').textContent = discountAmount > 0 ? `-${formatVND(discountAmount)}` : '0đ';
+      document.getElementById('summary-shipping').textContent = shipping === 0 ? 'Miễn Phí' : formatVND(shipping);
+      document.getElementById('summary-grand-total').textContent = formatVND(grandTotal);
+    }
+
+    function changeItemQty(id, qty) {
+      CartManager.updateQuantity(id, qty);
+      renderCart();
+    }
+
+    function removeItem(id) {
+      CartManager.removeFromCart(id);
+      showToast('Đã xóa sản phẩm khỏi giỏ hàng', 'info', 1500);
+      renderCart();
+    }
+
+    function clearEntireCart() {
+      if (confirm('Quý khách có chắc chắn muốn dọn sạch giỏ hàng không?')) {
+        CartManager.clearCart();
+        renderCart();
+      }
+    }
+  </script>
+</body>
+</html>

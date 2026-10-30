@@ -1,0 +1,283 @@
+/* ===================================================================
+   QUANG LỢI E-COMMERCE - ANIMATIONS SYSTEM
+   Keyframes, Micro-interactions, and 3D Transformations
+   =================================================================== */
+
+/* 1. Floating Animation (Float Y) */
+@keyframes floatY {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-18px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatY 9s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: floatY 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: floatY 7s ease-in-out 2s infinite;
+}
+
+/* 2. 3D Rotation Animation */
+@keyframes rotate3D {
+  0% {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+  }
+  50% {
+    transform: perspective(1000px) rotateY(180deg) rotateX(10deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg) rotateX(0deg);
+  }
+}
+
+.animate-rotate-3d {
+  animation: rotate3D 20s linear infinite;
+}
+
+/* 3. Glow Pulse Animation */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.75), 0 0 60px rgba(123, 47, 190, 0.45);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes textGlowPulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.9), 0 0 40px rgba(123, 47, 190, 0.6);
+  }
+}
+
+.animate-text-glow {
+  animation: textGlowPulse 3s ease-in-out infinite;
+}
+
+/* 4. Shimmer / Light Beam Effect */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  animation: shimmer 4s infinite;
+}
+
+/* 5. Particle Fade */
+@keyframes particleFade {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.8) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) translateY(-10px);
+  }
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8) translateY(0);
+  }
+}
+
+.animate-particle {
+  animation: particleFade 4s ease-in-out infinite;
+}
+
+/* 6. Slide In Directions */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 7. Scale In Animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 8. Gradient Shift Animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-flow {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+/* 9. Infinite Marquee Brands Track */
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-container {
+  overflow: hidden;
+  user-select: none;
+  display: flex;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  gap: 2rem;
+  flex-shrink: 0;
+  animation: marqueeScroll 25s linear infinite;
+  align-items: center;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* 10. Star Twinkle / Rotation */
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 12s linear infinite;
+}
+
+/* 11. Pulse Badge */
+@keyframes pulseDot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 240, 168, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 240, 168, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 240, 168, 0);
+  }
+}
+
+.pulse-online {
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulseDot 2s infinite;
+}
+
+/* 12. Fly to Cart Animation Element */
+.flying-cart-item {
+  position: fixed;
+  z-index: 99999;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 0 25px rgba(0, 212, 255, 0.8);
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
