@@ -3,809 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quang Lợi - Thiết Bị Văn Phòng & Cho Thuê Máy Photocopy Uy Tín Hà Nội</title>
-  <meta name="description" content="Công ty TNHH TM và DV Quang Lợi - Đại lý chính hãng máy photocopy, máy in Canon, Ricoh, Fuji Xerox, Brother, HP, Epson và dịch vụ cho thuê máy photocopy uy tín tại Hà Nội. Hotline: 0913.524.260.">
-
-  <!-- Google Fonts -->
+  <title>Quảng Lợi - Tổng Đại Lý Máy Photocopy & Thiết Bị Văn Phòng Chính Hãng</title>
+  <meta name="description" content="Công ty TNHH Thương mại và Dịch vụ Quảng Lợi - Hơn 20 năm cung cấp máy photocopy, máy in Canon, Ricoh, Fujifilm, Sharp, Konica Minolta, máy scan, máy hủy tài liệu và dịch vụ cho thuê máy photocopy uy tín tại Hà Nội.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              DEFAULT: '#1565C0',
-              light: '#1976D2',
-              dark: '#0D47A1',
-            },
-            accent: {
-              DEFAULT: '#D32F2F',
-              hover: '#B71C1C',
-            },
-            surface: {
-              light: '#F5F7FA',
-              blue: '#E3F2FD',
-              white: '#FFFFFF',
-              dark: '#0D1B2A',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Three.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-  <!-- AOS CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-
-  <!-- Custom Stylesheets -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/site.css">
 </head>
-<body class="bg-[#F5F7FA] text-gray-900 antialiased selection:bg-blue-100 selection:text-blue-900">
+<body data-root="" data-page="home">
 
-  <!-- PRELOADER -->
-  <div id="preloader">
-    <div class="relative flex flex-col items-center">
-      <div class="spinner-3d mb-5"></div>
-      <div class="flex items-center gap-2">
-        <span class="text-2xl font-black tracking-wider text-[#1565C0] font-['Poppins']">QUẢNG LỢI</span>
-      </div>
-      <p class="text-xs text-gray-500 mt-2 font-medium tracking-wide">THIẾT BỊ VĂN PHÒNG CHUYÊN NGHIỆP...</p>
-    </div>
-  </div>
+  <div id="ql-top"></div>
 
-  <!-- TOP BAR -->
-  <div class="top-bar py-2 hidden md:block">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-      <div class="flex items-center gap-6">
-        <span class="flex items-center gap-1.5">
-          <i class="fa-solid fa-location-dot text-red-500 text-xs"></i>
-          C11, Lô 9, KĐT Định Công, Hoàng Mai, Hà Nội
-        </span>
-        <span class="flex items-center gap-1.5">
-          <i class="fa-regular fa-clock text-blue-400 text-xs"></i>
-          Thứ 2 - Thứ 7: 08:00 - 18:00
-        </span>
-      </div>
-      <div class="flex items-center gap-5">
-        <a href="mailto:quangloi2010@gmail.com" class="flex items-center gap-1.5">
-          <i class="fa-regular fa-envelope text-blue-400 text-xs"></i>
-          quangloi2010@gmail.com
-        </a>
-        <span class="text-gray-600">|</span>
-        <a href="tel:0913524260" class="flex items-center gap-1.5 text-red-400 font-bold hover:text-red-300">
-          <i class="fa-solid fa-phone-volume text-xs animate-phone-ring"></i>
-          Hotline: 0913 524 260
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAVIGATION BAR -->
-  <header id="main-navbar" class="sticky top-0 left-0 right-0 z-50 glass-nav">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-      
-      <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 text-decoration-none group">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-700 to-blue-500 flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition transform">
-          <i class="fa-solid fa-print text-white text-xl"></i>
+  <!-- HERO: Cột danh mục bên trái + Slider giữa + 2 Banner phải (bố cục chuẩn vanphongstar.vn) -->
+  <section class="home-hero">
+    <div class="container">
+      <div class="row">
+        <div class="hero-cat">
+          <div class="head"><i class="fa fa-bars"></i> Danh mục sản phẩm</div>
+          <div id="home-catlist"></div>
         </div>
-        <div class="flex flex-col">
-          <span class="text-2xl font-black tracking-tight text-[#1565C0] font-['Poppins'] flex items-center gap-1.5">
-            QUẢNG LỢI <span class="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-[#D32F2F] font-bold border border-red-200">B2B</span>
-          </span>
-          <span class="text-[11px] tracking-wider text-gray-500 uppercase font-semibold">Thiết Bị Văn Phòng Chuyên Nghiệp</span>
-        </div>
-      </a>
-
-      <!-- Desktop Nav Menu -->
-      <nav class="hidden xl:flex items-center gap-7 font-medium text-sm text-gray-700">
-        <a href="index.html" class="text-[#1565C0] font-bold transition flex items-center gap-1">
-          Trang Chủ
-        </a>
-        <a href="pages/products.html?category=may-photocopy" class="hover:text-[#1565C0] transition">
-          Máy Photocopy
-        </a>
-        <a href="pages/products.html?category=may-in" class="hover:text-[#1565C0] transition">
-          Máy In
-        </a>
-        <a href="pages/products.html?category=may-huy-tai-lieu" class="hover:text-[#1565C0] transition">
-          Máy Hủy Tài Liệu
-        </a>
-        <a href="pages/rental-service.html" class="hover:text-[#1565C0] transition flex items-center gap-1 text-red-600 font-semibold">
-          <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-          Cho Thuê
-        </a>
-        <a href="pages/rental-service.html#services" class="hover:text-[#1565C0] transition">
-          Dịch Vụ
-        </a>
-        <a href="pages/about.html" class="hover:text-[#1565C0] transition">
-          Về Chúng Tôi
-        </a>
-        <a href="pages/lead-capture.html" class="hover:text-[#1565C0] transition">
-          Liên Hệ
-        </a>
-      </nav>
-
-      <!-- Search & Actions -->
-      <div class="flex items-center gap-3">
-        <!-- Live Search Box -->
-        <div class="relative hidden sm:block w-52 md:w-64">
-          <input 
-            type="text" 
-            id="nav-search-input" 
-            placeholder="Tìm máy in, photocopy..." 
-            class="w-full pl-9 pr-4 py-2 text-xs bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-600 focus:bg-white text-gray-800 transition"
-          />
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-          <div id="nav-search-results" class="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden hidden z-50"></div>
-        </div>
-
-        <!-- Cart Button -->
-        <a href="pages/cart.html" id="nav-cart-btn" class="relative w-10 h-10 rounded-lg bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-700 flex items-center justify-center transition" aria-label="Giỏ hàng">
-          <i class="fa-solid fa-cart-shopping text-base"></i>
-          <span class="cart-badge-count absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-red-600 text-white text-[11px] font-bold flex items-center justify-center border-2 border-white hidden">0</span>
-        </a>
-
-        <!-- Fast Quote CTA -->
-        <button onclick="window.openLeadModal ? window.openLeadModal() : window.location.href='pages/lead-capture.html'" class="hidden md:inline-flex btn-accent text-xs font-bold py-2.5 px-4 shadow">
-          <i class="fa-solid fa-bolt-lightning text-xs"></i> Nhận Báo Giá
-        </button>
-
-        <!-- Mobile Menu Toggle -->
-        <button id="mobile-menu-toggle" class="xl:hidden w-10 h-10 rounded-lg bg-gray-100 text-gray-700 flex items-center justify-center" aria-label="Mở menu">
-          <i class="fa-solid fa-bars text-lg"></i>
-        </button>
-      </div>
-
-    </div>
-  </header>
-
-  <!-- MOBILE MENU DRAWER -->
-  <div id="mobile-menu-drawer" class="fixed inset-y-0 right-0 w-80 bg-white shadow-2xl border-l border-gray-200 z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="p-5 border-b border-gray-100 flex items-center justify-between">
-      <span class="font-bold text-lg text-blue-700">DANH MỤC MENU</span>
-      <button id="mobile-menu-close" class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center text-lg">&times;</button>
-    </div>
-    <div class="p-5 flex-1 overflow-y-auto space-y-3 font-medium text-gray-800">
-      <a href="index.html" class="block py-2 text-blue-700 font-bold border-b border-gray-100">Trang Chủ</a>
-      <a href="pages/products.html?category=may-photocopy" class="block py-2 hover:text-blue-700 border-b border-gray-100">Máy Photocopy</a>
-      <a href="pages/products.html?category=may-in" class="block py-2 hover:text-blue-700 border-b border-gray-100">Máy In Văn Phòng</a>
-      <a href="pages/products.html?category=may-huy-tai-lieu" class="block py-2 hover:text-blue-700 border-b border-gray-100">Máy Hủy Tài Liệu</a>
-      <a href="pages/rental-service.html" class="block py-2 text-red-600 font-bold border-b border-gray-100">Dịch Vụ Cho Thuê</a>
-      <a href="pages/rental-service.html#services" class="block py-2 hover:text-blue-700 border-b border-gray-100">Bảo Trì & Dịch Vụ</a>
-      <a href="pages/about.html" class="block py-2 hover:text-blue-700 border-b border-gray-100">Về Chúng Tôi</a>
-      <a href="pages/lead-capture.html" class="block py-2 hover:text-blue-700 border-b border-gray-100">Liên Hệ & Báo Giá</a>
-      <div class="pt-4 space-y-2 text-xs text-gray-600">
-        <p><i class="fa-solid fa-phone text-red-600 mr-1.5"></i> Hotline: 0913 524 260</p>
-        <p><i class="fa-regular fa-envelope text-blue-600 mr-1.5"></i> quangloi2010@gmail.com</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- HERO SECTION WITH 3D BLUE PARTICLE CANVAS -->
-  <section class="relative min-h-[580px] lg:min-h-[640px] flex items-center overflow-hidden bg-gradient-to-br from-[#F0F7FF] via-[#E3F2FD] to-white border-b border-blue-100">
-    <!-- Three.js Canvas Container -->
-    <div id="hero-three-canvas" class="opacity-90"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-      
-      <!-- Hero Copy -->
-      <div class="lg:col-span-7 space-y-6" data-aos="fade-right">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 border border-blue-200 text-blue-800 text-xs font-bold tracking-wide">
-          <i class="fa-solid fa-shield-halved text-blue-700"></i>
-          Đại Lý Phân Phối Canon & Ricoh Chính Thức Tại Hà Nội
-        </div>
-
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 leading-tight">
-          Giải Pháp Thiết Bị Văn Phòng & <span class="text-[#1565C0]">Cho Thuê Máy Photocopy</span> Chuyên Nghiệp
-        </h1>
-
-        <p class="text-sm sm:text-base text-gray-600 leading-relaxed max-w-2xl">
-          <strong>CÔNG TY TNHH TM VÀ DV QUẢNG LỢI</strong> chuyên cung cấp máy photocopy đa chức năng, máy in laser tốc độ cao, máy hủy tài liệu và dịch vụ cho thuê trọn gói miễn phí 100% mực in và linh kiện. Hỗ trợ kỹ thuật tận nơi trong 2 giờ.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-4 pt-2">
-          <a href="pages/products.html" class="btn-primary text-sm font-bold shadow-lg shadow-blue-600/25">
-            <i class="fa-solid fa-list-check"></i> Xem Danh Mục Sản Phẩm
-          </a>
-          <a href="pages/rental-service.html" class="btn-accent text-sm font-bold shadow-lg shadow-red-600/25">
-            <i class="fa-solid fa-tags"></i> Bảng Giá Cho Thuê (từ 650k)
-          </a>
-          <button onclick="window.openLeadModal ? window.openLeadModal() : window.location.href='pages/lead-capture.html'" class="btn-secondary text-sm font-semibold">
-            <i class="fa-solid fa-file-invoice-dollar"></i> Nhận Báo Giá Nhanh
-          </button>
-        </div>
-
-        <!-- Trust Badges -->
-        <div class="pt-6 border-t border-blue-200/60 grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
-          <div>
-            <div class="text-xl sm:text-2xl font-black text-blue-700 font-['Poppins']">14+ Năm</div>
-            <div class="text-xs text-gray-600 font-medium">Kinh nghiệm từ 2010</div>
+        <div class="slider">
+          <div class="slides">
+            <a href="pages/products.html?cat=may-photocopy"><img src="img/site/slude-mai.jpg" alt="Tổng đại lý máy photocopy Quảng Lợi"></a>
+            <a href="pages/products.html"><img src="img/site/slide-31.jpg" alt="Tổng đại lý thiết bị văn phòng Quảng Lợi"></a>
+            <a href="pages/products.html?cat=may-scan"><img src="img/site/slide-3.jpg" alt="Tổng đại lý máy scan Canon tại Việt Nam"></a>
           </div>
-          <div>
-            <div class="text-xl sm:text-2xl font-black text-blue-700 font-['Poppins']">10.000+</div>
-            <div class="text-xs text-gray-600 font-medium">Khách hàng doanh nghiệp</div>
-          </div>
-          <div>
-            <div class="text-xl sm:text-2xl font-black text-red-600 font-['Poppins']">2 Giờ</div>
-            <div class="text-xs text-gray-600 font-medium">Kỹ thuật viên có mặt</div>
-          </div>
-          <div>
-            <div class="text-xl sm:text-2xl font-black text-green-700 font-['Poppins']">100%</div>
-            <div class="text-xs text-gray-600 font-medium">Chính hãng & VAT</div>
-          </div>
+          <button class="sl-btn sl-prev" aria-label="Trước"><i class="fa fa-angle-left"></i></button>
+          <button class="sl-btn sl-next" aria-label="Sau"><i class="fa fa-angle-right"></i></button>
+          <div class="sl-dots"></div>
+        </div>
+        <div class="hero-side">
+          <a data-slug="canon-ir2925i" href="pages/products.html?cat=may-photocopy"><img src="img/site/banner-canon-2925i.png" alt="Canon iR2925i"></a>
+          <a data-slug="dx6855i" href="pages/products.html?cat=may-photocopy"><img src="img/site/banner-6855i.png" alt="Canon iR ADV DX 6855i"></a>
         </div>
       </div>
 
-      <!-- Hero Visual Card -->
-      <div class="lg:col-span-5" data-aos="fade-left">
-        <div class="bg-white/95 backdrop-blur-md p-6 sm:p-7 rounded-2xl border border-blue-200 shadow-xl relative">
-          <div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-4">
-            <div>
-              <span class="text-xs font-bold text-red-600 uppercase tracking-wider">Sản Phẩm Tiêu Biểu</span>
-              <h3 class="text-base font-bold text-gray-900">Canon imageRUNNER 2006N</h3>
-            </div>
-            <span class="px-2.5 py-1 bg-red-100 text-red-700 text-xs font-extrabold rounded-full">-15% OFF</span>
-          </div>
-
-          <div class="h-48 flex items-center justify-center p-2 bg-gray-50 rounded-xl mb-4 border border-gray-100">
-            <div class="w-full h-full flex items-center justify-center">
-              <svg viewBox="0 0 200 160" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="100" cy="148" rx="68" ry="8" fill="#CFD8DC" opacity="0.6" />
-                <rect x="44" y="20" width="112" height="18" rx="5" fill="#37474F" />
-                <rect x="54" y="15" width="76" height="8" rx="2" fill="#FFFFFF" stroke="#B0BEC5" stroke-width="1" />
-                <rect x="36" y="38" width="128" height="18" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.5" />
-                <rect x="132" y="32" width="34" height="24" rx="4" fill="#263238" stroke="#1565C0" stroke-width="1.5" />
-                <rect x="136" y="36" width="26" height="16" rx="2" fill="#1565C0" opacity="0.85" />
-                <rect x="40" y="56" width="120" height="82" rx="8" fill="#F8FAFC" stroke="#90A4AE" stroke-width="1.5" />
-                <rect x="40" y="70" width="120" height="4" fill="#1565C0" />
-                <rect x="48" y="82" width="104" height="22" rx="4" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1" />
-                <rect x="90" y="89" width="20" height="5" rx="2" fill="#78909C" />
-                <rect x="48" y="108" width="104" height="22" rx="4" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="1" />
-                <rect x="90" y="115" width="20" height="5" rx="2" fill="#78909C" />
-                <rect x="24" y="66" width="16" height="28" rx="3" fill="#CFD8DC" />
-              </svg>
-            </div>
-          </div>
-
-          <div class="space-y-2 text-xs text-gray-600 mb-5">
-            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Tốc độ: 20 trang/phút, Khổ A3/A4</div>
-            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Bộ nạp và đảo bản gốc tự động DADF-AY1</div>
-            <div class="flex items-center gap-2"><i class="fa-solid fa-check text-green-600"></i> Kết nối mạng LAN/USB, in từ smartphone</div>
-          </div>
-
-          <div class="flex items-center justify-between pt-3 border-t border-gray-100">
-            <div>
-              <div class="text-xs text-gray-400 line-through">26.990.000đ</div>
-              <div class="text-lg font-black text-red-600 font-['Poppins']">22.941.500đ</div>
-            </div>
-            <div class="flex gap-2">
-              <a href="pages/product-detail.html?id=canon-ir-2006n" class="px-3 py-2 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-lg text-xs font-bold transition">
-                Chi Tiết 3D
-              </a>
-              <button onclick="handleAddToCart('canon-ir-2006n', event)" class="px-3.5 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-bold transition shadow">
-                <i class="fa-solid fa-cart-plus"></i> Đặt Mua
-              </button>
-            </div>
-          </div>
-        </div>
+      <!-- 4 CAM KẾT -->
+      <div class="policy">
+        <div class="it"><i class="fa fa-certificate"></i><div><b>Chính hãng 100%</b><span>Đầy đủ giấy tờ CO, CQ</span></div></div>
+        <div class="it"><i class="fa fa-truck"></i><div><b>Miễn phí giao hàng</b><span>Nội thành Hà Nội & lắp đặt tận nơi</span></div></div>
+        <div class="it"><i class="fa fa-shield"></i><div><b>Bảo hành 12 tháng</b><span>Theo tiêu chuẩn nhà sản xuất</span></div></div>
+        <div class="it"><i class="fa fa-wrench"></i><div><b>Kỹ thuật chuyên sâu</b><span>Đội ngũ đào tạo bởi chuyên gia Nhật Bản</span></div></div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- CATEGORY QUICK LINKS (4 CARDS) -->
-  <section class="py-12 bg-white border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <!-- Cat 1 -->
-        <a href="pages/products.html?category=may-photocopy" class="category-card group">
-          <div class="category-icon-wrapper">
-            <i class="fa-solid fa-copy"></i>
-          </div>
-          <h3 class="font-bold text-base text-gray-900 group-hover:text-blue-700 transition">Máy Photocopy A3</h3>
-          <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Canon, Ricoh, Fuji Xerox chính hãng & máy cũ Like New 95%</p>
-          <span class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 mt-3 group-hover:translate-x-1 transition transform">
-            Xem 7 sản phẩm <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </span>
-        </a>
-
-        <!-- Cat 2 -->
-        <a href="pages/products.html?category=may-in" class="category-card group">
-          <div class="category-icon-wrapper">
-            <i class="fa-solid fa-print"></i>
-          </div>
-          <h3 class="font-bold text-base text-gray-900 group-hover:text-blue-700 transition">Máy In Văn Phòng</h3>
-          <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Laser đen trắng, in màu EcoTank, in khổ A3 từ Canon, Brother, HP, Epson</p>
-          <span class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 mt-3 group-hover:translate-x-1 transition transform">
-            Xem 6 sản phẩm <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </span>
-        </a>
-
-        <!-- Cat 3 -->
-        <a href="pages/products.html?category=may-huy-tai-lieu" class="category-card group">
-          <div class="category-icon-wrapper">
-            <i class="fa-solid fa-shredder"></i>
-          </div>
-          <h3 class="font-bold text-base text-gray-900 group-hover:text-blue-700 transition">Máy Hủy Tài Liệu</h3>
-          <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Bosai, Magitech cắt sợi & siêu vụn bảo mật thông tin tối đa</p>
-          <span class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 mt-3 group-hover:translate-x-1 transition transform">
-            Xem 2 sản phẩm <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </span>
-        </a>
-
-        <!-- Cat 4 -->
-        <a href="pages/rental-service.html" class="category-card group border-red-200 bg-red-50/30">
-          <div class="category-icon-wrapper bg-red-100 text-red-600 border-red-200">
-            <i class="fa-solid fa-handshake"></i>
-          </div>
-          <h3 class="font-bold text-base text-gray-900 group-hover:text-red-700 transition">Cho Thuê Máy Photocopy</h3>
-          <p class="text-xs text-gray-500 mt-1.5 leading-relaxed">Chỉ từ 650.000đ/tháng, 0đ tiền cọc, miễn phí toàn bộ mực in và sửa chữa</p>
-          <span class="inline-flex items-center gap-1 text-xs font-bold text-red-600 mt-3 group-hover:translate-x-1 transition transform">
-            Xem bảng giá thuê <i class="fa-solid fa-arrow-right text-[10px]"></i>
-          </span>
-        </a>
-
+      <!-- 3 BANNER SẢN PHẨM CHỦ LỰC -->
+      <div class="banner-row">
+        <a data-slug="canon-ir-2425" href="pages/products.html?cat=may-photocopy"><img src="img/site/ir2425.png" alt="Canon iR 2425"></a>
+        <a data-slug="apeos-2561" href="pages/products.html?cat=may-photocopy&brand=Fujifilm"><img src="img/site/banner-ff2561-1-1.png" alt="Fujifilm Apeos"></a>
+        <a href="pages/products.html?cat=may-photocopy"><img src="img/site/banner-5570-hot.png" alt="Máy photocopy tốc độ cao"></a>
       </div>
     </div>
   </section>
 
-  <!-- FEATURED REAL PRODUCTS CATALOG SECTION -->
-  <section class="py-16 bg-[#F5F7FA]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Section Header -->
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
-        <div>
-          <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Thiết Bị Nổi Bật Chính Hãng</span>
-          <h2 class="text-2xl sm:text-3xl font-black text-gray-900">Sản Phẩm Đang Phân Phối Tại Quang Lợi</h2>
-          <p class="text-sm text-gray-500 mt-1">Bảng giá cập nhật theo niêm yết chính thức từ quangloi.com.vn</p>
-        </div>
+  <!-- CÁC KHỐI DANH MỤC SẢN PHẨM (render động từ 219 sản phẩm thật) -->
+  <main class="container" id="home-blocks"></main>
 
-        <!-- Filter Tabs -->
-        <div class="flex flex-wrap gap-2 text-xs font-bold" id="product-filter-tabs">
-          <button class="px-4 py-2 rounded-lg bg-blue-700 text-white shadow" data-filter="all">Tất Cả (15)</button>
-          <button class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-200 hover:bg-gray-50" data-filter="may-photocopy">Máy Photocopy (7)</button>
-          <button class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-200 hover:bg-gray-50" data-filter="may-in">Máy In (6)</button>
-          <button class="px-4 py-2 rounded-lg bg-white text-gray-700 border border-gray-200 hover:bg-gray-50" data-filter="may-huy-tai-lieu">Máy Hủy (2)</button>
-        </div>
+  <!-- DỊCH VỤ & CHO THUÊ -->
+  <section class="container">
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-title">Dịch vụ kỹ thuật & Cho thuê máy photocopy</div>
+        <div class="sec-tabs"><a href="pages/rental-service.html">Xem chi tiết dịch vụ »</a></div>
       </div>
-
-      <!-- Products Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="featured-products-grid">
-        <!-- Rendered via JS on DOM Ready -->
-      </div>
-
-      <div class="text-center mt-12">
-        <a href="pages/products.html" class="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-blue-600 text-blue-700 hover:bg-blue-600 hover:text-white rounded-xl font-bold text-sm transition shadow-sm">
-          Xem Toàn Bộ 15 Sản Phẩm & Báo Giá Chi Tiết <i class="fa-solid fa-arrow-right text-xs"></i>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- RENTAL SERVICE HIGHLIGHT SECTION -->
-  <section class="py-16 bg-white border-y border-gray-200 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full uppercase tracking-wider">
-          Giải Pháp Tiết Kiệm Chi Phí Tối Ưu
-        </span>
-        <h2 class="text-2xl sm:text-3xl font-black text-gray-900 mt-2.5">
-          Dịch Vụ Cho Thuê Máy Photocopy Đa Năng Tại Hà Nội
-        </h2>
-        <p class="text-sm text-gray-600 mt-2">
-          Không cần đầu tư vốn mua máy ban đầu. Không lo chi phí bảo dưỡng, thay trống gạt hay nạp mực in. Quang Lợi lo toàn bộ kỹ thuật từ A-Z!
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        
-        <!-- Package 1: Low -->
-        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Gói Khởi Điểm</span>
-              <span class="px-2.5 py-0.5 bg-gray-200 text-gray-700 text-xs font-bold rounded-full">Tiết Kiệm</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900">Gói Thuê Thấp</h3>
-            <div class="text-xs text-blue-700 font-semibold mt-1">Tốc độ: 20 - 24 bản/phút</div>
-            
-            <div class="my-6">
-              <span class="text-3xl font-black text-red-600 font-['Poppins']">650.000đ</span>
-              <span class="text-xs text-gray-500">/ tháng</span>
-            </div>
-
-            <ul class="space-y-2.5 text-xs text-gray-600 border-t border-gray-200 pt-5">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Định mức: 3.000 bản in/copy tháng</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Đa chức năng In mạng LAN, Copy, Scan</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Miễn phí 100% mực in & vật tư thay thế</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Kỹ thuật có mặt trong vòng 2h</li>
-            </ul>
-          </div>
-
-          <div class="mt-8">
-            <a href="pages/rental-service.html" class="w-full py-2.5 bg-white border border-gray-300 hover:border-blue-600 hover:text-blue-600 text-gray-800 font-bold rounded-lg text-xs flex items-center justify-center transition">
-              Đăng Ký Thuê Gói Này
-            </a>
-          </div>
+      <div class="svc">
+        <div class="it">
+          <i class="fa fa-handshake-o"></i>
+          <h4>Cho thuê máy photocopy</h4>
+          <p>Cho thuê các dòng máy Ricoh, Toshiba, Canon tốc độ cao. Miễn phí mực in, vật tư tiêu hao và bảo trì định kỳ suốt hợp đồng.</p>
+          <p style="margin-top:12px"><a class="btn btn-red" href="pages/rental-service.html">Xem các gói thuê</a></p>
         </div>
-
-        <!-- Package 2: Standard (Recommended) -->
-        <div class="bg-blue-50/70 border-2 border-blue-600 rounded-2xl p-6 sm:p-7 flex flex-col justify-between shadow-lg relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-red-600 text-white text-[11px] font-extrabold uppercase tracking-wider rounded-full shadow">
-            Phổ Biến Nhất
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-blue-700">Gói Doanh Nghiệp</span>
-              <span class="px-2.5 py-0.5 bg-blue-200 text-blue-800 text-xs font-bold rounded-full">Khuyên Dùng</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900">Gói Thuê Thông Dụng</h3>
-            <div class="text-xs text-blue-700 font-semibold mt-1">Tốc độ: 25 - 28 bản/phút</div>
-            
-            <div class="my-6">
-              <span class="text-3xl font-black text-red-600 font-['Poppins']">1.200.000đ</span>
-              <span class="text-xs text-gray-500">/ tháng</span>
-            </div>
-
-            <ul class="space-y-2.5 text-xs text-gray-700 border-t border-blue-200 pt-5">
-              <li class="flex items-center gap-2 font-medium"><i class="fa-solid fa-circle-check text-blue-700"></i> Định mức: <strong>5.000 bản in/tháng</strong></li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-700"></i> Đảo 2 mặt tự động DADF / Duplex</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-700"></i> Màn hình cảm ứng màu LCD thông minh</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-700"></i> Bảo dưỡng định kỳ hàng tháng miễn phí</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-blue-700"></i> Đổi máy mới nếu phát sinh lỗi 2 lần</li>
-            </ul>
-          </div>
-
-          <div class="mt-8">
-            <a href="pages/rental-service.html" class="w-full py-2.5 bg-blue-700 hover:bg-blue-800 text-white font-bold rounded-lg text-xs flex items-center justify-center transition shadow-md">
-              Đăng Ký Gói Thông Dụng Ngay
-            </a>
-          </div>
+        <div class="it">
+          <i class="fa fa-cogs"></i>
+          <h4>Bảo trì - Bảo dưỡng định kỳ</h4>
+          <p>Dịch vụ bảo trì, vệ sinh, cân chỉnh máy photocopy và máy in theo tháng/quý giúp thiết bị vận hành ổn định, kéo dài tuổi thọ.</p>
+          <p style="margin-top:12px"><button class="btn btn-line" data-lead="Dịch vụ bảo trì - bảo dưỡng" data-title="Đăng ký bảo trì thiết bị">Đăng ký bảo trì</button></p>
         </div>
-
-        <!-- Package 3: High -->
-        <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 sm:p-7 flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition">
-          <div>
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Gói Công Suất Lớn</span>
-              <span class="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-xs font-bold rounded-full">Cao Cấp</span>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900">Gói Thuê Cao Cấp</h3>
-            <div class="text-xs text-blue-700 font-semibold mt-1">Tốc độ: 35 - 75 bản/phút</div>
-            
-            <div class="my-6">
-              <span class="text-2xl sm:text-3xl font-black text-red-600 font-['Poppins']">2.000.000đ - 3.000.000đ</span>
-              <span class="text-xs text-gray-500">/ tháng</span>
-            </div>
-
-            <ul class="space-y-2.5 text-xs text-gray-600 border-t border-gray-200 pt-5">
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Định mức: 10.000 - 20.000 bản in/tháng</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Tùy chọn máy photocopy màu chuyên nghiệp</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Tích hợp Scan to Email / Cloud folder</li>
-              <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-green-600"></i> Kỹ thuật viên chuyên trách túc trực hỗ trợ</li>
-            </ul>
-          </div>
-
-          <div class="mt-8">
-            <a href="pages/rental-service.html" class="w-full py-2.5 bg-white border border-gray-300 hover:border-blue-600 hover:text-blue-600 text-gray-800 font-bold rounded-lg text-xs flex items-center justify-center transition">
-              Đăng Ký Gói Cao Cấp
-            </a>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- WHY CHOOSE QUANG LOI (4 VALUES) -->
-  <section class="py-16 bg-[#F5F7FA]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-2xl mx-auto mb-12">
-        <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Cam Kết Dịch Vụ</span>
-        <h2 class="text-2xl sm:text-3xl font-black text-gray-900">Tại Sao 10.000+ Doanh Nghiệp Chọn Quang Lợi?</h2>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <div class="feature-box">
-          <div class="feature-icon">
-            <i class="fa-solid fa-award"></i>
-          </div>
-          <h3 class="text-base font-bold text-gray-900 mb-2">Đại Lý Chính Thức</h3>
-          <p class="text-xs text-gray-600 leading-relaxed">
-            Hợp tác chính hãng cùng Canon Việt Nam, Ricoh, Fuji Xerox, Brother, HP, Epson. 100% linh kiện nguyên bản, nguồn gốc minh bạch.
-          </p>
-        </div>
-
-        <div class="feature-box">
-          <div class="feature-icon text-red-600 bg-red-100 border-red-200">
-            <i class="fa-solid fa-bolt"></i>
-          </div>
-          <h3 class="text-base font-bold text-gray-900 mb-2">Kỹ Thuật Trong 2 Giờ</h3>
-          <p class="text-xs text-gray-600 leading-relaxed">
-            Đội phản ứng nhanh tại Hà Nội có mặt trong 2h kể từ khi nhận cuộc gọi. Đảm bảo tiến độ công việc văn phòng không bị gián đoạn.
-          </p>
-        </div>
-
-        <div class="feature-box">
-          <div class="feature-icon text-green-600 bg-green-100 border-green-200">
-            <i class="fa-solid fa-droplet"></i>
-          </div>
-          <h3 class="text-base font-bold text-gray-900 mb-2">Miễn Phí Mực & Vật Tư</h3>
-          <p class="text-xs text-gray-600 leading-relaxed">
-            Khách hàng thuê máy được cấp miễn phí 100% mực in, trống gạt, linh kiện hao mòn và định kỳ bảo dưỡng định kỳ hàng tháng.
-          </p>
-        </div>
-
-        <div class="feature-box">
-          <div class="feature-icon text-amber-600 bg-amber-100 border-amber-200">
-            <i class="fa-solid fa-file-shield"></i>
-          </div>
-          <h3 class="text-base font-bold text-gray-900 mb-2">Hóa Đơn VAT & Pháp Lý</h3>
-          <p class="text-xs text-gray-600 leading-relaxed">
-            MST 0101292334 thành lập từ năm 2010. Đầy đủ hợp đồng kinh tế, biên bản bàn giao và xuất hóa đơn giá trị gia tăng điện tử hợp lệ.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- BRAND PARTNERS MARQUEE -->
-  <section class="py-12 bg-white border-t border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-8">
-        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">ĐỐI TÁC THƯƠNG HIỆU HÀNG ĐẦU THẾ GIỚI</span>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-center justify-center">
-        <div class="brand-card">
-          <span class="text-xl font-black text-red-600 font-['Poppins'] tracking-wider">Canon</span>
-        </div>
-        <div class="brand-card">
-          <span class="text-xl font-black text-blue-700 font-['Poppins'] tracking-wider">RICOH</span>
-        </div>
-        <div class="brand-card">
-          <span class="text-lg font-black text-red-700 font-['Poppins'] tracking-tight">FUJI XEROX</span>
-        </div>
-        <div class="brand-card">
-          <span class="text-xl font-black text-blue-800 font-['Poppins'] tracking-wider">brother</span>
-        </div>
-        <div class="brand-card">
-          <span class="text-2xl font-black text-blue-600 font-['Poppins']">hp</span>
-        </div>
-        <div class="brand-card">
-          <span class="text-xl font-black text-blue-900 font-['Poppins'] tracking-wider">EPSON</span>
+        <div class="it">
+          <i class="fa fa-file-text-o"></i>
+          <h4>Cung cấp dự án & Cơ quan</h4>
+          <p>Hơn 20 năm cung cấp thiết bị cho Bộ Tài Chính, Bộ KH&ĐT, Bộ LĐ-TB&XH, Viện Dầu Khí, UBND các tỉnh và tập đoàn lớn. Đầy đủ hồ sơ thầu, CO/CQ, hóa đơn VAT.</p>
+          <p style="margin-top:12px"><button class="btn btn-red" data-lead="Báo giá dự án / cơ quan" data-title="Yêu cầu báo giá dự án">Nhận báo giá dự án</button></p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="bg-[#0D1B2A] text-gray-300 pt-16 pb-8 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-gray-800">
-        
-        <!-- Company Info -->
-        <div class="lg:col-span-5 space-y-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-              <i class="fa-solid fa-print"></i>
-            </div>
-            <div>
-              <span class="text-xl font-black text-white font-['Poppins'] tracking-wide">QUẢNG LỢI</span>
-              <span class="text-[10px] block text-gray-400 uppercase">Thiết Bị Văn Phòng Chuyên Nghiệp</span>
-            </div>
-          </div>
-
-          <p class="text-sm font-semibold text-white">
-            CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ QUẢNG LỢI
-          </p>
-          <div class="text-xs space-y-2 text-gray-400 leading-relaxed">
-            <p><i class="fa-solid fa-id-card text-blue-400 mr-2"></i> <strong>Mã Số Thuế:</strong> 0101292334</p>
-            <p><i class="fa-solid fa-location-dot text-red-400 mr-2"></i> <strong>Địa chỉ:</strong> C11, Lô 9, Khu đô thị mới Định Công, Phường Định Công, Quận Hoàng Mai, Hà Nội</p>
-            <p><i class="fa-solid fa-phone text-green-400 mr-2"></i> <strong>Hotlines:</strong> 0913 524 260 | 0941 238 384 | 0987 782 626</p>
-            <p><i class="fa-solid fa-phone-volume text-blue-400 mr-2"></i> <strong>Bàn văn phòng:</strong> 024.3662.3681 | 024.3565.7494 | 024.3565.7495</p>
-            <p><i class="fa-regular fa-envelope text-amber-400 mr-2"></i> <strong>Email:</strong> quangloi2010@gmail.com</p>
-            <p><i class="fa-solid fa-globe text-blue-400 mr-2"></i> <strong>Website:</strong> quangloi.com.vn</p>
-          </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="lg:col-span-2 space-y-3">
-          <h4 class="text-sm font-bold text-white uppercase tracking-wider">Danh Mục</h4>
-          <ul class="space-y-2 text-xs text-gray-400">
-            <li><a href="pages/products.html?category=may-photocopy" class="hover:text-blue-400 transition">Máy Photocopy</a></li>
-            <li><a href="pages/products.html?category=may-in" class="hover:text-blue-400 transition">Máy In Laser & Phun</a></li>
-            <li><a href="pages/products.html?category=may-huy-tai-lieu" class="hover:text-blue-400 transition">Máy Hủy Tài Liệu</a></li>
-            <li><a href="pages/rental-service.html" class="hover:text-blue-400 transition text-red-400 font-semibold">Cho Thuê Máy Photo</a></li>
-            <li><a href="pages/rental-service.html#services" class="hover:text-blue-400 transition">Dịch Vụ Sửa Chữa</a></li>
-          </ul>
-        </div>
-
-        <!-- Policies -->
-        <div class="lg:col-span-2 space-y-3">
-          <h4 class="text-sm font-bold text-white uppercase tracking-wider">Chính Sách</h4>
-          <ul class="space-y-2 text-xs text-gray-400">
-            <li><a href="pages/about.html" class="hover:text-blue-400 transition">Giới Thiệu Doanh Nghiệp</a></li>
-            <li><a href="pages/lead-capture.html" class="hover:text-blue-400 transition">Yêu Cầu Báo Giá</a></li>
-            <li><a href="#" class="hover:text-blue-400 transition">Chính Sách Bảo Hành</a></li>
-            <li><a href="#" class="hover:text-blue-400 transition">Vận Chuyển & Lắp Đặt</a></li>
-            <li><a href="pages/cart.html" class="hover:text-blue-400 transition">Thanh Toán & Hóa Đơn</a></li>
-          </ul>
-        </div>
-
-        <!-- Map Placeholder & Bank info -->
-        <div class="lg:col-span-3 space-y-3">
-          <h4 class="text-sm font-bold text-white uppercase tracking-wider">Bản Đồ Chỉ Đường</h4>
-          <div class="p-3 bg-gray-900 border border-gray-800 rounded-xl text-xs space-y-2">
-            <div class="flex items-center gap-2 text-blue-400 font-semibold">
-              <i class="fa-solid fa-map-location-dot"></i> KĐT Mới Định Công, Hoàng Mai
-            </div>
-            <p class="text-gray-400 text-[11px] leading-relaxed">
-              Trụ sở thuận tiện xe tải giao nhận máy photocopy, máy in toàn thành phố Hà Nội và các tỉnh lân cận.
-            </p>
-            <a href="https://maps.google.com/?q=Định+Công+Hoàng+Mai+Hà+Nội" target="_blank" class="inline-block mt-1 text-xs text-blue-400 hover:underline font-bold">
-              Xem vị trí trên Google Maps &rarr;
-            </a>
-          </div>
-
-          <div class="pt-2">
-            <span class="text-[11px] text-gray-400 block mb-1">Phương thức thanh toán chấp nhận:</span>
-            <div class="flex items-center gap-2 text-lg text-gray-400">
-              <i class="fa-solid fa-building-columns text-blue-400" title="Vietcombank STK 0011001932648"></i>
-              <i class="fa-solid fa-qrcode text-blue-500" title="VNPAY QR"></i>
-              <i class="fa-solid fa-wallet text-pink-500" title="MoMo"></i>
-              <i class="fa-solid fa-shield-halved text-blue-400" title="ZaloPay"></i>
-              <i class="fa-solid fa-hand-holding-dollar text-green-400" title="COD Tiền mặt"></i>
-            </div>
-          </div>
-        </div>
-
+  <!-- THƯƠNG HIỆU ĐỐI TÁC -->
+  <section class="container">
+    <div class="section">
+      <div class="sec-head"><div class="sec-title">Thương hiệu phân phối</div></div>
+      <div class="brands">
+        <a class="b" href="pages/products.html?brand=Canon"><img src="img/site/canon.png" alt="Canon"></a>
+        <a class="b" href="pages/products.html?brand=Brother"><img src="img/site/logo-brother-moi.png" alt="Brother"></a>
+        <a class="b" href="pages/products.html?brand=HP"><img src="img/site/hp-logog.png" alt="HP"></a>
+        <a class="b" href="pages/products.html?brand=Epson"><img src="img/site/epson-logo.png" alt="Epson"></a>
+        <a class="b" href="pages/products.html?brand=Kosmen"><img src="img/site/logo-kosmen-ngang-da-nen.jpg" alt="Kosmen"></a>
+        <a class="b" href="pages/products.html?brand=Fujitsu"><img src="img/site/fujitsu.png" alt="Fujitsu"></a>
+        <a class="b" href="pages/products.html?brand=Kodak"><img src="img/site/kodak-vector-logo.png" alt="Kodak"></a>
+        <a class="b" href="pages/products.html?brand=Plustek"><img src="img/site/plustek-logo.png" alt="Plustek"></a>
+        <a class="b" href="pages/products.html?brand=Silicon"><img src="img/site/logo-silicon.png" alt="Silicon"></a>
+        <a class="b" href="pages/products.html?brand=Magitech"><img src="img/site/magitech.png" alt="Magitech"></a>
+        <a class="b" href="pages/products.html?brand=Bingo"><img src="img/site/bingo.png" alt="Bingo"></a>
+        <a class="b" href="pages/products.html?brand=Optoma"><img src="img/site/optoma-vector-logo.jpg" alt="Optoma"></a>
       </div>
-
-      <!-- Copyright -->
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
-        <p>&copy; 2026 CÔNG TY TNHH THƯƠNG MẠI VÀ DỊCH VỤ QUẢNG LỢI. All rights reserved.</p>
-        <p>Bản quyền thuộc quangloi.com.vn | Hotline tư vấn 24/7: <a href="tel:0913524260" class="text-red-400 font-bold hover:underline">0913 524 260</a></p>
-      </div>
-
     </div>
-  </footer>
+  </section>
 
-  <!-- FLOATING ACTIONS (Zalo, Phone, Scroll-top) -->
-  <div class="floating-actions">
-    <!-- Phone Call Button -->
-    <a href="tel:0913524260" class="floating-btn floating-btn-phone animate-pulse-red" aria-label="Gọi hotline 0913.524.260">
-      <i class="fa-solid fa-phone animate-phone-ring"></i>
-      <span class="tooltip-text">Gọi Hotline: 0913.524.260</span>
-    </a>
+  <div id="ql-foot"></div>
 
-    <!-- Zalo Chat Button -->
-    <a href="https://zalo.me/0913524260" target="_blank" class="floating-btn floating-btn-zalo" aria-label="Chat Zalo 0913524260">
-      <i class="fa-solid fa-comment-dots"></i>
-      <span class="tooltip-text">Chat Zalo: 0913.524.260</span>
-    </a>
-
-    <!-- Scroll To Top Button -->
-    <button id="scroll-to-top" class="floating-btn floating-btn-scroll" aria-label="Cuộn lên đầu trang">
-      <i class="fa-solid fa-arrow-up text-sm"></i>
-      <span class="tooltip-text">Lên đầu trang</span>
-    </button>
-  </div>
-
-  <!-- SCRIPT INITIALIZATION -->
-  <script src="js/three-scene.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/lead-form.js"></script>
-  <script src="components/chatbot.js"></script>
-
-  <!-- RENDER FEATURED PRODUCTS ON HOME PAGE -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Init Hero Three.js
-      if (typeof initHeroThreeScene === 'function') {
-        initHeroThreeScene();
-      }
-
-      // 2. Render Products Grid
-      const grid = document.getElementById('featured-products-grid');
-      const tabs = document.querySelectorAll('#product-filter-tabs button');
-
-      function renderGrid(filter = 'all') {
-        if (!grid || typeof PRODUCTS_DATA === 'undefined') return;
-
-        let filtered = PRODUCTS_DATA;
-        if (filter !== 'all') {
-          filtered = PRODUCTS_DATA.filter(p => p.category === filter);
-        }
-
-        grid.innerHTML = filtered.map(item => `
-          <div class="product-card group" data-category="${item.category}">
-            <!-- Badge -->
-            <div class="flex items-center justify-between mb-2">
-              <span class="badge-brand">${item.brand}</span>
-              ${item.badge ? `<span class="badge-discount">${item.badge}</span>` : ''}
-            </div>
-
-            <!-- Image Container -->
-            <a href="pages/product-detail.html?id=${item.id}" class="img-container text-decoration-none">
-              ${generateProductSVG(item.imageType)}
-            </a>
-
-            <!-- Content -->
-            <div class="flex-1 flex flex-col justify-between">
-              <div>
-                <a href="pages/product-detail.html?id=${item.id}" class="font-bold text-sm text-gray-900 group-hover:text-blue-700 transition line-clamp-2 leading-snug text-decoration-none">
-                  ${item.name}
-                </a>
-
-                <!-- Key Specs snippet -->
-                <div class="mt-2.5 flex flex-wrap gap-1">
-                  ${item.specs.slice(0, 2).map(s => `<span class="badge-feature">${s}</span>`).join('')}
-                </div>
-              </div>
-
-              <!-- Price & CTA -->
-              <div class="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between">
-                <div>
-                  <div class="product-price-current">${formatVND(item.price)}</div>
-                  ${item.oldPrice > 0 ? `<div class="product-price-old">${formatVND(item.oldPrice)}</div>` : ''}
-                </div>
-
-                <div class="flex gap-1.5">
-                  <a href="pages/product-detail.html?id=${item.id}" class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-blue-50 text-gray-700 hover:text-blue-700 flex items-center justify-center text-xs transition" title="Xem chi tiết 3D">
-                    <i class="fa-solid fa-eye"></i>
-                  </a>
-                  <button onclick="handleAddToCart('${item.id}', event)" class="w-8 h-8 rounded-lg ${item.price > 0 ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'} flex items-center justify-center text-xs transition shadow-sm" title="${item.price > 0 ? 'Thêm vào giỏ' : 'Nhận báo giá'}">
-                    <i class="fa-solid ${item.price > 0 ? 'fa-cart-plus' : 'fa-phone'}"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      // Initial render
-      renderGrid('all');
-
-      // Tabs click
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => {
-            t.classList.remove('bg-blue-700', 'text-white', 'shadow');
-            t.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
-          });
-          tab.classList.add('bg-blue-700', 'text-white', 'shadow');
-          tab.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
-          renderGrid(tab.getAttribute('data-filter'));
-        });
-      });
-    });
-  </script>
+  <script src="data/products.js"></script>
+  <script src="js/site.js"></script>
 </body>
 </html>
