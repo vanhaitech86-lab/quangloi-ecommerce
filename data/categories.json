@@ -1,0 +1,58 @@
+[
+  {
+    "id": "may-photocopy",
+    "name": "Máy Photocopy",
+    "icon": "fa-copy",
+    "count": 7,
+    "description": "Máy photocopy kỹ thuật số đơn sắc và đa sắc chính hãng Canon, Ricoh, Fuji Xerox"
+  },
+  {
+    "id": "may-in",
+    "name": "Máy In",
+    "icon": "fa-print",
+    "count": 5,
+    "description": "Máy in laser văn phòng, máy in phun màu đa năng, in 2 mặt tự động qua Wi-Fi"
+  },
+  {
+    "id": "may-scan",
+    "name": "Máy Scan",
+    "icon": "fa-scanner",
+    "count": 2,
+    "description": "Máy quét tài liệu tốc độ cao, scan 2 mặt tự động, kết nối đám mây không dây"
+  },
+  {
+    "id": "may-huy-tai-lieu",
+    "name": "Máy Hủy Tài Liệu",
+    "icon": "fa-cut",
+    "count": 2,
+    "description": "Máy hủy giấy vụn và siêu vụn bảo mật cao cho cơ quan, ngân hàng và doanh nghiệp"
+  },
+  {
+    "id": "may-dem-tien",
+    "name": "Máy Đếm Tiền",
+    "icon": "fa-coins",
+    "count": 1,
+    "description": "Máy đếm tiền Polymer cao cấp, phát hiện tiền siêu giả, đếm chia mẻ chính xác"
+  },
+  {
+    "id": "may-cham-cong",
+    "name": "Máy Chấm Công",
+    "icon": "fa-fingerprint",
+    "count": 1,
+    "description": "Máy chấm công vân tay, thẻ từ và khuôn mặt thông minh cho quản lý nhân sự"
+  },
+  {
+    "id": "muc-hop-muc",
+    "name": "Mực & Hộp Mực",
+    "icon": "fa-ink-cartridge",
+    "count": 2,
+    "description": "Mực in, cụm sấy, trống Drum và linh kiện tiêu hao chính hãng các dòng máy"
+  },
+  {
+    "id": "cho-thue-may",
+    "name": "Cho Thuê Máy",
+    "icon": "fa-handshake",
+    "count": 3,
+    "description": "Dịch vụ cho thuê máy photocopy trọn gói miễn phí mực, linh kiện và bảo trì tận nơi"
+  }
+]

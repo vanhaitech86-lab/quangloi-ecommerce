@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khách Hàng CRM | Quảng Lợi Admin</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-box">QL</div>
+        <div class="brand-info">
+          <div class="brand-name">QUẢNG LỢI</div>
+          <div class="brand-sub">Admin & CRM</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Tổng Quan & Vận Hành</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>Đơn Hàng</span>
+              <span id="badge-orders-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="customers.html" class="nav-link">
+              <i class="fa-solid fa-users"></i>
+              <span>Khách Hàng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <i class="fa-solid fa-box-open"></i>
+              <span>Sản Phẩm</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Tài Sản & Khách Hàng</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="devices.html" class="nav-link">
+              <i class="fa-solid fa-print"></i>
+              <span>Quản Lý Thiết Bị</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leads.html" class="nav-link">
+              <i class="fa-solid fa-comments"></i>
+              <span>Quản Lý Leads</span>
+              <span id="badge-leads-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Hệ Thống & Báo Cáo</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Báo Cáo & Thống Kê</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <i class="fa-solid fa-gear"></i>
+              <span>Cài Đặt Hệ Thống</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" class="sidebar-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-username">Admin Quảng Lợi</div>
+            <div class="sidebar-role">Quản Trị Cấp Cao</div>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout btn-logout-action" title="Đăng Xuất">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="btn-toggle-sidebar" class="btn-menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div style="font-weight: 700; color: var(--text-primary); font-size: 15px;">
+            Quản Trị Khách Hàng Doanh Nghiệp & Cá Nhân (CRM 360°)
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-datetime">
+            <i class="fa-regular fa-clock"></i>
+            <span id="current-time-clock">--:--:--</span>
+          </div>
+
+          <div class="topbar-actions">
+            <a href="../index.html" target="_blank" class="btn-view-site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Xem Website</span>
+            </a>
+            <button class="btn-icon btn-logout-action" title="Đăng xuất">
+              <i class="fa-solid fa-power-off" style="color: #ef4444;"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <!-- HEADER -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">
+              <i class="fa-solid fa-address-book" style="color: var(--primary);"></i>
+              Hồ Sơ Khách Hàng (CRM)
+            </h1>
+            <p class="page-desc">Quản lý hồ sơ 360 độ: lịch sử mua hàng, máy thuê đang vận hành và tương tác nội bộ</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-outline-primary" id="btn-open-convert-leads">
+              <i class="fa-solid fa-user-plus"></i> Chuyển Từ Leads
+            </button>
+            <button class="btn btn-secondary" id="btn-export-customers-csv">
+              <i class="fa-solid fa-file-csv"></i> Xuất CSV
+            </button>
+            <button class="btn btn-primary" id="btn-open-add-customer">
+              <i class="fa-solid fa-plus"></i> Thêm Khách Hàng Mới
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <div style="position: relative; flex: 1; min-width: 220px;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 11px; color: #94a3b8; font-size: 13px;"></i>
+            <input type="text" id="cust-search" class="filter-input" style="width: 100%; padding-left: 34px;" placeholder="Tìm theo tên, công ty, SĐT, email...">
+          </div>
+
+          <div class="filter-group">
+            <label>Loại khách:</label>
+            <select id="cust-filter-type" class="filter-select">
+              <option value="">Tất cả</option>
+              <option value="Doanh nghiệp">Doanh nghiệp</option>
+              <option value="Cá nhân">Cá nhân</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Hạng khách:</label>
+            <select id="cust-filter-tier" class="filter-select">
+              <option value="">Tất cả hạng</option>
+              <option value="VIP">Khách VIP</option>
+              <option value="Tiềm năng">Khách Tiềm năng</option>
+              <option value="Thường">Khách Thường</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Khu vực:</label>
+            <select id="cust-filter-region" class="filter-select">
+              <option value="">Tất cả khu vực</option>
+              <option value="Hà Nội">Hà Nội</option>
+              <option value="Hải Phòng">Hải Phòng</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary btn-sm" id="btn-reset-cust-filters">
+            <i class="fa-solid fa-filter-circle-xmark"></i> Xóa lọc
+          </button>
+        </div>
+
+        <!-- CUSTOMERS TABLE CARD -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Mã KH</th>
+                  <th>Họ Tên & Công Ty</th>
+                  <th>Số Điện Thoại</th>
+                  <th>Email</th>
+                  <th>Khu Vực</th>
+                  <th>Tổng Chi Tiêu</th>
+                  <th>Số Đơn</th>
+                  <th>Phân Hạng</th>
+                  <th>Trạng Thái</th>
+                  <th style="text-align: right;">Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="customers-table-body">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT CUSTOMER -->
+  <div id="modal-customer-form" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-user-gear" style="color: var(--primary);"></i>
+          <span id="cust-form-title">Thêm Khách Hàng Mới</span>
+        </div>
+        <button class="btn-close-modal" onclick="closeCustomerFormModal()">&times;</button>
+      </div>
+      <form id="form-customer">
+        <div class="modal-body">
+          <input type="hidden" id="cust-id">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label required">Họ và Tên</label>
+              <input type="text" id="cust-name" class="form-control" required placeholder="Nguyễn Văn A">
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Số Điện Thoại</label>
+              <input type="text" id="cust-phone" class="form-control" required placeholder="0988 123 456">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tên Doanh Nghiệp / Cơ Quan</label>
+              <input type="text" id="cust-company" class="form-control" placeholder="Công ty TNHH Xây Dựng...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="cust-email" class="form-control" placeholder="contact@congty.com">
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label required">Địa Chỉ Chi Tiết</label>
+              <input type="text" id="cust-address" class="form-control" required placeholder="Số nhà, đường phố, quận huyện...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Loại Khách</label>
+              <select id="cust-type" class="form-control">
+                <option value="Doanh nghiệp">Doanh nghiệp</option>
+                <option value="Cá nhân">Cá nhân</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phân Hạng Khách Hàng</label>
+              <select id="cust-tier" class="form-control">
+                <option value="VIP">Khách VIP</option>
+                <option value="Tiềm năng">Khách Tiềm Năng</option>
+                <option value="Thường">Khách Thường</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Khu Vực</label>
+              <input type="text" id="cust-region" class="form-control" value="Hà Nội" placeholder="Hà Nội, Hải Phòng...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trạng Thái</label>
+              <select id="cust-status" class="form-control">
+                <option value="Hoạt động">Hoạt động</option>
+                <option value="Tạm ngưng">Tạm ngưng</option>
+              </select>
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label">Ghi Chú Nội Bộ CRM</label>
+              <textarea id="cust-notes" class="form-control" placeholder="Thói quen đặt hàng, nhu cầu máy photo, thời gian làm việc..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeCustomerFormModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu Khách Hàng
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CUSTOMER 360° DETAIL (WITH 4 TABS) -->
+  <div id="modal-customer-detail" class="modal-backdrop">
+    <div class="modal-box modal-xl">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-address-card" style="color: var(--primary);"></i>
+          Hồ Sơ Khách Hàng 360°: <span id="detail-cust-header-name" style="margin-left: 6px; color: var(--primary);"></span>
+        </div>
+        <button class="btn-close-modal" onclick="closeCustomerDetailModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="padding-top: 16px;">
+        <!-- TABS NAV -->
+        <div class="tabs-header">
+          <button class="tab-btn active" data-tab="tab-cust-info">
+            <i class="fa-solid fa-id-card"></i> Thông Tin Chung
+          </button>
+          <button class="tab-btn" data-tab="tab-cust-orders">
+            <i class="fa-solid fa-bag-shopping"></i> Đơn Hàng (<span id="cust-tab-orders-count">0</span>)
+          </button>
+          <button class="tab-btn" data-tab="tab-cust-devices">
+            <i class="fa-solid fa-print"></i> Thiết Bị Đang Dùng (<span id="cust-tab-devices-count">0</span>)
+          </button>
+          <button class="tab-btn" data-tab="tab-cust-notes">
+            <i class="fa-solid fa-note-sticky"></i> Ghi Chú & Tương Tác
+          </button>
+        </div>
+
+        <!-- TAB 1: INFO -->
+        <div class="tab-pane active" id="tab-cust-info">
+          <div id="cust-info-content"></div>
+        </div>
+
+        <!-- TAB 2: ORDERS -->
+        <div class="tab-pane" id="tab-cust-orders">
+          <div id="cust-orders-content"></div>
+        </div>
+
+        <!-- TAB 3: DEVICES -->
+        <div class="tab-pane" id="tab-cust-devices">
+          <div id="cust-devices-content"></div>
+        </div>
+
+        <!-- TAB 4: NOTES -->
+        <div class="tab-pane" id="tab-cust-notes">
+          <div id="cust-notes-content"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeCustomerDetailModal()">Đóng</button>
+        <button class="btn btn-primary" id="btn-edit-from-detail">
+          <i class="fa-solid fa-pen-to-square"></i> Chỉnh Sửa Hồ Sơ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONVERT LEADS TO CUSTOMER -->
+  <div id="modal-convert-leads" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-user-plus" style="color: var(--primary);"></i>
+          Chuyển Đổi Khách Hàng Từ Danh Sách Leads
+        </div>
+        <button class="btn-close-modal" onclick="closeConvertLeadsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">
+          Chọn lead đã chốt thành công hoặc đang thương lượng để tự động đồng bộ vào danh sách Khách hàng chính thức.
+        </p>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Họ Tên</th>
+                <th>SĐT</th>
+                <th>Công Ty</th>
+                <th>Sản Phẩm Quan Tâm</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="convert-leads-table-body">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeConvertLeadsModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-core.js"></script>
+  <script>
+    let activeDetailCustomerId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCustomersTable();
+
+      // Filter events
+      document.getElementById('cust-search').addEventListener('input', renderCustomersTable);
+      document.getElementById('cust-filter-type').addEventListener('change', renderCustomersTable);
+      document.getElementById('cust-filter-tier').addEventListener('change', renderCustomersTable);
+      document.getElementById('cust-filter-region').addEventListener('change', renderCustomersTable);
+      document.getElementById('btn-reset-cust-filters').addEventListener('click', () => {
+        document.getElementById('cust-search').value = '';
+        document.getElementById('cust-filter-type').value = '';
+        document.getElementById('cust-filter-tier').value = '';
+        document.getElementById('cust-filter-region').value = '';
+        renderCustomersTable();
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-customers-csv').addEventListener('click', exportCustomersToCSV);
+
+      // Add customer
+      document.getElementById('btn-open-add-customer').addEventListener('click', () => openCustomerFormModal());
+      document.getElementById('form-customer').addEventListener('submit', handleSaveCustomer);
+
+      // Convert leads modal
+      document.getElementById('btn-open-convert-leads').addEventListener('click', openConvertLeadsModal);
+
+      // Edit from detail
+      document.getElementById('btn-edit-from-detail').addEventListener('click', () => {
+        if (activeDetailCustomerId) {
+          closeCustomerDetailModal();
+          openCustomerFormModal(activeDetailCustomerId);
+        }
+      });
+
+      // Tabs click handler in detail modal
+      document.querySelectorAll('.tabs-header .tab-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.tabs-header .tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+          this.classList.add('active');
+          const target = this.getAttribute('data-tab');
+          const pane = document.getElementById(target);
+          if (pane) pane.classList.add('active');
+        });
+      });
+    });
+
+    function renderCustomersTable() {
+      const customers = QLAdmin.DataStore.getCustomers();
+      const q = document.getElementById('cust-search').value.trim().toLowerCase();
+      const typeFilter = document.getElementById('cust-filter-type').value;
+      const tierFilter = document.getElementById('cust-filter-tier').value;
+      const regFilter = document.getElementById('cust-filter-region').value;
+
+      const filtered = customers.filter(c => {
+        const matchQ = !q ||
+          c.id.toLowerCase().includes(q) ||
+          (c.name && c.name.toLowerCase().includes(q)) ||
+          (c.company && c.company.toLowerCase().includes(q)) ||
+          (c.phone && c.phone.includes(q)) ||
+          (c.email && c.email.toLowerCase().includes(q));
+
+        const matchType = !typeFilter || c.type === typeFilter;
+        const matchTier = !tierFilter || c.tier === tierFilter;
+        const matchReg = !regFilter || c.region === regFilter;
+
+        return matchQ && matchType && matchTier && matchReg;
+      });
+
+      const tbody = document.getElementById('customers-table-body');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align: center; padding: 32px; color: #94a3b8;">Không tìm thấy khách hàng nào</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(c => {
+        let tierBadge = 'badge-secondary';
+        if (c.tier === 'VIP') tierBadge = 'badge-danger';
+        if (c.tier === 'Tiềm năng') tierBadge = 'badge-warning';
+
+        return `
+          <tr>
+            <td><strong style="color: var(--primary); font-family: monospace;">${c.id}</strong></td>
+            <td>
+              <div class="table-user-cell">
+                <div class="table-avatar">${c.name.slice(0, 1).toUpperCase()}</div>
+                <div>
+                  <div style="font-weight: 600;">${c.name}</div>
+                  <div style="font-size: 11px; color: #64748b;">${c.company || 'Cá nhân'}</div>
+                </div>
+              </div>
+            </td>
+            <td><strong style="color: var(--primary); font-size: 13px;">${c.phone}</strong></td>
+            <td><span style="font-size: 12px; color: #64748b;">${c.email || '--'}</span></td>
+            <td><span style="font-size: 12px;">${c.region || 'Hà Nội'}</span></td>
+            <td><strong style="color: var(--accent-red); font-size: 13px;">${QLAdmin.formatVND(c.totalSpent)}</strong></td>
+            <td><span class="badge badge-primary">${c.ordersCount || 0} đơn</span></td>
+            <td><span class="badge ${tierBadge}">${c.tier || 'Thường'}</span></td>
+            <td><span class="badge badge-success">${c.status || 'Hoạt động'}</span></td>
+            <td style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button class="btn-action" title="Xem hồ sơ 360°" onclick="openCustomerDetailModal('${c.id}')">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+                <button class="btn-action" title="Chỉnh sửa" onclick="openCustomerFormModal('${c.id}')">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="btn-action delete" title="Xóa khách hàng" onclick="deleteCustomer('${c.id}')">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openCustomerFormModal(customerId = null) {
+      const modal = document.getElementById('modal-customer-form');
+      const form = document.getElementById('form-customer');
+      form.reset();
+
+      if (customerId) {
+        const c = QLAdmin.DataStore.getCustomer(customerId);
+        if (!c) return;
+        document.getElementById('cust-form-title').textContent = `Chỉnh Sửa Khách Hàng [${c.id}]`;
+        document.getElementById('cust-id').value = c.id;
+        document.getElementById('cust-name').value = c.name || '';
+        document.getElementById('cust-phone').value = c.phone || '';
+        document.getElementById('cust-company').value = c.company || '';
+        document.getElementById('cust-email').value = c.email || '';
+        document.getElementById('cust-address').value = c.address || '';
+        document.getElementById('cust-type').value = c.type || 'Doanh nghiệp';
+        document.getElementById('cust-tier').value = c.tier || 'Thường';
+        document.getElementById('cust-region').value = c.region || 'Hà Nội';
+        document.getElementById('cust-status').value = c.status || 'Hoạt động';
+        document.getElementById('cust-notes').value = c.notes || '';
+      } else {
+        document.getElementById('cust-form-title').textContent = 'Thêm Khách Hàng Mới';
+        document.getElementById('cust-id').value = '';
+      }
+
+      modal.classList.add('show');
+    }
+
+    function closeCustomerFormModal() {
+      document.getElementById('modal-customer-form').classList.remove('show');
+    }
+
+    function handleSaveCustomer(e) {
+      e.preventDefault();
+      const id = document.getElementById('cust-id').value;
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const company = document.getElementById('cust-company').value.trim();
+      const email = document.getElementById('cust-email').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      const type = document.getElementById('cust-type').value;
+      const tier = document.getElementById('cust-tier').value;
+      const region = document.getElementById('cust-region').value.trim();
+      const status = document.getElementById('cust-status').value;
+      const notes = document.getElementById('cust-notes').value.trim();
+
+      const customerData = {
+        name,
+        phone,
+        company: company || (type === 'Doanh nghiệp' ? 'Doanh nghiệp' : 'Cá nhân'),
+        email,
+        address,
+        type,
+        tier,
+        region: region || 'Hà Nội',
+        status,
+        notes
+      };
+
+      if (id) {
+        customerData.id = id;
+      }
+
+      QLAdmin.DataStore.saveCustomer(customerData);
+      QLAdmin.showToast('Thành công', `Đã lưu hồ sơ khách hàng [${name}]!`, 'success');
+      closeCustomerFormModal();
+      renderCustomersTable();
+    }
+
+    function deleteCustomer(id) {
+      if (confirm(`Bạn có chắc muốn xóa khách hàng #${id}?`)) {
+        QLAdmin.DataStore.deleteCustomer(id);
+        QLAdmin.showToast('Đã xóa', `Đã xóa khách hàng #${id}`, 'info');
+        renderCustomersTable();
+      }
+    }
+
+    function openCustomerDetailModal(customerId) {
+      activeDetailCustomerId = customerId;
+      const c = QLAdmin.DataStore.getCustomer(customerId);
+      if (!c) return;
+
+      document.getElementById('detail-cust-header-name').textContent = `${c.name} (${c.id})`;
+
+      // TAB 1: INFO
+      document.getElementById('cust-info-content').innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div style="background: #f8fafc; padding: 18px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 12px; color: var(--primary);">
+              <i class="fa-solid fa-building"></i> Đơn Vị & Liên Hệ
+            </div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Họ tên:</strong> ${c.name}</div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Công ty:</strong> ${c.company || 'Cá nhân'}</div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Điện thoại:</strong> <span style="color:var(--primary); font-weight:600;">${c.phone}</span></div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Email:</strong> ${c.email || '--'}</div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Địa chỉ:</strong> ${c.address}</div>
+            <div style="font-size: 13px;"><strong>Khu vực:</strong> ${c.region || 'Hà Nội'}</div>
+          </div>
+
+          <div style="background: #f8fafc; padding: 18px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <div style="font-weight: 700; font-size: 14px; margin-bottom: 12px; color: var(--primary);">
+              <i class="fa-solid fa-chart-pie"></i> Xếp Hạng & Doanh Thu
+            </div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Phân hạng:</strong> <span class="badge ${c.tier === 'VIP' ? 'badge-danger' : 'badge-warning'}">${c.tier || 'Thường'}</span></div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Loại khách:</strong> ${c.type}</div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Tổng giá trị mua hàng:</strong> <strong style="color:var(--accent-red); font-size:15px;">${QLAdmin.formatVND(c.totalSpent)}</strong></div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Số đơn đã đặt:</strong> ${c.ordersCount || 0} đơn hàng</div>
+            <div style="margin-bottom: 8px; font-size: 13px;"><strong>Ngày tạo hồ sơ:</strong> ${QLAdmin.formatDateShort(c.createdAt)}</div>
+            <div style="font-size: 13px;"><strong>Trạng thái:</strong> <span class="badge badge-success">${c.status || 'Hoạt động'}</span></div>
+          </div>
+        </div>
+      `;
+
+      // TAB 2: ORDERS HISTORY
+      const allOrders = QLAdmin.DataStore.getOrders();
+      const custOrders = allOrders.filter(o => 
+        (o.customerPhone && c.phone && o.customerPhone.replace(/\s+/g,'') === c.phone.replace(/\s+/g,'')) ||
+        (o.customerName && o.customerName.toLowerCase() === c.name.toLowerCase())
+      );
+      document.getElementById('cust-tab-orders-count').textContent = custOrders.length;
+
+      if (custOrders.length === 0) {
+        document.getElementById('cust-orders-content').innerHTML = `
+          <div style="text-align: center; padding: 32px; color: #94a3b8;">Khách hàng chưa phát sinh đơn hàng trực tiếp nào trên hệ thống</div>
+        `;
+      } else {
+        document.getElementById('cust-orders-content').innerHTML = `
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Mã Đơn</th>
+                <th>Sản phẩm</th>
+                <th>Tổng Tiền</th>
+                <th>Thanh Toán</th>
+                <th>Trạng Thái</th>
+                <th>Ngày Đặt</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${custOrders.map(o => `
+                <tr>
+                  <td><strong style="color:var(--primary); font-family:monospace;">${o.id}</strong></td>
+                  <td>${(o.items || []).map(i => `${i.name} (x${i.quantity})`).join(', ')}</td>
+                  <td><strong style="color:var(--accent-red);">${QLAdmin.formatVND(o.total)}</strong></td>
+                  <td>${o.paymentMethod || 'Chuyển khoản'}</td>
+                  <td><span class="badge badge-primary">${o.orderStatus}</span></td>
+                  <td>${QLAdmin.formatDate(o.createdAt)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+
+      // TAB 3: DEVICES
+      const allDevices = QLAdmin.DataStore.getDevices();
+      const custDevices = allDevices.filter(d => d.customerId === c.id || (d.customerPhone && d.customerPhone.replace(/\s+/g,'') === c.phone.replace(/\s+/g,'')));
+      document.getElementById('cust-tab-devices-count').textContent = custDevices.length;
+
+      if (custDevices.length === 0) {
+        document.getElementById('cust-devices-content').innerHTML = `
+          <div style="text-align: center; padding: 32px; color: #94a3b8;">Khách hàng hiện chưa đăng ký thiết bị thuê hoặc bảo hành</div>
+        `;
+      } else {
+        document.getElementById('cust-devices-content').innerHTML = `
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Mã TB</th>
+                <th>Tên Thiết Bị</th>
+                <th>Serial Máy</th>
+                <th>Loại Hình</th>
+                <th>Hạn Bảo Hành / HĐ</th>
+                <th>Trạng Thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${custDevices.map(d => `
+                <tr>
+                  <td><strong style="color:var(--primary); font-family:monospace;">${d.id}</strong></td>
+                  <td><strong style="font-size:13px;">${d.name}</strong></td>
+                  <td><code style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">${d.serial}</code></td>
+                  <td><span class="badge ${d.type === 'Thuê' ? 'badge-primary' : 'badge-secondary'}">${d.type}</span></td>
+                  <td>
+                    ${d.type === 'Thuê' ? `Hết hạn HĐ: <strong>${QLAdmin.formatDateShort(d.contractEndDate)}</strong>` : `BH: ${QLAdmin.formatDateShort(d.warrantyExpiry)}`}
+                  </td>
+                  <td><span class="badge badge-success">${d.status}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+
+      // TAB 4: NOTES
+      document.getElementById('cust-notes-content').innerHTML = `
+        <div style="background: #fffbeb; padding: 18px; border-radius: 8px; border: 1px solid #fef3c7; color: #92400e;">
+          <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px;">
+            <i class="fa-solid fa-comment-dots"></i> Ghi chú lưu vết chăm sóc khách hàng:
+          </div>
+          <p style="font-size: 13px; line-height: 1.6; white-space: pre-wrap;">${c.notes || 'Chưa có ghi chú nội bộ nào cho khách hàng này.'}</p>
+        </div>
+      `;
+
+      // Reset to first tab
+      document.querySelectorAll('.tabs-header .tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelector('.tabs-header .tab-btn[data-tab="tab-cust-info"]').classList.add('active');
+      document.getElementById('tab-cust-info').classList.add('active');
+
+      document.getElementById('modal-customer-detail').classList.add('show');
+    }
+
+    function closeCustomerDetailModal() {
+      document.getElementById('modal-customer-detail').classList.remove('show');
+    }
+
+    function openConvertLeadsModal() {
+      const leads = QLAdmin.DataStore.getLeads();
+      const convertible = leads.filter(l => l.stage !== 'Thành công' && l.stage !== 'Thất bại');
+      const tbody = document.getElementById('convert-leads-table-body');
+
+      if (convertible.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: #94a3b8;">Không có lead mới nào đang chờ chuyển đổi</td></tr>`;
+      } else {
+        tbody.innerHTML = convertible.map(l => `
+          <tr>
+            <td><strong>${l.name}</strong></td>
+            <td>${l.phone}</td>
+            <td>${l.company || 'Cá nhân'}</td>
+            <td><span style="font-size:12px;">${l.interestedProduct}</span></td>
+            <td><span class="badge badge-warning">${l.stage}</span></td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="convertLead('${l.id}')">
+                <i class="fa-solid fa-arrow-right"></i> Chuyển Khách Hàng
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      document.getElementById('modal-convert-leads').classList.add('show');
+    }
+
+    function closeConvertLeadsModal() {
+      document.getElementById('modal-convert-leads').classList.remove('show');
+    }
+
+    function convertLead(leadId) {
+      const cust = QLAdmin.DataStore.convertLeadToCustomer(leadId);
+      if (cust) {
+        QLAdmin.showToast('Chuyển đổi thành công', `Đã tạo khách hàng [${cust.name}] từ Lead #${leadId}!`, 'success');
+        closeConvertLeadsModal();
+        renderCustomersTable();
+      }
+    }
+
+    function exportCustomersToCSV() {
+      const customers = QLAdmin.DataStore.getCustomers();
+      const headers = ['Mã KH', 'Họ Tên', 'Công Ty', 'Số Điện Thoại', 'Email', 'Địa Chỉ', 'Khu Vực', 'Loại Khách', 'Hạng', 'Tổng Chi Tiêu (VNĐ)', 'Số Đơn', 'Ngày Tạo', 'Trạng Thái'];
+      const rows = customers.map(c => [
+        c.id,
+        c.name,
+        c.company || '',
+        c.phone,
+        c.email || '',
+        c.address || '',
+        c.region || '',
+        c.type || '',
+        c.tier || '',
+        c.totalSpent || 0,
+        c.ordersCount || 0,
+        c.createdAt || '',
+        c.status || ''
+      ]);
+
+      QLAdmin.exportToCSV('danh-sach-khach-hang-crm-quang-loi.csv', rows, headers);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dịch Vụ Cho Thuê Máy Photocopy & Máy In - Quang Lợi E-Commerce</title>
+  <meta name="description" content="Dịch vụ cho thuê máy photocopy chuyên nghiệp trọn gói chỉ từ 650.000đ/tháng tại Hà Nội. Miễn phí mực in, linh kiện và bảo trì tận nơi.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0A0E27',
+              navy: '#0F1642',
+              cyan: '#00D4FF',
+              purple: '#7B2FBE',
+              magenta: '#EC4899',
+              gold: '#FFD700',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+</head>
+<body class="bg-[#0A0E27] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-white">
+
+  <!-- NAVIGATION BAR -->
+  <header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="../index.html" class="flex items-center gap-3 group text-decoration-none">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition transform">
+          <i class="fa-solid fa-star text-white text-lg animate-spin-slow"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-black tracking-tight text-white font-['Poppins'] flex items-center gap-1">
+            QUANG LỢI <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-400 font-semibold border border-cyan-400/30">3D</span>
+          </span>
+          <span class="text-[10px] tracking-widest text-gray-400 uppercase font-medium">Thiết Bị Văn Phòng Cao Cấp</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden lg:flex items-center gap-8 font-medium text-sm text-gray-200">
+        <a href="../index.html" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-house text-xs"></i> Trang Chủ
+        </a>
+        <a href="products.html" class="hover:text-cyan-400 transition flex items-center gap-1.5">
+          <i class="fa-solid fa-layer-group text-xs"></i> Sản Phẩm
+        </a>
+        <a href="rental-service.html" class="text-cyan-400 font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-handshake text-xs"></i> Cho Thuê Máy
+        </a>
+        <a href="../index.html#brands-section" class="hover:text-cyan-400 transition">Thương Hiệu</a>
+        <a href="about.html" class="hover:text-cyan-400 transition">Về Chúng Tôi</a>
+      </nav>
+
+      <!-- Cart Button -->
+      <div class="flex items-center gap-4">
+        <a href="cart.html" id="nav-cart-btn" class="relative p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-cyan-400/50 transition flex items-center justify-center text-gray-200 hover:text-cyan-400">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge-count absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 text-white text-[10px] font-bold flex items-center justify-center shadow-lg shadow-cyan-500/40">0</span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="pt-32 pb-16 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-bold tracking-wide uppercase mb-4">
+        <i class="fa-solid fa-handshake"></i> Giải Pháp Tiết Kiệm 60% Chi Phí Văn Phòng
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black text-white font-['Poppins'] tracking-tight max-w-4xl mx-auto leading-tight">
+        Dịch Vụ Cho Thuê Máy Photocopy Trọn Gói Chỉ Từ <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">650.000đ/Tháng</span>
+      </h1>
+      <p class="mt-4 text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
+        Không cần bỏ vốn đầu tư ban đầu hàng chục triệu. Được miễn phí 100% mực in, linh kiện thay thế và bảo trì định kỳ tận nơi hàng tháng.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="#rental-pricing" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-xl shadow-cyan-500/30 transition transform hover:-translate-y-0.5">
+          Xem Bảng Giá Gói Thuê
+        </a>
+        <a href="tel:0913524260" class="px-8 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-sm transition flex items-center gap-2">
+          <i class="fa-solid fa-phone text-cyan-400"></i> Hotline: 0913.524.260
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY BENEFITS -->
+  <section class="py-12 border-y border-white/5 bg-slate-900/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        
+        <div class="glass-card p-6 rounded-2xl border-white/10 text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl mx-auto">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <h3 class="font-bold text-white text-base">0đ Vốn Đầu Tư Ban Đầu</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Doanh nghiệp giữ lại dòng tiền kinh doanh mà vẫn sở hữu thiết bị in ấn đa năng hiện đại nhất.</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border-white/10 text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl mx-auto">
+            <i class="fa-solid fa-box-archive"></i>
+          </div>
+          <h3 class="font-bold text-white text-base">Miễn Phí 100% Mực In</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Quảng Lợi chịu trách nhiệm cung cấp mực in chính hãng, trống gạt và toàn bộ phụ tùng hao mòn.</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border-white/10 text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl mx-auto">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <h3 class="font-bold text-white text-base">Xử Lý Sự Cố Trong 2 Giờ</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Kỹ thuật viên có mặt thần tốc tại nội thành Hà Nội. Đổi máy mới trong 24 giờ nếu lỗi nặng.</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl border-white/10 text-center space-y-3">
+          <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mx-auto">
+            <i class="fa-solid fa-file-invoice"></i>
+          </div>
+          <h3 class="font-bold text-white text-base">Hóa Đơn VAT Hợp Lệ</h3>
+          <p class="text-xs text-gray-400 leading-relaxed">Chi phí thuê máy được khấu trừ 100% vào chi phí quản lý doanh nghiệp hợp lệ mỗi tháng.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING TIERS -->
+  <section id="rental-pricing" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-white font-['Poppins']">
+          Bảng Giá Các Gói Thuê Máy Tiêu Biểu
+        </h2>
+        <p class="text-sm text-gray-400 mt-2">Lựa chọn gói thuê phù hợp theo quy mô và sản lượng trang in hàng tháng của bạn</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        
+        <!-- Package 1 -->
+        <div class="glass-card rounded-3xl p-8 border-white/10 flex flex-col justify-between transition hover:border-cyan-400/40 relative">
+          <div>
+            <div class="text-xs font-bold text-cyan-400 tracking-wider uppercase">Gói Văn Phòng Vừa & Nhỏ</div>
+            <h3 class="text-xl font-bold text-white mt-1">Canon iR 2006N</h3>
+            <p class="text-xs text-gray-400 mt-1">In, Copy, Scan màu khổ A3/A4</p>
+
+            <div class="my-6">
+              <span class="text-3xl sm:text-4xl font-black text-white font-['Poppins']">650.000đ</span>
+              <span class="text-xs text-gray-400">/ tháng</span>
+            </div>
+
+            <ul class="space-y-3 text-xs text-gray-300">
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Định mức miễn phí: <strong>3.000 bản in/tháng</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Phụ trội chỉ: <strong>120đ/bản</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Tốc độ: 20 trang/phút (A4)</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Miễn phí 100% mực in & bảo dưỡng</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Đặt cọc linh hoạt, hợp đồng 12 tháng</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="orderRentalPackage('Canon iR 2006N - 650.000đ/th')" class="w-full mt-8 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400 text-white font-bold text-xs transition">
+            Đăng Ký Thuê Gói Này
+          </button>
+        </div>
+
+        <!-- Package 2 (Featured) -->
+        <div class="glass-card rounded-3xl p-8 border-cyan-400/50 bg-cyan-950/20 flex flex-col justify-between transition relative shadow-2xl shadow-cyan-500/20">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-cyan-400 to-purple-600 text-white text-[11px] font-black uppercase tracking-wider shadow-lg">
+            Khuyên Dùng Nhiều Nhất
+          </div>
+
+          <div>
+            <div class="text-xs font-bold text-cyan-400 tracking-wider uppercase">Gói Doanh Nghiệp Tiêu Chuẩn</div>
+            <h3 class="text-xl font-bold text-white mt-1">Ricoh IM 2702 ARDF</h3>
+            <p class="text-xs text-gray-400 mt-1">Nạp đảo bản gốc tự động ARDF, Màn hình 7 inch</p>
+
+            <div class="my-6">
+              <span class="text-3xl sm:text-4xl font-black text-cyan-300 font-['Poppins']">1.200.000đ</span>
+              <span class="text-xs text-gray-400">/ tháng</span>
+            </div>
+
+            <ul class="space-y-3 text-xs text-gray-300">
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Định mức miễn phí: <strong>5.000 bản in/tháng</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Phụ trội cực rẻ: <strong>100đ/bản</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Tốc độ: 27 trang/phút mượt mà</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Tự động in & scan đảo mặt 2 chiều</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Kỹ thuật bảo dưỡng định kỳ mỗi tháng</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="orderRentalPackage('Ricoh IM 2702 - 1.200.000đ/th')" class="w-full mt-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold text-xs shadow-lg shadow-cyan-500/30 transition">
+            Đăng Ký Thuê Gói Này
+          </button>
+        </div>
+
+        <!-- Package 3 -->
+        <div class="glass-card rounded-3xl p-8 border-white/10 flex flex-col justify-between transition hover:border-cyan-400/40 relative">
+          <div>
+            <div class="text-xs font-bold text-purple-400 tracking-wider uppercase">Gói Đồ Họa & In Màu</div>
+            <h3 class="text-xl font-bold text-white mt-1">Ricoh IM C8000 Màu</h3>
+            <p class="text-xs text-gray-400 mt-1">Tốc độ cao 80 trang/phút, in màu sắc nét chuẩn thiết kế</p>
+
+            <div class="my-6">
+              <span class="text-3xl sm:text-4xl font-black text-white font-['Poppins']">2.800.000đ</span>
+              <span class="text-xs text-gray-400">/ tháng</span>
+            </div>
+
+            <ul class="space-y-3 text-xs text-gray-300">
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Định mức: <strong>8.000 đen trắng + 800 bản màu</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Phụ trội màu: 700đ/bản, trắng đen: 100đ/bản</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Độ phân giải 1200 x 4800 dpi cao cấp</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Hỗ trợ in qua điện thoại & Cloud</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <i class="fa-solid fa-check text-cyan-400"></i>
+                <span>Kỹ sư túc trực hỗ trợ khẩn cấp</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="orderRentalPackage('Ricoh IM C8000 Màu - 2.800.000đ/th')" class="w-full mt-8 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-400 text-white font-bold text-xs transition">
+            Đăng Ký Thuê Gói Này
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RENTAL CONSULTATION FORM -->
+  <section class="py-16 bg-slate-900/40 border-t border-white/5">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="glass-card rounded-3xl p-8 border-cyan-400/30 text-center space-y-6">
+        <div>
+          <h3 class="text-2xl font-bold text-white font-['Poppins']">Bạn Cần Tư Vấn Cấu Hình Thuê Máy Riêng?</h3>
+          <p class="text-xs text-gray-400 mt-1">Để lại thông tin, Quảng Lợi sẽ khảo sát nhu cầu và gửi bảng báo giá tối ưu sau 15 phút.</p>
+        </div>
+
+        <form id="rental-lead-form" class="space-y-4 text-left">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs text-gray-300 block mb-1">Họ tên người liên hệ *</label>
+              <input type="text" id="rental-name" required placeholder="Nguyễn Văn A" class="glass-input w-full px-4 py-2.5 text-xs rounded-xl">
+            </div>
+            <div>
+              <label class="text-xs text-gray-300 block mb-1">Số điện thoại nhận báo giá Zalo *</label>
+              <input type="tel" id="rental-phone" required placeholder="0913 524 260" class="glass-input w-full px-4 py-2.5 text-xs rounded-xl">
+            </div>
+          </div>
+
+          <div>
+            <label class="text-xs text-gray-300 block mb-1">Tên công ty / Cơ quan</label>
+            <input type="text" id="rental-company" placeholder="Công ty TNHH ABC..." class="glass-input w-full px-4 py-2.5 text-xs rounded-xl">
+          </div>
+
+          <div>
+            <label class="text-xs text-gray-300 block mb-1">Ước tính số bản in dự kiến mỗi tháng</label>
+            <select id="rental-volume" class="glass-input w-full px-4 py-2.5 text-xs rounded-xl bg-slate-900">
+              <option value="under-3k">Dưới 3.000 bản / tháng</option>
+              <option value="3k-6k" selected>Từ 3.000 - 6.000 bản / tháng</option>
+              <option value="6k-12k">Từ 6.000 - 12.000 bản / tháng</option>
+              <option value="over-12k">Trên 12.000 bản / tháng (Máy công nghiệp)</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/30 transition">
+            <i class="fa-solid fa-paper-plane mr-1.5"></i> Nhận Báo Giá Thuê Chi Tiết & Hợp Đồng Mẫu
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#050716] border-t border-white/10 pt-12 pb-8 text-gray-300 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-star text-cyan-400"></i>
+        <span class="font-bold text-white font-['Poppins']">QUANG LỢI E-COMMERCE</span>
+      </div>
+      <p class="text-gray-500">© 2026 CÔNG TY TNHH TM VÀ DV QUẢNG LỢI. Hotline: 0913.524.260</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/main.js"></script>
+  <script src="../js/data-loader.js"></script>
+  <script src="../js/chatbot.js"></script>
+
+  <script>
+    function orderRentalPackage(pkgName) {
+      if (window.QuangLoiData) {
+        window.QuangLoiData.addToCart('QL020', 1);
+        window.location.href = 'cart.html';
+      } else {
+        alert('Đã chọn: ' + pkgName + '. Vui lòng liên hệ Hotline: 0913.524.260 để ký hợp đồng.');
+      }
+    }
+
+    document.getElementById('rental-lead-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('rental-name').value;
+      const phone = document.getElementById('rental-phone').value;
+      const comp = document.getElementById('rental-company').value;
+      const vol = document.getElementById('rental-volume').value;
+
+      try {
+        const leads = JSON.parse(localStorage.getItem('ql_leads') || '[]');
+        leads.push({
+          name: name,
+          phone: phone,
+          company: comp,
+          volume: vol,
+          source: 'rental_page',
+          timestamp: new Date().toISOString()
+        });
+        localStorage.setItem('ql_leads', JSON.stringify(leads));
+      } catch (err) {}
+
+      alert('Cảm ơn quý khách ' + name + '! Chuyên viên Quảng Lợi đã ghi nhận nhu cầu thuê máy và sẽ liên hệ qua SĐT ' + phone + ' trong 15 phút.');
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

@@ -323,19 +323,8 @@
           <input type="text" required placeholder="Tầng 5, Tòa nhà FPT, Cầu Giấy, Hà Nội" class="glass-input w-full px-3 py-2 text-xs">
         </div>
 
-        <div>
-          <label class="text-xs text-gray-300 block mb-1">Hình thức thanh toán</label>
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <label class="p-2.5 rounded-xl border border-cyan-400/50 bg-cyan-500/10 flex items-center gap-2 cursor-pointer text-white">
-              <input type="radio" name="payment" value="cod" checked class="text-cyan-400">
-              <span>Thanh toán COD khi nhận máy</span>
-            </label>
-            <label class="p-2.5 rounded-xl border border-white/10 bg-white/5 flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
-              <input type="radio" name="payment" value="bank" class="text-cyan-400">
-              <span>Chuyển khoản Ngân hàng / QR</span>
-            </label>
-          </div>
-        </div>
+        <!-- Payment Selector Container -->
+        <div id="payment-selector-container"></div>
 
         <div>
           <label class="text-xs text-gray-300 block mb-1">Ghi chú giao hàng & Yêu cầu kỹ thuật</label>
@@ -365,9 +354,14 @@
       <p class="text-xs text-gray-300 leading-relaxed mb-6">
         Cảm ơn quý khách đã tin dùng sản phẩm tại <strong>Quang Lợi E-commerce</strong>. Đơn hàng mã <strong class="text-cyan-400">#QL-88924</strong> đang được bộ phận kho chuẩn bị và chuyên viên kỹ thuật sẽ gọi xác nhận trong 10 phút.
       </p>
-      <button onclick="window.location.href='../index.html'" class="btn-primary !py-2.5 !px-8 text-xs font-bold w-full">
-        Quay Về Trang Chủ
-      </button>
+      <div class="flex flex-col gap-2">
+        <a href="thank-you.html" class="btn-primary !py-2.5 !px-8 text-xs font-bold w-full text-center text-decoration-none">
+          <i class="fa-solid fa-file-invoice mr-1.5"></i> Xem Chi Tiết Đơn Hàng & Hóa Đơn
+        </a>
+        <a href="../index.html" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-semibold text-center text-decoration-none">
+          Quay Về Trang Chủ
+        </a>
+      </div>
     </div>
   </div>
 
@@ -378,7 +372,7 @@
         <i class="fa-solid fa-star text-cyan-400"></i>
         <span class="font-bold text-white font-['Poppins']">QUANG LỢI E-COMMERCE</span>
       </div>
-      <p class="text-gray-500">© 2026 Quang Lợi E-commerce. Tổng đài CSKH: 0988.223.344</p>
+      <p class="text-gray-500">© 2026 CÔNG TY TNHH TM VÀ DV QUẢNG LỢI. Hotline CSKH: 0913.524.260</p>
     </div>
   </footer>
 
@@ -387,6 +381,9 @@
 
   <!-- Scripts -->
   <script src="../js/main.js"></script>
+  <script src="../js/data-loader.js"></script>
+  <script src="../js/payment.js"></script>
+  <script src="../js/chatbot.js"></script>
 
   <!-- Cart Page Script -->
   <script>
@@ -423,6 +420,10 @@
           return;
         }
         document.getElementById('modal-checkout-total').textContent = document.getElementById('summary-grand-total').textContent;
+        const totalNum = CartManager.getCartTotal();
+        if (window.QuangLoiPayment) {
+          window.QuangLoiPayment.renderPaymentSelector('payment-selector-container', totalNum);
+        }
         document.getElementById('checkout-modal').classList.remove('hidden');
       });
 
@@ -430,13 +431,7 @@
         document.getElementById('checkout-modal').classList.add('hidden');
       });
 
-      // Checkout Form Submit
-      document.getElementById('checkout-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        document.getElementById('checkout-modal').classList.add('hidden');
-        CartManager.clearCart();
-        document.getElementById('order-success-modal').classList.remove('hidden');
-      });
+      // Checkout Form Submit handled by payment.js
     });
 
     function renderCart() {

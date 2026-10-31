@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Thiết Bị & Hợp Đồng Thuê | Quảng Lợi Admin</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-box">QL</div>
+        <div class="brand-info">
+          <div class="brand-name">QUẢNG LỢI</div>
+          <div class="brand-sub">Admin & CRM</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Tổng Quan & Vận Hành</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>Đơn Hàng</span>
+              <span id="badge-orders-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="customers.html" class="nav-link">
+              <i class="fa-solid fa-users"></i>
+              <span>Khách Hàng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <i class="fa-solid fa-box-open"></i>
+              <span>Sản Phẩm</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Tài Sản & Khách Hàng</div>
+        <ul class="nav-list">
+          <li class="nav-item active">
+            <a href="devices.html" class="nav-link">
+              <i class="fa-solid fa-print"></i>
+              <span>Quản Lý Thiết Bị</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leads.html" class="nav-link">
+              <i class="fa-solid fa-comments"></i>
+              <span>Quản Lý Leads</span>
+              <span id="badge-leads-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Hệ Thống & Báo Cáo</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Báo Cáo & Thống Kê</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <i class="fa-solid fa-gear"></i>
+              <span>Cài Đặt Hệ Thống</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" class="sidebar-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-username">Admin Quảng Lợi</div>
+            <div class="sidebar-role">Quản Trị Cấp Cao</div>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout btn-logout-action" title="Đăng Xuất">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="btn-toggle-sidebar" class="btn-menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div style="font-weight: 700; color: var(--text-primary); font-size: 15px;">
+            Quản Lý Thiết Bị Bán & Máy Cho Thuê (Asset Tracking)
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-datetime">
+            <i class="fa-regular fa-clock"></i>
+            <span id="current-time-clock">--:--:--</span>
+          </div>
+
+          <div class="topbar-actions">
+            <a href="../index.html" target="_blank" class="btn-view-site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Xem Website</span>
+            </a>
+            <button class="btn-icon btn-logout-action" title="Đăng xuất">
+              <i class="fa-solid fa-power-off" style="color: #ef4444;"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <!-- HEADER -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">
+              <i class="fa-solid fa-print" style="color: var(--primary);"></i>
+              Quản Trị Thiết Bị & Hợp Đồng Cho Thuê
+            </h1>
+            <p class="page-desc">Theo dõi vòng đời máy photocopy/máy in đã bán hoặc cho thuê, lịch bảo trì và cảnh báo hạn hợp đồng</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary" id="btn-export-devices-csv">
+              <i class="fa-solid fa-file-csv"></i> Xuất CSV
+            </button>
+            <button class="btn btn-primary" id="btn-open-add-device">
+              <i class="fa-solid fa-plus"></i> Đăng Ký Thiết Bị Mới
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 ASSET SUMMARY CARDS -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Tổng Thiết Bị Vận Hành</span>
+              <div class="stat-value" id="stat-total-devices">0</div>
+              <div class="stat-trend positive">
+                <i class="fa-solid fa-circle-check"></i>
+                <span id="stat-active-devices-sub">8 máy đang sử dụng tốt</span>
+              </div>
+            </div>
+            <div class="stat-icon blue">
+              <i class="fa-solid fa-server"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Doanh Thu Thuê Máy / Tháng</span>
+              <div class="stat-value" id="stat-rental-monthly-rev">0 ₫</div>
+              <div class="stat-trend positive">
+                <i class="fa-solid fa-repeat"></i>
+                <span>Doanh thu định kỳ hàng tháng</span>
+              </div>
+            </div>
+            <div class="stat-icon green">
+              <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-content">
+              <span class="stat-label">Cảnh Báo Hết Hạn (30 Ngày)</span>
+              <div class="stat-value" id="stat-alert-devices-count" style="color: var(--accent-red);">0</div>
+              <div class="stat-trend negative">
+                <i class="fa-solid fa-bell"></i>
+                <span>Cần gia hạn HĐ / Gia hạn bảo hành</span>
+              </div>
+            </div>
+            <div class="stat-icon red">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <div style="position: relative; flex: 1; min-width: 220px;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 11px; color: #94a3b8; font-size: 13px;"></i>
+            <input type="text" id="device-search" class="filter-input" style="width: 100%; padding-left: 34px;" placeholder="Tìm theo tên máy, số serial, tên khách hàng...">
+          </div>
+
+          <div class="filter-group">
+            <label>Hình thức:</label>
+            <select id="device-filter-type" class="filter-select">
+              <option value="">Tất cả hình thức</option>
+              <option value="Thuê">Máy Cho Thuê</option>
+              <option value="Bán">Máy Đã Bán</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Trạng thái máy:</label>
+            <select id="device-filter-status" class="filter-select">
+              <option value="">Tất cả trạng thái</option>
+              <option value="Đang sử dụng">Đang sử dụng</option>
+              <option value="Bảo hành">Bảo hành</option>
+              <option value="Sửa chữa">Sửa chữa</option>
+              <option value="Hết hạn thuê">Hết hạn thuê</option>
+              <option value="Đã thu hồi">Đã thu hồi</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary btn-sm" id="btn-reset-device-filters">
+            <i class="fa-solid fa-filter-circle-xmark"></i> Xóa lọc
+          </button>
+        </div>
+
+        <!-- DEVICES TABLE -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fa-solid fa-list-check"></i>
+              Danh Sách Thiết Bị & Hợp Đồng Khách Hàng
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Mã TB</th>
+                  <th>Tên Thiết Bị</th>
+                  <th>Số Serial</th>
+                  <th>Khách Hàng Sử Dụng</th>
+                  <th>Hình Thức</th>
+                  <th>Ngày Bàn Giao</th>
+                  <th>Hạn Hợp Đồng / BH</th>
+                  <th>Trạng Thái</th>
+                  <th style="text-align: right;">Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="devices-table-body">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT DEVICE -->
+  <div id="modal-device-form" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-print" style="color: var(--primary);"></i>
+          <span id="device-form-title">Đăng Ký Thiết Bị Mới</span>
+        </div>
+        <button class="btn-close-modal" onclick="closeDeviceFormModal()">&times;</button>
+      </div>
+      <form id="form-device">
+        <div class="modal-body">
+          <input type="hidden" id="device-id">
+          <div class="form-grid">
+            <div class="form-group col-span-2">
+              <label class="form-label required">Tên Thiết Bị / Model Máy</label>
+              <input type="text" id="device-name" class="form-control" required placeholder="Ví dụ: Máy Photocopy Ricoh MP 2014D">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">Số Serial Máy (Duy nhất)</label>
+              <input type="text" id="device-serial" class="form-control" required placeholder="RCH-MP2014D-XXXX">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">Khách Hàng Sử Dụng</label>
+              <select id="device-customer-select" class="form-control" required>
+                <!-- Populated from customers -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">Hình Thức Hợp Đồng</label>
+              <select id="device-type" class="form-control" onchange="toggleRentalFields(this.value)">
+                <option value="Thuê">Máy Cho Thuê (Hợp đồng thuê định kỳ)</option>
+                <option value="Bán">Máy Đã Bán (Bảo hành chính hãng)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">Ngày Bàn Giao Máy</label>
+              <input type="date" id="device-handover-date" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Hạn Bảo Hành</label>
+              <input type="date" id="device-warranty-expiry" class="form-control">
+            </div>
+
+            <div class="form-group" id="group-contract-end">
+              <label class="form-label">Hạn Kết Thúc Hợp Đồng Thuê</label>
+              <input type="date" id="device-contract-end" class="form-control">
+            </div>
+
+            <div class="form-group" id="group-monthly-rental">
+              <label class="form-label">Giá Thuê Mỗi Tháng (VNĐ)</label>
+              <input type="number" id="device-monthly-rental" class="form-control" step="50000" placeholder="1500000">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Trạng Thái Vận Hành</label>
+              <select id="device-status" class="form-control">
+                <option value="Đang sử dụng">Đang sử dụng</option>
+                <option value="Bảo hành">Đang bảo hành</option>
+                <option value="Sửa chữa">Đang sửa chữa</option>
+                <option value="Hết hạn thuê">Hết hạn thuê</option>
+                <option value="Đã thu hồi">Đã thu hồi</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeDeviceFormModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu Thiết Bị
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SERVICE HISTORY & MAINTENANCE LOG -->
+  <div id="modal-service-history" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-screwdriver-wrench" style="color: var(--primary);"></i>
+          Nhật Ký Bảo Trì & Sửa Chữa: <span id="service-history-device-name" style="margin-left: 6px; color: var(--primary);"></span>
+        </div>
+        <button class="btn-close-modal" onclick="closeServiceHistoryModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Add service entry form -->
+        <div style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+          <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: var(--primary);">
+            <i class="fa-solid fa-plus-circle"></i> Thêm Lượt Bảo Trì / Thay Mực / Sửa Chữa Mới:
+          </div>
+          <form id="form-add-service-log">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label required">Ngày thực hiện</label>
+                <input type="date" id="service-date" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Loại hình xử lý</label>
+                <select id="service-type" class="form-control">
+                  <option value="Bảo dưỡng định kỳ">Bảo dưỡng định kỳ</option>
+                  <option value="Nạp mực in">Nạp mực in chính hãng</option>
+                  <option value="Thay thế linh kiện">Thay thế linh kiện</option>
+                  <option value="Sửa lỗi kẹt giấy/máy">Sửa lỗi kẹt giấy/máy</option>
+                  <option value="Lắp đặt bàn giao">Lắp đặt bàn giao</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Kỹ thuật viên phụ trách</label>
+                <input type="text" id="service-technician" class="form-control" placeholder="Lê Văn Tuấn" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Chi phí phát sinh (VNĐ)</label>
+                <input type="number" id="service-cost" class="form-control" value="0">
+              </div>
+              <div class="form-group col-span-2">
+                <label class="form-label required">Chi tiết công việc & vật tư đã thay</label>
+                <input type="text" id="service-notes" class="form-control" placeholder="Vệ sinh dàn gương, thay quả đào cuốn giấy khay 1..." required>
+              </div>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+              <button type="submit" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-check"></i> Lưu Lượt Bảo Trì
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">Lịch sử các đợt bảo dưỡng trước:</div>
+        <div id="service-history-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeServiceHistoryModal()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-core.js"></script>
+  <script>
+    let activeHistoryDeviceId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderDevicesTable();
+      renderDeviceStats();
+
+      // Filters
+      document.getElementById('device-search').addEventListener('input', renderDevicesTable);
+      document.getElementById('device-filter-type').addEventListener('change', renderDevicesTable);
+      document.getElementById('device-filter-status').addEventListener('change', renderDevicesTable);
+      document.getElementById('btn-reset-device-filters').addEventListener('click', () => {
+        document.getElementById('device-search').value = '';
+        document.getElementById('device-filter-type').value = '';
+        document.getElementById('device-filter-status').value = '';
+        renderDevicesTable();
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-devices-csv').addEventListener('click', exportDevicesToCSV);
+
+      // Add device modal
+      document.getElementById('btn-open-add-device').addEventListener('click', () => openDeviceFormModal());
+      document.getElementById('form-device').addEventListener('submit', handleSaveDevice);
+
+      // Add service log
+      document.getElementById('form-add-service-log').addEventListener('submit', handleAddServiceLog);
+    });
+
+    function renderDeviceStats() {
+      const devices = QLAdmin.DataStore.getDevices();
+      document.getElementById('stat-total-devices').textContent = devices.length;
+
+      const activeCount = devices.filter(d => d.status === 'Đang sử dụng').length;
+      document.getElementById('stat-active-devices-sub').textContent = `${activeCount} máy đang vận hành tốt`;
+
+      // Monthly rental revenue
+      const monthlyRev = devices.filter(d => d.type === 'Thuê').reduce((sum, d) => sum + (d.monthlyRental || 0), 0);
+      document.getElementById('stat-rental-monthly-rev').textContent = QLAdmin.formatVND(monthlyRev);
+
+      // Expiring alert count (rental end in 30 days OR warranty expiry in 30 days)
+      const now = new Date();
+      const in30Days = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+      const alertCount = devices.filter(d => {
+        if (d.type === 'Thuê' && d.contractEndDate) {
+          const end = new Date(d.contractEndDate);
+          if (end >= now && end <= in30Days) return true;
+        }
+        if (d.warrantyExpiry) {
+          const wEnd = new Date(d.warrantyExpiry);
+          if (wEnd >= now && wEnd <= in30Days) return true;
+        }
+        return false;
+      }).length;
+
+      document.getElementById('stat-alert-devices-count').textContent = alertCount;
+    }
+
+    function renderDevicesTable() {
+      const devices = QLAdmin.DataStore.getDevices();
+      const q = document.getElementById('device-search').value.trim().toLowerCase();
+      const typeFilter = document.getElementById('device-filter-type').value;
+      const statusFilter = document.getElementById('device-filter-status').value;
+
+      const filtered = devices.filter(d => {
+        const matchQ = !q ||
+          d.name.toLowerCase().includes(q) ||
+          d.serial.toLowerCase().includes(q) ||
+          d.id.toLowerCase().includes(q) ||
+          (d.customerName && d.customerName.toLowerCase().includes(q));
+
+        const matchType = !typeFilter || d.type === typeFilter;
+        const matchStatus = !statusFilter || d.status === statusFilter;
+
+        return matchQ && matchType && matchStatus;
+      });
+
+      const tbody = document.getElementById('devices-table-body');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 32px; color: #94a3b8;">Không tìm thấy thiết bị nào phù hợp</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(d => {
+        let statusBadge = 'badge-success';
+        if (d.status === 'Bảo hành' || d.status === 'Sửa chữa') statusBadge = 'badge-warning';
+        if (d.status === 'Hết hạn thuê' || d.status === 'Đã thu hồi') statusBadge = 'badge-danger';
+
+        const historyCount = (d.serviceHistory || []).length;
+
+        return `
+          <tr>
+            <td><strong style="color: var(--primary); font-family: monospace;">${d.id}</strong></td>
+            <td>
+              <div style="font-weight: 600; font-size: 13px;">${d.name}</div>
+              <div style="font-size: 11px; color: #64748b;">
+                <button class="btn btn-sm btn-secondary" style="padding: 2px 8px; font-size: 10px; margin-top: 3px;" onclick="openServiceHistoryModal('${d.id}')">
+                  <i class="fa-solid fa-wrench"></i> ${historyCount} lần bảo trì
+                </button>
+              </div>
+            </td>
+            <td><code style="background: #f1f5f9; padding: 3px 6px; border-radius: 4px; font-size: 12px; color: #0f172a;">${d.serial}</code></td>
+            <td>
+              <div style="font-weight: 600;">${d.customerName}</div>
+              <div style="font-size: 11px; color: #64748b;">${d.customerPhone || ''}</div>
+            </td>
+            <td>
+              <span class="badge ${d.type === 'Thuê' ? 'badge-primary' : 'badge-secondary'}">
+                ${d.type === 'Thuê' ? 'Cho Thuê' : 'Bán Đứt'}
+              </span>
+              ${d.type === 'Thuê' ? `<div style="font-size: 11px; color: #1565C0; font-weight: 600; margin-top: 2px;">${QLAdmin.formatVND(d.monthlyRental)}/tháng</div>` : ''}
+            </td>
+            <td><span style="font-size: 12px;">${QLAdmin.formatDateShort(d.handoverDate)}</span></td>
+            <td>
+              <div style="font-size: 12px;">
+                ${d.type === 'Thuê' && d.contractEndDate ? `HĐ: <strong>${QLAdmin.formatDateShort(d.contractEndDate)}</strong>` : ''}
+                ${d.warrantyExpiry ? `<div>BH: ${QLAdmin.formatDateShort(d.warrantyExpiry)}</div>` : ''}
+              </div>
+            </td>
+            <td><span class="badge ${statusBadge}">${d.status}</span></td>
+            <td style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button class="btn-action" title="Xem bảo trì" onclick="openServiceHistoryModal('${d.id}')">
+                  <i class="fa-solid fa-screwdriver-wrench"></i>
+                </button>
+                <button class="btn-action" title="Chỉnh sửa máy" onclick="openDeviceFormModal('${d.id}')">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="btn-action delete" title="Xóa thiết bị" onclick="deleteDevice('${d.id}')">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function toggleRentalFields(type) {
+      const contractGroup = document.getElementById('group-contract-end');
+      const rentalGroup = document.getElementById('group-monthly-rental');
+      if (type === 'Thuê') {
+        contractGroup.style.display = 'block';
+        rentalGroup.style.display = 'block';
+      } else {
+        contractGroup.style.display = 'none';
+        rentalGroup.style.display = 'none';
+      }
+    }
+
+    function openDeviceFormModal(devId = null) {
+      const modal = document.getElementById('modal-device-form');
+      const form = document.getElementById('form-device');
+      form.reset();
+
+      // Populate customers select
+      const customers = QLAdmin.DataStore.getCustomers();
+      const select = document.getElementById('device-customer-select');
+      select.innerHTML = customers.map(c => `
+        <option value="${c.id}" data-name="${c.name}" data-phone="${c.phone}">${c.name} (${c.company || 'Cá nhân'}) - ${c.phone}</option>
+      `).join('');
+
+      if (devId) {
+        const d = QLAdmin.DataStore.getDevice(devId);
+        if (!d) return;
+        document.getElementById('device-form-title').textContent = `Chỉnh Sửa Thiết Bị [${d.id}]`;
+        document.getElementById('device-id').value = d.id;
+        document.getElementById('device-name').value = d.name || '';
+        document.getElementById('device-serial').value = d.serial || '';
+        document.getElementById('device-customer-select').value = d.customerId || '';
+        document.getElementById('device-type').value = d.type || 'Thuê';
+        document.getElementById('device-handover-date').value = d.handoverDate || '';
+        document.getElementById('device-warranty-expiry').value = d.warrantyExpiry || '';
+        document.getElementById('device-contract-end').value = d.contractEndDate || '';
+        document.getElementById('device-monthly-rental').value = d.monthlyRental || '';
+        document.getElementById('device-status').value = d.status || 'Đang sử dụng';
+        toggleRentalFields(d.type);
+      } else {
+        document.getElementById('device-form-title').textContent = 'Đăng Ký Thiết Bị Mới';
+        document.getElementById('device-id').value = '';
+        document.getElementById('device-handover-date').value = new Date().toISOString().slice(0, 10);
+        toggleRentalFields('Thuê');
+      }
+
+      modal.classList.add('show');
+    }
+
+    function closeDeviceFormModal() {
+      document.getElementById('modal-device-form').classList.remove('show');
+    }
+
+    function handleSaveDevice(e) {
+      e.preventDefault();
+      const id = document.getElementById('device-id').value;
+      const name = document.getElementById('device-name').value.trim();
+      const serial = document.getElementById('device-serial').value.trim();
+      const custSelect = document.getElementById('device-customer-select');
+      const custId = custSelect.value;
+      const custOption = custSelect.options[custSelect.selectedIndex];
+      const custName = custOption.getAttribute('data-name');
+      const custPhone = custOption.getAttribute('data-phone');
+
+      const type = document.getElementById('device-type').value;
+      const handoverDate = document.getElementById('device-handover-date').value;
+      const warrantyExpiry = document.getElementById('device-warranty-expiry').value;
+      const contractEndDate = document.getElementById('device-contract-end').value;
+      const monthlyRental = parseInt(document.getElementById('device-monthly-rental').value, 10) || 0;
+      const status = document.getElementById('device-status').value;
+
+      const devData = {
+        name,
+        serial,
+        customerId: custId,
+        customerName: custName,
+        customerPhone: custPhone,
+        type,
+        handoverDate,
+        warrantyExpiry,
+        contractEndDate: type === 'Thuê' ? contractEndDate : '',
+        monthlyRental: type === 'Thuê' ? monthlyRental : 0,
+        status
+      };
+
+      if (id) {
+        devData.id = id;
+      }
+
+      QLAdmin.DataStore.saveDevice(devData);
+      QLAdmin.showToast('Thành công', `Đã lưu thiết bị serial [${serial}]!`, 'success');
+      closeDeviceFormModal();
+      renderDevicesTable();
+      renderDeviceStats();
+    }
+
+    function deleteDevice(id) {
+      if (confirm(`Bạn có chắc muốn xóa thiết bị #${id}?`)) {
+        QLAdmin.DataStore.deleteDevice(id);
+        QLAdmin.showToast('Đã xóa', `Đã xóa thiết bị #${id}`, 'info');
+        renderDevicesTable();
+        renderDeviceStats();
+      }
+    }
+
+    function openServiceHistoryModal(devId) {
+      activeHistoryDeviceId = devId;
+      const d = QLAdmin.DataStore.getDevice(devId);
+      if (!d) return;
+
+      document.getElementById('service-history-device-name').textContent = `${d.name} (SN: ${d.serial})`;
+      document.getElementById('service-date').value = new Date().toISOString().slice(0, 10);
+
+      renderServiceHistoryList(d);
+      document.getElementById('modal-service-history').classList.add('show');
+    }
+
+    function renderServiceHistoryList(d) {
+      const container = document.getElementById('service-history-list');
+      const history = d.serviceHistory || [];
+
+      if (history.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">Chưa có lượt bảo dưỡng nào được ghi nhận</div>`;
+        return;
+      }
+
+      container.innerHTML = history.map((item, idx) => `
+        <div style="background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:12px 16px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <div style="font-weight:700; color:var(--primary); font-size:13px;">
+              <i class="fa-solid fa-wrench"></i> ${item.type}
+            </div>
+            <div style="font-size:12px; color:#64748b;">${QLAdmin.formatDateShort(item.date)}</div>
+          </div>
+          <div style="font-size:12px; color:#334155; margin-bottom:6px;">${item.notes}</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; color:#64748b; border-top:1px dashed #f1f5f9; padding-top:4px;">
+            <span>Kỹ thuật viên: <strong>${item.technician || 'Quảng Lợi'}</strong></span>
+            <span>Chi phí: <strong style="color:var(--accent-red);">${item.cost ? QLAdmin.formatVND(item.cost) : 'Miễn phí'}</strong></span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function handleAddServiceLog(e) {
+      e.preventDefault();
+      if (!activeHistoryDeviceId) return;
+
+      const date = document.getElementById('service-date').value;
+      const type = document.getElementById('service-type').value;
+      const technician = document.getElementById('service-technician').value.trim();
+      const cost = parseInt(document.getElementById('service-cost').value, 10) || 0;
+      const notes = document.getElementById('service-notes').value.trim();
+
+      const devices = QLAdmin.DataStore.getDevices();
+      const dev = devices.find(d => d.id === activeHistoryDeviceId);
+      if (dev) {
+        dev.serviceHistory = dev.serviceHistory || [];
+        dev.serviceHistory.unshift({ date, type, technician, cost, notes });
+        QLAdmin.DataStore.saveDevices(devices);
+        QLAdmin.showToast('Đã lưu', 'Đã thêm nhật ký bảo trì thành công!', 'success');
+        document.getElementById('form-add-service-log').reset();
+        document.getElementById('service-date').value = new Date().toISOString().slice(0, 10);
+        renderServiceHistoryList(dev);
+        renderDevicesTable();
+      }
+    }
+
+    function closeServiceHistoryModal() {
+      document.getElementById('modal-service-history').classList.remove('show');
+    }
+
+    function exportDevicesToCSV() {
+      const devices = QLAdmin.DataStore.getDevices();
+      const headers = ['Mã TB', 'Tên Thiết Bị', 'Số Serial', 'Khách Hàng', 'Số ĐT', 'Hình Thức', 'Ngày Bàn Giao', 'Hạn HĐ Thuê', 'Hạn Bảo Hành', 'Giá Thuê Tháng (VNĐ)', 'Trạng Thái'];
+      const rows = devices.map(d => [
+        d.id,
+        d.name,
+        d.serial,
+        d.customerName || '',
+        d.customerPhone || '',
+        d.type,
+        d.handoverDate || '',
+        d.contractEndDate || '',
+        d.warrantyExpiry || '',
+        d.monthlyRental || 0,
+        d.status
+      ]);
+
+      QLAdmin.exportToCSV('danh-sach-thiet-bi-quang-loi.csv', rows, headers);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cài Đặt Hệ Thống | Quảng Lợi Admin</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-box">QL</div>
+        <div class="brand-info">
+          <div class="brand-name">QUẢNG LỢI</div>
+          <div class="brand-sub">Admin & CRM</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Tổng Quan & Vận Hành</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>Đơn Hàng</span>
+              <span id="badge-orders-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="customers.html" class="nav-link">
+              <i class="fa-solid fa-users"></i>
+              <span>Khách Hàng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <i class="fa-solid fa-box-open"></i>
+              <span>Sản Phẩm</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Tài Sản & Khách Hàng</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="devices.html" class="nav-link">
+              <i class="fa-solid fa-print"></i>
+              <span>Quản Lý Thiết Bị</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leads.html" class="nav-link">
+              <i class="fa-solid fa-comments"></i>
+              <span>Quản Lý Leads</span>
+              <span id="badge-leads-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Hệ Thống & Báo Cáo</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Báo Cáo & Thống Kê</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="settings.html" class="nav-link">
+              <i class="fa-solid fa-gear"></i>
+              <span>Cài Đặt Hệ Thống</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" class="sidebar-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-username">Admin Quảng Lợi</div>
+            <div class="sidebar-role">Quản Trị Cấp Cao</div>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout btn-logout-action" title="Đăng Xuất">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="btn-toggle-sidebar" class="btn-menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div style="font-weight: 700; color: var(--text-primary); font-size: 15px;">
+            Cấu Hình Hệ Thống, Thông Tin Doanh Nghiệp & Sao Lưu Dữ Liệu
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-datetime">
+            <i class="fa-regular fa-clock"></i>
+            <span id="current-time-clock">--:--:--</span>
+          </div>
+
+          <div class="topbar-actions">
+            <a href="../index.html" target="_blank" class="btn-view-site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Xem Website</span>
+            </a>
+            <button class="btn-icon btn-logout-action" title="Đăng xuất">
+              <i class="fa-solid fa-power-off" style="color: #ef4444;"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <!-- HEADER -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">
+              <i class="fa-solid fa-gear" style="color: var(--primary);"></i>
+              Cài Đặt Hệ Thống
+            </h1>
+            <p class="page-desc">Tùy chỉnh thông tin công ty Quảng Lợi, tài khoản ngân hàng, thông báo và sao lưu an toàn dữ liệu</p>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+          <!-- LEFT COLUMN: MAIN FORMS -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- 1. COMPANY INFO FORM -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-building"></i>
+                  Thông Tin Doanh Nghiệp (Hiển thị trên website & hóa đơn)
+                </div>
+              </div>
+              <form id="form-settings-company">
+                <div class="form-grid">
+                  <div class="form-group col-span-2">
+                    <label class="form-label required">Tên Doanh Nghiệp Đầy Đủ</label>
+                    <input type="text" id="setting-company-name" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Tên Viết Tắt / Thương Hiệu</label>
+                    <input type="text" id="setting-short-name" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Mã Số Thuế (MST)</label>
+                    <input type="text" id="setting-tax-id" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Hotline Kinh Doanh</label>
+                    <input type="text" id="setting-hotline" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Điện Thoại Bàn</label>
+                    <input type="text" id="setting-phone" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Email Liên Hệ</label>
+                    <input type="email" id="setting-email" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Website Chính Thức</label>
+                    <input type="text" id="setting-website" class="form-control">
+                  </div>
+                  <div class="form-group col-span-2">
+                    <label class="form-label required">Địa Chỉ Trụ Sở & Showroom</label>
+                    <input type="text" id="setting-address" class="form-control" required>
+                  </div>
+                </div>
+                <div style="margin-top: 14px; text-align: right;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin Doanh Nghiệp
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- 2. BANKING & PAYMENT SETTINGS -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-building-columns"></i>
+                  Tài Khoản Ngân Hàng Thanh Toán
+                </div>
+              </div>
+              <form id="form-settings-bank">
+                <div class="form-grid">
+                  <div class="form-group col-span-2">
+                    <label class="form-label required">Tên Ngân Hàng</label>
+                    <input type="text" id="setting-bank-name" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Số Tài Khoản</label>
+                    <input type="text" id="setting-bank-account" class="form-control" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Chủ Tài Khoản (Không dấu)</label>
+                    <input type="text" id="setting-bank-holder" class="form-control" required>
+                  </div>
+                  <div class="form-group col-span-2">
+                    <label class="form-label">Chi Nhánh Mở Tài Khoản</label>
+                    <input type="text" id="setting-bank-branch" class="form-control">
+                  </div>
+                </div>
+                <div style="margin-top: 14px; text-align: right;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Tài Khoản Ngân Hàng
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- 3. NOTIFICATION SETTINGS -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-bell"></i>
+                  Cấu Hình Thông Báo & Cảnh Báo
+                </div>
+              </div>
+              <form id="form-settings-notifications">
+                <div class="form-group" style="margin-bottom: 16px;">
+                  <label class="form-label">Email Nhận Cảnh Báo Quản Trị</label>
+                  <input type="email" id="setting-notify-email" class="form-control">
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer;">
+                    <input type="checkbox" id="notify-orders" checked style="width: 16px; height: 16px;">
+                    <span>Thông báo khi có đơn hàng mới từ website</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer;">
+                    <input type="checkbox" id="notify-leads" checked style="width: 16px; height: 16px;">
+                    <span>Thông báo khi khách gửi form liên hệ (Lead mới)</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer;">
+                    <input type="checkbox" id="notify-low-stock" checked style="width: 16px; height: 16px;">
+                    <span>Cảnh báo khi sản phẩm tồn kho dưới 10 cái</span>
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer;">
+                    <input type="checkbox" id="notify-maintenance" checked style="width: 16px; height: 16px;">
+                    <span>Nhắc nhở hợp đồng thuê máy sắp hết hạn trước 30 ngày</span>
+                  </label>
+                </div>
+
+                <div style="margin-top: 18px; text-align: right;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Cấu Hình Thông Báo
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: USERS, BACKUP & SECURITY -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- BACKUP & RESTORE -->
+            <div class="card" style="border-top: 4px solid var(--primary);">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-database"></i>
+                  Sao Lưu & Phục Hồi Dữ Liệu
+                </div>
+              </div>
+              <p style="font-size: 12px; color: #64748b; margin-bottom: 16px; line-height: 1.5;">
+                Xuất toàn bộ cơ sở dữ liệu (Đơn hàng, Khách hàng, Sản phẩm, Thiết bị, Leads, Cài đặt) ra tệp JSON an toàn.
+              </p>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" id="btn-export-all-backup" style="width: 100%;">
+                  <i class="fa-solid fa-download"></i> Tải Về Bản Sao Lưu (.JSON)
+                </button>
+
+                <input type="file" id="input-restore-backup" accept=".json" style="display: none;">
+                <button class="btn btn-secondary" onclick="document.getElementById('input-restore-backup').click()" style="width: 100%;">
+                  <i class="fa-solid fa-upload"></i> Khôi Phục Từ File Sao Lưu
+                </button>
+
+                <button class="btn btn-outline-primary" id="btn-reset-sample-data" style="width: 100%; margin-top: 6px;">
+                  <i class="fa-solid fa-arrows-rotate"></i> Nạp Lại Dữ Liệu Mẫu Quảng Lợi
+                </button>
+              </div>
+            </div>
+
+            <!-- CHANGE PASSWORD -->
+            <div class="card" style="border-top: 4px solid var(--accent-red);">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-key"></i>
+                  Đổi Mật Khẩu Quản Trị
+                </div>
+              </div>
+              <form id="form-change-password">
+                <div class="form-group">
+                  <label class="form-label required">Mật Khẩu Hiện Tại</label>
+                  <input type="password" id="pass-current" class="form-control" placeholder="Mật khẩu cũ..." required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Mật Khẩu Mới</label>
+                  <input type="password" id="pass-new" class="form-control" placeholder="Tối thiểu 6 ký tự..." required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Xác Nhận Mật Khẩu Mới</label>
+                  <input type="password" id="pass-confirm" class="form-control" placeholder="Nhập lại mật khẩu..." required>
+                </div>
+                <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 10px;">
+                  <i class="fa-solid fa-shield-halved"></i> Cập Nhật Mật Khẩu
+                </button>
+              </form>
+            </div>
+
+            <!-- ADMIN USERS LIST -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-user-shield"></i>
+                  Tài Khoản Quản Trị Viên
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0;">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+                <div>
+                  <div style="font-weight: 700; font-size: 13px;">admin (Super Admin)</div>
+                  <div style="font-size: 11px; color: #64748b;">admin@quangloi.com.vn</div>
+                  <span class="badge badge-success" style="font-size: 10px; margin-top: 2px;">Đang hoạt động</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/admin-core.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSettings();
+
+      // Company info submit
+      document.getElementById('form-settings-company').addEventListener('submit', handleSaveCompany);
+
+      // Bank settings submit
+      document.getElementById('form-settings-bank').addEventListener('submit', handleSaveBank);
+
+      // Notification settings submit
+      document.getElementById('form-settings-notifications').addEventListener('submit', handleSaveNotifications);
+
+      // Change password
+      document.getElementById('form-change-password').addEventListener('submit', handleChangePassword);
+
+      // Export Backup JSON
+      document.getElementById('btn-export-all-backup').addEventListener('click', handleExportBackup);
+
+      // Restore Backup JSON
+      document.getElementById('input-restore-backup').addEventListener('change', handleRestoreBackup);
+
+      // Reset Sample Data
+      document.getElementById('btn-reset-sample-data').addEventListener('click', handleResetSampleData);
+    });
+
+    function loadSettings() {
+      const s = QLAdmin.DataStore.getSettings();
+      // Company
+      document.getElementById('setting-company-name').value = s.companyName || '';
+      document.getElementById('setting-short-name').value = s.shortName || '';
+      document.getElementById('setting-tax-id').value = s.taxId || '';
+      document.getElementById('setting-hotline').value = s.hotline || '';
+      document.getElementById('setting-phone').value = s.phone || '';
+      document.getElementById('setting-email').value = s.email || '';
+      document.getElementById('setting-website').value = s.website || '';
+      document.getElementById('setting-address').value = s.address || '';
+
+      // Bank
+      document.getElementById('setting-bank-name').value = s.bankName || '';
+      document.getElementById('setting-bank-account').value = s.bankAccount || '';
+      document.getElementById('setting-bank-holder').value = s.bankHolder || '';
+      document.getElementById('setting-bank-branch').value = s.bankBranch || '';
+
+      // Notifications
+      document.getElementById('setting-notify-email').value = s.notifyEmail || '';
+      document.getElementById('notify-orders').checked = s.notifyOrders !== false;
+      document.getElementById('notify-leads').checked = s.notifyLeads !== false;
+      document.getElementById('notify-low-stock').checked = s.notifyLowStock !== false;
+      document.getElementById('notify-maintenance').checked = s.notifyDeviceMaintenance !== false;
+    }
+
+    function handleSaveCompany(e) {
+      e.preventDefault();
+      const s = QLAdmin.DataStore.getSettings();
+      s.companyName = document.getElementById('setting-company-name').value.trim();
+      s.shortName = document.getElementById('setting-short-name').value.trim();
+      s.taxId = document.getElementById('setting-tax-id').value.trim();
+      s.hotline = document.getElementById('setting-hotline').value.trim();
+      s.phone = document.getElementById('setting-phone').value.trim();
+      s.email = document.getElementById('setting-email').value.trim();
+      s.website = document.getElementById('setting-website').value.trim();
+      s.address = document.getElementById('setting-address').value.trim();
+
+      QLAdmin.DataStore.saveSettings(s);
+      QLAdmin.showToast('Thành công', 'Đã lưu thông tin doanh nghiệp Quảng Lợi!', 'success');
+    }
+
+    function handleSaveBank(e) {
+      e.preventDefault();
+      const s = QLAdmin.DataStore.getSettings();
+      s.bankName = document.getElementById('setting-bank-name').value.trim();
+      s.bankAccount = document.getElementById('setting-bank-account').value.trim();
+      s.bankHolder = document.getElementById('setting-bank-holder').value.trim();
+      s.bankBranch = document.getElementById('setting-bank-branch').value.trim();
+
+      QLAdmin.DataStore.saveSettings(s);
+      QLAdmin.showToast('Thành công', 'Đã lưu thông tin tài khoản ngân hàng!', 'success');
+    }
+
+    function handleSaveNotifications(e) {
+      e.preventDefault();
+      const s = QLAdmin.DataStore.getSettings();
+      s.notifyEmail = document.getElementById('setting-notify-email').value.trim();
+      s.notifyOrders = document.getElementById('notify-orders').checked;
+      s.notifyLeads = document.getElementById('notify-leads').checked;
+      s.notifyLowStock = document.getElementById('notify-low-stock').checked;
+      s.notifyDeviceMaintenance = document.getElementById('notify-maintenance').checked;
+
+      QLAdmin.DataStore.saveSettings(s);
+      QLAdmin.showToast('Thành công', 'Đã lưu cấu hình thông báo hệ thống!', 'success');
+    }
+
+    function handleChangePassword(e) {
+      e.preventDefault();
+      const cur = document.getElementById('pass-current').value;
+      const n = document.getElementById('pass-new').value;
+      const c = document.getElementById('pass-confirm').value;
+
+      if (cur !== 'quangloi2024') {
+        QLAdmin.showToast('Lỗi', 'Mật khẩu hiện tại không đúng (mặc định: quangloi2024)!', 'danger');
+        return;
+      }
+      if (n !== c) {
+        QLAdmin.showToast('Lỗi', 'Mật khẩu mới và xác nhận mật khẩu không khớp!', 'danger');
+        return;
+      }
+      if (n.length < 6) {
+        QLAdmin.showToast('Lỗi', 'Mật khẩu mới phải có tối thiểu 6 ký tự!', 'danger');
+        return;
+      }
+
+      QLAdmin.showToast('Thành công', 'Đã đổi mật khẩu quản trị thành công!', 'success');
+      document.getElementById('form-change-password').reset();
+    }
+
+    function handleExportBackup() {
+      const backupData = {
+        version: "1.0",
+        exportDate: new Date().toISOString(),
+        settings: QLAdmin.DataStore.getSettings(),
+        orders: QLAdmin.DataStore.getOrders(),
+        customers: QLAdmin.DataStore.getCustomers(),
+        products: QLAdmin.DataStore.getProducts(),
+        devices: QLAdmin.DataStore.getDevices(),
+        leads: QLAdmin.DataStore.getLeads()
+      };
+
+      const jsonStr = JSON.stringify(backupData, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const filename = `backup-quangloi-${new Date().toISOString().slice(0, 10)}.json`;
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      QLAdmin.showToast('Sao lưu thành công', `Đã tải về tệp ${filename}!`, 'success');
+    }
+
+    function handleRestoreBackup(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const data = JSON.parse(evt.target.result);
+          if (data.orders) QLAdmin.DataStore.saveOrders(data.orders);
+          if (data.customers) QLAdmin.DataStore.saveCustomers(data.customers);
+          if (data.products) QLAdmin.DataStore.saveProducts(data.products);
+          if (data.devices) QLAdmin.DataStore.saveDevices(data.devices);
+          if (data.leads) QLAdmin.DataStore.saveLeads(data.leads);
+          if (data.settings) QLAdmin.DataStore.saveSettings(data.settings);
+
+          QLAdmin.showToast('Khôi phục thành công', 'Toàn bộ dữ liệu hệ thống đã được phục hồi!', 'success');
+          setTimeout(() => window.location.reload(), 1000);
+        } catch (err) {
+          QLAdmin.showToast('Lỗi phục hồi', 'Tệp tin không đúng định dạng sao lưu JSON!', 'danger');
+        }
+      };
+      reader.readAsText(file, 'UTF-8');
+      e.target.value = '';
+    }
+
+    function handleResetSampleData() {
+      if (confirm('Bạn có chắc chắn muốn nạp lại toàn bộ dữ liệu mẫu ban đầu của Quảng Lợi? Dữ liệu tùy biến hiện tại sẽ được cập nhật lại theo bộ chuẩn.')) {
+        localStorage.removeItem('ql_orders');
+        localStorage.removeItem('ql_customers');
+        localStorage.removeItem('ql_products');
+        localStorage.removeItem('ql_devices');
+        localStorage.removeItem('ql_leads');
+        localStorage.removeItem('ql_settings');
+        QLAdmin.showToast('Thành công', 'Đã nạp lại dữ liệu chuẩn của Quảng Lợi!', 'success');
+        setTimeout(() => window.location.reload(), 800);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Đơn Hàng | Quảng Lợi Admin</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-box">QL</div>
+        <div class="brand-info">
+          <div class="brand-name">QUẢNG LỢI</div>
+          <div class="brand-sub">Admin & CRM</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Tổng Quan & Vận Hành</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="orders.html" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>Đơn Hàng</span>
+              <span id="badge-orders-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="customers.html" class="nav-link">
+              <i class="fa-solid fa-users"></i>
+              <span>Khách Hàng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <i class="fa-solid fa-box-open"></i>
+              <span>Sản Phẩm</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Tài Sản & Khách Hàng</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="devices.html" class="nav-link">
+              <i class="fa-solid fa-print"></i>
+              <span>Quản Lý Thiết Bị</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="leads.html" class="nav-link">
+              <i class="fa-solid fa-comments"></i>
+              <span>Quản Lý Leads</span>
+              <span id="badge-leads-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Hệ Thống & Báo Cáo</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Báo Cáo & Thống Kê</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <i class="fa-solid fa-gear"></i>
+              <span>Cài Đặt Hệ Thống</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" class="sidebar-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-username">Admin Quảng Lợi</div>
+            <div class="sidebar-role">Quản Trị Cấp Cao</div>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout btn-logout-action" title="Đăng Xuất">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <!-- TOPBAR -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="btn-toggle-sidebar" class="btn-menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div style="font-weight: 700; color: var(--text-primary); font-size: 15px;">
+            Quản Lý Đơn Hàng E-Commerce & Hotline
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-datetime">
+            <i class="fa-regular fa-clock"></i>
+            <span id="current-time-clock">--:--:--</span>
+          </div>
+
+          <div class="topbar-actions">
+            <a href="../index.html" target="_blank" class="btn-view-site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Xem Website</span>
+            </a>
+            <button class="btn-icon btn-logout-action" title="Đăng xuất">
+              <i class="fa-solid fa-power-off" style="color: #ef4444;"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <!-- HEADER -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">
+              <i class="fa-solid fa-bag-shopping" style="color: var(--primary);"></i>
+              Danh Sách Đơn Hàng
+            </h1>
+            <p class="page-desc">Theo dõi luồng xử lý đơn hàng: Mới &rarr; Xác nhận &rarr; Đang giao &rarr; Hoàn thành</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-secondary" id="btn-export-orders-csv">
+              <i class="fa-solid fa-file-csv"></i> Xuất CSV
+            </button>
+            <button class="btn btn-primary" id="btn-open-create-order">
+              <i class="fa-solid fa-plus"></i> Tạo Đơn Hàng Mới
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <div style="position: relative; flex: 1; min-width: 220px;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 11px; color: #94a3b8; font-size: 13px;"></i>
+            <input type="text" id="order-search" class="filter-input" style="width: 100%; padding-left: 34px;" placeholder="Tìm theo mã đơn, tên khách, SĐT...">
+          </div>
+
+          <div class="filter-group">
+            <label>Trạng thái:</label>
+            <select id="order-filter-status" class="filter-select">
+              <option value="">Tất cả trạng thái</option>
+              <option value="Mới">Mới</option>
+              <option value="Đang xử lý">Đang xử lý</option>
+              <option value="Đang giao">Đang giao</option>
+              <option value="Hoàn thành">Hoàn thành</option>
+              <option value="Đã hủy">Đã hủy</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Thanh toán:</label>
+            <select id="order-filter-payment" class="filter-select">
+              <option value="">Tất cả phương thức</option>
+              <option value="Chuyển khoản">Chuyển khoản ngân hàng</option>
+              <option value="COD">Thanh toán khi nhận (COD)</option>
+              <option value="Tiền mặt">Tiền mặt tại showroom</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary btn-sm" id="btn-reset-filters">
+            <i class="fa-solid fa-filter-circle-xmark"></i> Xóa lọc
+          </button>
+        </div>
+
+        <!-- ORDERS TABLE CARD -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Mã Đơn</th>
+                  <th>Khách Hàng</th>
+                  <th>Số Điện Thoại</th>
+                  <th>Sản Phẩm & SL</th>
+                  <th>Tổng Tiền</th>
+                  <th>Thanh Toán</th>
+                  <th>Trạng Thái</th>
+                  <th>Ngày Tạo</th>
+                  <th style="text-align: right;">Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="orders-table-body">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ORDER DETAIL & STATUS UPDATE -->
+  <div id="modal-order-manage" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-file-invoice" style="color: var(--primary);"></i>
+          Quản Lý Đơn Hàng <span id="manage-order-id" style="color: var(--primary); margin-left: 6px;"></span>
+        </div>
+        <button class="btn-close-modal" onclick="closeManageModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="manage-order-content">
+        <!-- Dynamically injected -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeManageModal()">Đóng</button>
+        <button class="btn btn-secondary" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> In Đơn
+        </button>
+        <button class="btn btn-primary" id="btn-save-order-status">
+          <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE ORDER -->
+  <div id="modal-create-order" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-cart-plus" style="color: var(--primary);"></i>
+          Tạo Đơn Hàng Mới
+        </div>
+        <button class="btn-close-modal" onclick="closeCreateOrderModal()">&times;</button>
+      </div>
+      <form id="form-create-order">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label required">Tên Khách Hàng</label>
+              <input type="text" id="new-order-cust-name" class="form-control" placeholder="Nguyễn Văn A" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Số Điện Thoại</label>
+              <input type="text" id="new-order-cust-phone" class="form-control" placeholder="0988 123 456" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tên Công Ty (Nếu có)</label>
+              <input type="text" id="new-order-company" class="form-control" placeholder="Công ty TNHH...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Khách Hàng</label>
+              <input type="email" id="new-order-cust-email" class="form-control" placeholder="khachhang@gmail.com">
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label required">Địa Chỉ Giao Hàng</label>
+              <input type="text" id="new-order-address" class="form-control" placeholder="Số nhà, đường, quận huyện, tỉnh thành..." required>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 10px;">Chọn Sản Phẩm Quảng Lợi:</div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label required">Sản phẩm</label>
+                <select id="new-order-product-select" class="form-control" required>
+                  <!-- Dynamically populated from products -->
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">Số lượng</label>
+                <input type="number" id="new-order-qty" class="form-control" min="1" value="1" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: 10px;">
+            <div class="form-group">
+              <label class="form-label">Phương Thức Thanh Toán</label>
+              <select id="new-order-payment" class="form-control">
+                <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
+                <option value="COD (Tiền mặt)">COD (Tiền mặt)</option>
+                <option value="Tiền mặt tại showroom">Tiền mặt tại showroom</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Trạng Thái Đơn</label>
+              <select id="new-order-status" class="form-control">
+                <option value="Mới">Mới</option>
+                <option value="Đang xử lý">Đang xử lý</option>
+                <option value="Hoàn thành">Hoàn thành</option>
+              </select>
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label">Ghi Chú Giao Hàng</label>
+              <textarea id="new-order-notes" class="form-control" placeholder="Giao giờ hành chính, gọi trước khi đến..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeCreateOrderModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check"></i> Xác Nhận Tạo Đơn
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin-core.js"></script>
+  <script>
+    let activeEditingOrderId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check query param from global search
+      const urlParams = new URLSearchParams(window.location.search);
+      const q = urlParams.get('q');
+      if (q) {
+        document.getElementById('order-search').value = q;
+      }
+
+      renderOrdersTable();
+
+      // Filters
+      document.getElementById('order-search').addEventListener('input', renderOrdersTable);
+      document.getElementById('order-filter-status').addEventListener('change', renderOrdersTable);
+      document.getElementById('order-filter-payment').addEventListener('change', renderOrdersTable);
+      document.getElementById('btn-reset-filters').addEventListener('click', () => {
+        document.getElementById('order-search').value = '';
+        document.getElementById('order-filter-status').value = '';
+        document.getElementById('order-filter-payment').value = '';
+        renderOrdersTable();
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-orders-csv').addEventListener('click', exportOrdersToCSV);
+
+      // Create Order
+      document.getElementById('btn-open-create-order').addEventListener('click', openCreateOrderModal);
+      document.getElementById('form-create-order').addEventListener('submit', handleCreateOrder);
+
+      // Save order status changes in manage modal
+      document.getElementById('btn-save-order-status').addEventListener('click', handleSaveOrderStatus);
+    });
+
+    function renderOrdersTable() {
+      const orders = QLAdmin.DataStore.getOrders();
+      const q = document.getElementById('order-search').value.trim().toLowerCase();
+      const statusFilter = document.getElementById('order-filter-status').value;
+      const paymentFilter = document.getElementById('order-filter-payment').value;
+
+      const filtered = orders.filter(o => {
+        const matchQ = !q || 
+          o.id.toLowerCase().includes(q) || 
+          (o.customerName && o.customerName.toLowerCase().includes(q)) || 
+          (o.customerPhone && o.customerPhone.includes(q)) ||
+          (o.company && o.company.toLowerCase().includes(q));
+
+        const matchStatus = !statusFilter || o.orderStatus === statusFilter;
+        const matchPayment = !paymentFilter || (o.paymentMethod && o.paymentMethod.includes(paymentFilter));
+
+        return matchQ && matchStatus && matchPayment;
+      });
+
+      const tbody = document.getElementById('orders-table-body');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 32px; color: #94a3b8;">Không tìm thấy đơn hàng phù hợp</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(o => {
+        let badgeClass = 'badge-primary';
+        if (o.orderStatus === 'Hoàn thành') badgeClass = 'badge-success';
+        if (o.orderStatus === 'Đang xử lý') badgeClass = 'badge-warning';
+        if (o.orderStatus === 'Đang giao') badgeClass = 'badge-info';
+        if (o.orderStatus === 'Đã hủy') badgeClass = 'badge-danger';
+
+        const totalQty = (o.items || []).reduce((sum, item) => sum + (item.quantity || 1), 0);
+        const itemSummary = (o.items && o.items[0]) ? o.items[0].name : 'Sản phẩm Quảng Lợi';
+        const moreCount = (o.items && o.items.length > 1) ? ` <span style="font-size:11px; color:#64748b;">(+${o.items.length - 1} loại)</span>` : '';
+
+        return `
+          <tr>
+            <td><strong style="color: var(--primary); font-family: monospace;">${o.id}</strong></td>
+            <td>
+              <div style="font-weight: 600;">${o.customerName}</div>
+              <div style="font-size: 11px; color: #64748b;">${o.company || 'Cá nhân'}</div>
+            </td>
+            <td><span style="color: var(--primary); font-weight: 500;">${o.customerPhone}</span></td>
+            <td>
+              <div style="max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px;" title="${itemSummary}">
+                ${itemSummary}${moreCount}
+              </div>
+              <div style="font-size: 11px; color: #64748b;">Tổng: <strong>${totalQty}</strong> sản phẩm</div>
+            </td>
+            <td><strong style="color: var(--accent-red); font-size: 14px;">${QLAdmin.formatVND(o.total)}</strong></td>
+            <td>
+              <div style="font-size: 12px; font-weight: 500;">${o.paymentMethod || 'Chuyển khoản'}</div>
+              <div style="font-size: 11px; color: ${o.paymentStatus === 'Đã thanh toán' ? '#10b981' : '#f59e0b'};">
+                <i class="fa-solid fa-circle" style="font-size: 6px;"></i> ${o.paymentStatus || 'Chưa thanh toán'}
+              </div>
+            </td>
+            <td><span class="badge ${badgeClass}">${o.orderStatus}</span></td>
+            <td><span style="font-size: 12px; color: #64748b;">${QLAdmin.formatDate(o.createdAt)}</span></td>
+            <td style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button class="btn-action" title="Quản lý & Cập nhật" onclick="openManageOrderModal('${o.id}')">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="btn-action delete" title="Xóa đơn" onclick="deleteOrder('${o.id}')">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openManageOrderModal(orderId) {
+      activeEditingOrderId = orderId;
+      const order = QLAdmin.DataStore.getOrder(orderId);
+      if (!order) return;
+
+      document.getElementById('manage-order-id').textContent = `#${order.id}`;
+
+      const itemsHtml = (order.items || []).map(i => `
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13px;">
+          <div>
+            <div style="font-weight: 600;">${i.name}</div>
+            <div style="font-size: 12px; color: #64748b;">Đơn giá: ${QLAdmin.formatVND(i.price)} x ${i.quantity} chiếc</div>
+          </div>
+          <div style="font-weight: 700; color: #0f172a;">${QLAdmin.formatVND((i.price || 0) * (i.quantity || 1))}</div>
+        </div>
+      `).join('');
+
+      document.getElementById('manage-order-content').innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Người nhận hàng</div>
+            <div style="font-size: 15px; font-weight: 700; margin-top: 3px;">${order.customerName}</div>
+            <div style="font-size: 12px; color: #475569;">${order.company || ''}</div>
+            <div style="font-size: 13px; color: var(--primary); font-weight: 600; margin-top: 4px;">
+              <i class="fa-solid fa-phone"></i> ${order.customerPhone}
+            </div>
+            ${order.customerEmail ? `<div style="font-size: 12px; color: #64748b;"><i class="fa-solid fa-envelope"></i> ${order.customerEmail}</div>` : ''}
+          </div>
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Thông tin đơn hàng</div>
+            <div style="font-size: 12px; margin-top: 3px;"><strong>Địa chỉ:</strong> ${order.address || 'Tại showroom'}</div>
+            <div style="font-size: 12px; margin-top: 3px;"><strong>Ngày đặt:</strong> ${QLAdmin.formatDate(order.createdAt)}</div>
+            <div style="font-size: 12px; margin-top: 3px;"><strong>Phương thức:</strong> ${order.paymentMethod || 'Chuyển khoản'}</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">Chi tiết sản phẩm:</div>
+          ${itemsHtml}
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 15px;">
+            <div><strong>Tổng cộng:</strong></div>
+            <div style="font-size: 20px; font-weight: 800; color: var(--accent-red);">${QLAdmin.formatVND(order.total)}</div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 16px;">
+          <div style="font-weight: 700; font-size: 13px; margin-bottom: 12px; color: var(--primary);">
+            <i class="fa-solid fa-sliders"></i> Cập Nhật Trạng Thái Xử Lý:
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Trạng thái giao hàng (Status Flow)</label>
+              <select id="edit-order-status" class="form-control" style="font-weight: 600;">
+                <option value="Mới" ${order.orderStatus === 'Mới' ? 'selected' : ''}>Mới (Chờ tiếp nhận)</option>
+                <option value="Đang xử lý" ${order.orderStatus === 'Đang xử lý' ? 'selected' : ''}>Đang xử lý (Đã xác nhận & xuất kho)</option>
+                <option value="Đang giao" ${order.orderStatus === 'Đang giao' ? 'selected' : ''}>Đang giao (Đang vận chuyển đến khách)</option>
+                <option value="Hoàn thành" ${order.orderStatus === 'Hoàn thành' ? 'selected' : ''}>Hoàn thành (Đã giao & thanh toán)</option>
+                <option value="Đã hủy" ${order.orderStatus === 'Đã hủy' ? 'selected' : ''}>Đã hủy (Hủy đơn hàng)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tình trạng thanh toán</label>
+              <select id="edit-order-payment-status" class="form-control" style="font-weight: 600;">
+                <option value="Chưa thanh toán" ${order.paymentStatus === 'Chưa thanh toán' ? 'selected' : ''}>Chưa thanh toán</option>
+                <option value="Chờ xác nhận" ${order.paymentStatus === 'Chờ xác nhận' ? 'selected' : ''}>Chờ xác nhận chuyển khoản</option>
+                <option value="Đã thanh toán" ${order.paymentStatus === 'Đã thanh toán' ? 'selected' : ''}>Đã thanh toán đủ</option>
+                <option value="Đã hoàn tiền" ${order.paymentStatus === 'Đã hoàn tiền' ? 'selected' : ''}>Đã hoàn tiền</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('modal-order-manage').classList.add('show');
+    }
+
+    function closeManageModal() {
+      document.getElementById('modal-order-manage').classList.remove('show');
+    }
+
+    function handleSaveOrderStatus() {
+      if (!activeEditingOrderId) return;
+      const newStatus = document.getElementById('edit-order-status').value;
+      const newPayment = document.getElementById('edit-order-payment-status').value;
+
+      QLAdmin.DataStore.updateOrderStatus(activeEditingOrderId, newStatus, newPayment);
+      QLAdmin.showToast('Cập nhật thành công', `Đơn hàng #${activeEditingOrderId} đã cập nhật sang [${newStatus}]!`, 'success');
+      closeManageModal();
+      renderOrdersTable();
+    }
+
+    function deleteOrder(orderId) {
+      if (confirm(`Bạn có chắc chắn muốn xóa đơn hàng #${orderId}? Hành động này không thể hoàn tác.`)) {
+        QLAdmin.DataStore.deleteOrder(orderId);
+        QLAdmin.showToast('Đã xóa', `Đơn hàng #${orderId} đã được xóa!`, 'info');
+        renderOrdersTable();
+      }
+    }
+
+    function openCreateOrderModal() {
+      // populate product select
+      const products = QLAdmin.DataStore.getProducts();
+      const select = document.getElementById('new-order-product-select');
+      select.innerHTML = products.map(p => `
+        <option value="${p.id}" data-price="${p.price}" data-name="${p.name}">
+          ${p.name} - ${QLAdmin.formatVND(p.price)}
+        </option>
+      `).join('');
+
+      document.getElementById('modal-create-order').classList.add('show');
+    }
+
+    function closeCreateOrderModal() {
+      document.getElementById('modal-create-order').classList.remove('show');
+    }
+
+    function handleCreateOrder(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-order-cust-name').value.trim();
+      const phone = document.getElementById('new-order-cust-phone').value.trim();
+      const company = document.getElementById('new-order-company').value.trim();
+      const email = document.getElementById('new-order-cust-email').value.trim();
+      const address = document.getElementById('new-order-address').value.trim();
+      const qty = parseInt(document.getElementById('new-order-qty').value, 10) || 1;
+      const paymentMethod = document.getElementById('new-order-payment').value;
+      const orderStatus = document.getElementById('new-order-status').value;
+      const notes = document.getElementById('new-order-notes').value.trim();
+
+      const prodSelect = document.getElementById('new-order-product-select');
+      const selectedOption = prodSelect.options[prodSelect.selectedIndex];
+      const prodId = selectedOption.value;
+      const prodName = selectedOption.getAttribute('data-name');
+      const prodPrice = parseInt(selectedOption.getAttribute('data-price'), 10) || 0;
+
+      const total = prodPrice * qty;
+      const newId = 'DH-2024-' + Math.floor(1000 + Math.random() * 9000);
+
+      const newOrder = {
+        id: newId,
+        customerName: name,
+        company: company || 'Cá nhân',
+        customerPhone: phone,
+        customerEmail: email,
+        address: address,
+        items: [
+          { id: prodId, name: prodName, price: prodPrice, quantity: qty }
+        ],
+        total: total,
+        paymentMethod: paymentMethod,
+        paymentStatus: orderStatus === 'Hoàn thành' ? 'Đã thanh toán' : 'Chưa thanh toán',
+        orderStatus: orderStatus,
+        createdAt: new Date().toISOString().replace('T', ' ').slice(0, 16),
+        notes: notes
+      };
+
+      const orders = QLAdmin.DataStore.getOrders();
+      orders.unshift(newOrder);
+      QLAdmin.DataStore.saveOrders(orders);
+
+      QLAdmin.showToast('Tạo đơn thành công', `Đơn hàng mới #${newId} giá trị ${QLAdmin.formatVND(total)} đã được thêm!`, 'success');
+      closeCreateOrderModal();
+      document.getElementById('form-create-order').reset();
+      renderOrdersTable();
+    }
+
+    function exportOrdersToCSV() {
+      const orders = QLAdmin.DataStore.getOrders();
+      const headers = ['Mã Đơn', 'Khách Hàng', 'Công Ty', 'Số Điện Thoại', 'Địa Chỉ', 'Sản Phẩm', 'Tổng Tiền (VNĐ)', 'Phương Thức TT', 'Trạng Thái TT', 'Trạng Thái Đơn', 'Ngày Đặt'];
+      const rows = orders.map(o => [
+        o.id,
+        o.customerName,
+        o.company || '',
+        o.customerPhone,
+        o.address || '',
+        (o.items || []).map(i => `${i.name} (x${i.quantity})`).join('; '),
+        o.total,
+        o.paymentMethod || '',
+        o.paymentStatus || '',
+        o.orderStatus,
+        o.createdAt
+      ]);
+
+      QLAdmin.exportToCSV('danh-sach-don-hang-quang-loi.csv', rows, headers);
+    }
+  </script>
+</body>
+</html>

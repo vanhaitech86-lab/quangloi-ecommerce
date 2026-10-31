@@ -1,0 +1,112 @@
+[
+  {
+    "id": "canon",
+    "name": "Canon",
+    "country": "Nhật Bản",
+    "logo": "fa-copyright",
+    "badge": "Đối tác ủy quyền",
+    "description": "Thương hiệu công nghệ hình ảnh và in ấn số 1 thế giới đến từ Nhật Bản. Các sản phẩm máy photocopy imageRUNNER và máy in Canon luôn dẫn đầu về độ bền, chất lượng bản in và sự ổn định.",
+    "website": "https://vn.canon",
+    "popularCategories": ["Máy Photocopy", "Máy In", "Máy Scan", "Mực In"],
+    "productsCount": 8
+  },
+  {
+    "id": "ricoh",
+    "name": "Ricoh",
+    "country": "Nhật Bản",
+    "logo": "fa-r",
+    "badge": "Thương hiệu số 1 VP",
+    "description": "Tập đoàn công nghệ đa quốc gia Nhật Bản hàng đầu trong phân khúc máy photocopy công nghiệp và văn phòng. Nổi tiếng với độ bền cơ học cao, tốc độ in vượt trội và phần mềm quản lý tài liệu tiên tiến.",
+    "website": "https://www.ricoh.com.vn",
+    "popularCategories": ["Máy Photocopy Trắng Đen", "Máy Photocopy Màu", "Cho Thuê Máy"],
+    "productsCount": 3
+  },
+  {
+    "id": "fuji-xerox",
+    "name": "Fujifilm / Fuji Xerox",
+    "country": "Nhật Bản",
+    "logo": "fa-cube",
+    "badge": "Chất lượng đồ họa",
+    "description": "Thương hiệu huyền thoại trong ngành in ấn và xử lý hình ảnh toàn cầu. Dòng máy đa năng ApeosPort được yêu thích bởi độ chuẩn màu xuất sắc, tính bảo mật dữ liệu cấp chính phủ và vận hành siêu êm.",
+    "website": "https://www.fujifilm.com/fbvn",
+    "popularCategories": ["Máy Photocopy", "Máy In Công Nghiệp"],
+    "productsCount": 1
+  },
+  {
+    "id": "brother",
+    "name": "Brother",
+    "country": "Nhật Bản",
+    "logo": "fa-b",
+    "badge": "Tiết kiệm chi phí",
+    "description": "Thương hiệu máy in và máy đa chức năng nổi tiếng thế giới của Nhật Bản. Dòng máy TonerBox của Brother tiên phong mang lại giải pháp hộp mực chính hãng giá rẻ nhất thị trường.",
+    "website": "https://www.brother.com.vn",
+    "popularCategories": ["Máy In Laser", "Máy In Đa Năng", "Máy Scan"],
+    "productsCount": 1
+  },
+  {
+    "id": "hp",
+    "name": "HP (Hewlett-Packard)",
+    "country": "Hoa Kỳ",
+    "logo": "fa-laptop",
+    "badge": "Tiêu chuẩn Mỹ",
+    "description": "Tập đoàn công nghệ hàng đầu thế giới từ Thung lũng Silicon Hoa Kỳ. Dòng máy in HP LaserJet nổi tiếng với tốc độ in nhanh, khả năng kết nối mạng linh hoạt và bảo mật HP Wolf Security nhiều lớp.",
+    "website": "https://www.hp.com/vn-vi",
+    "popularCategories": ["Máy In Laser", "Máy In Đa Chức Năng"],
+    "productsCount": 1
+  },
+  {
+    "id": "epson",
+    "name": "Epson",
+    "country": "Nhật Bản",
+    "logo": "fa-e",
+    "badge": "Tiên phong In Phun",
+    "description": "Tập đoàn công nghệ in ấn Seiko Epson Nhật Bản. Đột phá với công nghệ đầu in Heat-Free không dùng nhiệt và hệ thống bình mực EcoTank dung lượng cực lớn, tiết kiệm 90% chi phí in ấn.",
+    "website": "https://www.epson.com.vn",
+    "popularCategories": ["Máy In Phun Màu", "Máy In Ảnh", "Máy Scan"],
+    "productsCount": 1
+  },
+  {
+    "id": "bosai",
+    "name": "Bosai",
+    "country": "Đức / Trung Quốc",
+    "logo": "fa-shield-halved",
+    "badge": "Hủy êm - Bền bỉ",
+    "description": "Thương hiệu chuyên biệt về thiết bị hủy tài liệu văn phòng chất lượng cao. Dao cắt làm từ thép hợp kim nguyên khối, bảo vệ an toàn thông tin mật cho doanh nghiệp và cơ quan.",
+    "website": "https://quangloi.com.vn",
+    "popularCategories": ["Máy Hủy Tài Liệu", "Thiết Bị Văn Phòng"],
+    "productsCount": 1
+  },
+  {
+    "id": "magitech",
+    "name": "Magitech",
+    "country": "Đức",
+    "logo": "fa-file-shield",
+    "badge": "Bảo mật ngân hàng",
+    "description": "Thương hiệu thiết bị văn phòng công nghệ Đức tiêu chuẩn khắt khe. Dòng máy hủy tài liệu Magitech đạt cấp độ bảo mật DIN P-4, P-5 với khả năng hủy siêu vụn thành bột giấy không thể tái tạo.",
+    "website": "https://quangloi.com.vn",
+    "popularCategories": ["Máy Hủy Tài Liệu Siêu Vụn"],
+    "productsCount": 1
+  },
+  {
+    "id": "silicon",
+    "name": "Silicon",
+    "country": "Hoa Kỳ",
+    "logo": "fa-microchip",
+    "badge": "Công nghệ Mỹ",
+    "description": "Thương hiệu thiết bị ngân hàng và văn phòng theo dây chuyền công nghệ hiện đại của Mỹ. Dòng máy đếm tiền và kiểm giả Silicon nổi tiếng về độ chính xác tuyệt đối và tốc độ đếm nhanh chóng.",
+    "website": "https://quangloi.com.vn",
+    "popularCategories": ["Máy Đếm Tiền", "Máy Kiểm Giả"],
+    "productsCount": 1
+  },
+  {
+    "id": "ronald-jack",
+    "name": "Ronald Jack",
+    "country": "Malaysia",
+    "logo": "fa-fingerprint",
+    "badge": "Chấm công quốc dân",
+    "description": "Thương hiệu thiết bị kiểm soát ra vào và chấm công hàng đầu Đông Nam Á. Mắt đọc quang học bền bỉ, nhận diện nhanh nhạy và phần mềm quản lý chấm công tiếng Việt trực quan, dễ sử dụng.",
+    "website": "https://quangloi.com.vn",
+    "popularCategories": ["Máy Chấm Công Vân Tay", "Máy Chấm Công Thẻ Từ", "Kiểm Soát Cửa"],
+    "productsCount": 1
+  }
+]

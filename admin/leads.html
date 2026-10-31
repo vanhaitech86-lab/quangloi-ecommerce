@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Leads & Bán Hàng | Quảng Lợi Admin</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon-box">QL</div>
+        <div class="brand-info">
+          <div class="brand-name">QUẢNG LỢI</div>
+          <div class="brand-sub">Admin & CRM</div>
+        </div>
+      </div>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-title">Tổng Quan & Vận Hành</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="orders.html" class="nav-link">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>Đơn Hàng</span>
+              <span id="badge-orders-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="customers.html" class="nav-link">
+              <i class="fa-solid fa-users"></i>
+              <span>Khách Hàng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="products.html" class="nav-link">
+              <i class="fa-solid fa-box-open"></i>
+              <span>Sản Phẩm</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Tài Sản & Khách Hàng</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="devices.html" class="nav-link">
+              <i class="fa-solid fa-print"></i>
+              <span>Quản Lý Thiết Bị</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="leads.html" class="nav-link">
+              <i class="fa-solid fa-comments"></i>
+              <span>Quản Lý Leads</span>
+              <span id="badge-leads-count" class="nav-badge" style="display:none;">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Hệ Thống & Báo Cáo</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="reports.html" class="nav-link">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Báo Cáo & Thống Kê</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="settings.html" class="nav-link">
+              <i class="fa-solid fa-gear"></i>
+              <span>Cài Đặt Hệ Thống</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" class="sidebar-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-username">Admin Quảng Lợi</div>
+            <div class="sidebar-role">Quản Trị Cấp Cao</div>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout btn-logout-action" title="Đăng Xuất">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button id="btn-toggle-sidebar" class="btn-menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div style="font-weight: 700; color: var(--text-primary); font-size: 15px;">
+            Pipeline Bán Hàng & Chăm Sóc Khách Hàng Tiềm Năng (Leads CRM)
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="topbar-datetime">
+            <i class="fa-regular fa-clock"></i>
+            <span id="current-time-clock">--:--:--</span>
+          </div>
+
+          <div class="topbar-actions">
+            <a href="../index.html" target="_blank" class="btn-view-site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Xem Website</span>
+            </a>
+            <button class="btn-icon btn-logout-action" title="Đăng xuất">
+              <i class="fa-solid fa-power-off" style="color: #ef4444;"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="admin-content">
+        <!-- HEADER -->
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">
+              <i class="fa-solid fa-funnel-dollar" style="color: var(--primary);"></i>
+              Phễu Bán Hàng & Leads
+            </h1>
+            <p class="page-desc">Theo dõi tiến trình đàm phán hợp đồng thuê máy photocopy và thiết bị văn phòng từ khách tiềm năng</p>
+          </div>
+          <div class="page-header-actions">
+            <!-- View Mode Switcher -->
+            <div style="display: flex; background: #e2e8f0; border-radius: 8px; padding: 2px;">
+              <button class="btn btn-sm" id="btn-view-kanban" style="background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.05); font-weight: 600;">
+                <i class="fa-solid fa-table-columns"></i> Kanban Board
+              </button>
+              <button class="btn btn-sm" id="btn-view-table" style="background: transparent; color: #64748b; font-weight: 500;">
+                <i class="fa-solid fa-list"></i> Bảng Chi Tiết
+              </button>
+            </div>
+            <button class="btn btn-secondary" id="btn-export-leads-csv">
+              <i class="fa-solid fa-file-csv"></i> Xuất CSV
+            </button>
+            <button class="btn btn-primary" id="btn-open-add-lead">
+              <i class="fa-solid fa-plus"></i> Thêm Lead Mới
+            </button>
+          </div>
+        </div>
+
+        <!-- FILTER BAR -->
+        <div class="filter-bar">
+          <div style="position: relative; flex: 1; min-width: 220px;">
+            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 11px; color: #94a3b8; font-size: 13px;"></i>
+            <input type="text" id="lead-search" class="filter-input" style="width: 100%; padding-left: 34px;" placeholder="Tìm theo tên khách, SĐT, nhu cầu máy...">
+          </div>
+
+          <div class="filter-group">
+            <label>Nguồn lead:</label>
+            <select id="lead-filter-source" class="filter-select">
+              <option value="">Tất cả các nguồn</option>
+              <option value="Website">Website (Form liên hệ)</option>
+              <option value="Hotline">Hotline</option>
+              <option value="Zalo">Zalo OA</option>
+              <option value="Giới thiệu">Khách hàng giới thiệu</option>
+              <option value="Walk-in">Khách đến Showroom</option>
+            </select>
+          </div>
+
+          <div class="filter-group" id="filter-group-stage" style="display: none;">
+            <label>Giai đoạn:</label>
+            <select id="lead-filter-stage" class="filter-select">
+              <option value="">Tất cả các giai đoạn</option>
+              <option value="Mới">Mới</option>
+              <option value="Đang liên hệ">Đang liên hệ</option>
+              <option value="Đã báo giá">Đã báo giá</option>
+              <option value="Thương lượng">Thương lượng</option>
+              <option value="Thành công">Thành công</option>
+              <option value="Thất bại">Thất bại</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary btn-sm" id="btn-reset-lead-filters">
+            <i class="fa-solid fa-filter-circle-xmark"></i> Xóa lọc
+          </button>
+        </div>
+
+        <!-- VIEW 1: KANBAN BOARD -->
+        <div id="leads-kanban-view" class="kanban-board">
+          <!-- Column 1: Mới -->
+          <div class="kanban-col new" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'Mới')">
+            <div class="kanban-header">
+              <span class="kanban-title"><i class="fa-solid fa-bolt" style="color: #3b82f6;"></i> Mới Tiếp Nhận</span>
+              <span class="kanban-count" id="count-stage-moi">0</span>
+            </div>
+            <div class="kanban-body" id="col-stage-moi"></div>
+          </div>
+
+          <!-- Column 2: Đang liên hệ -->
+          <div class="kanban-col contacting" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'Đang liên hệ')">
+            <div class="kanban-header">
+              <span class="kanban-title"><i class="fa-solid fa-phone" style="color: #f59e0b;"></i> Đang Liên Hệ</span>
+              <span class="kanban-count" id="count-stage-contacting">0</span>
+            </div>
+            <div class="kanban-body" id="col-stage-contacting"></div>
+          </div>
+
+          <!-- Column 3: Đã báo giá -->
+          <div class="kanban-col quoted" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'Đã báo giá')">
+            <div class="kanban-header">
+              <span class="kanban-title"><i class="fa-solid fa-file-invoice-dollar" style="color: #8b5cf6;"></i> Đã Báo Giá</span>
+              <span class="kanban-count" id="count-stage-quoted">0</span>
+            </div>
+            <div class="kanban-body" id="col-stage-quoted"></div>
+          </div>
+
+          <!-- Column 4: Thương lượng -->
+          <div class="kanban-col negotiating" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'Thương lượng')">
+            <div class="kanban-header">
+              <span class="kanban-title"><i class="fa-solid fa-handshake" style="color: #06b6d4;"></i> Thương Lượng</span>
+              <span class="kanban-count" id="count-stage-negotiating">0</span>
+            </div>
+            <div class="kanban-body" id="col-stage-negotiating"></div>
+          </div>
+
+          <!-- Column 5: Thành công -->
+          <div class="kanban-col won" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'Thành công')">
+            <div class="kanban-header">
+              <span class="kanban-title"><i class="fa-solid fa-circle-check" style="color: #10b981;"></i> Đã Ký / Thành Công</span>
+              <span class="kanban-count" id="count-stage-won">0</span>
+            </div>
+            <div class="kanban-body" id="col-stage-won"></div>
+          </div>
+
+          <!-- Column 6: Thất bại -->
+          <div class="kanban-col lost" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'Thất bại')">
+            <div class="kanban-header">
+              <span class="kanban-title"><i class="fa-solid fa-circle-xmark" style="color: #ef4444;"></i> Thất Bại</span>
+              <span class="kanban-count" id="count-stage-lost">0</span>
+            </div>
+            <div class="kanban-body" id="col-stage-lost"></div>
+          </div>
+        </div>
+
+        <!-- VIEW 2: TABLE VIEW (Initially Hidden) -->
+        <div id="leads-table-view" class="card" style="display: none;">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Mã Lead</th>
+                  <th>Họ Tên & Công Ty</th>
+                  <th>Số Điện Thoại</th>
+                  <th>Sản Phẩm Quan Tâm</th>
+                  <th>Nguồn</th>
+                  <th>Giai Đoạn</th>
+                  <th>Hẹn Liên Hệ Lại</th>
+                  <th>Ngày Tiếp Nhận</th>
+                  <th style="text-align: right;">Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="leads-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT LEAD -->
+  <div id="modal-lead-form" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-headset" style="color: var(--primary);"></i>
+          <span id="lead-form-title">Tiếp Nhận Lead Mới</span>
+        </div>
+        <button class="btn-close-modal" onclick="closeLeadFormModal()">&times;</button>
+      </div>
+      <form id="form-lead">
+        <div class="modal-body">
+          <input type="hidden" id="lead-id">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label required">Họ và Tên Khách</label>
+              <input type="text" id="lead-name" class="form-control" required placeholder="Trần Thị B...">
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Số Điện Thoại</label>
+              <input type="text" id="lead-phone" class="form-control" required placeholder="0912 345 678">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tên Công Ty / Đơn Vị</label>
+              <input type="text" id="lead-company" class="form-control" placeholder="Công ty CP Đầu Tư...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="lead-email" class="form-control" placeholder="khachhang@congty.com">
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label required">Sản Phẩm / Dịch Vụ Quan Tâm</label>
+              <input type="text" id="lead-product" class="form-control" required placeholder="Ví dụ: Thuê máy photocopy Ricoh MP 2014D hoặc Mua máy scan Canon...">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nguồn Lead</label>
+              <select id="lead-source" class="form-control">
+                <option value="Website">Website (Form liên hệ)</option>
+                <option value="Hotline">Hotline</option>
+                <option value="Zalo">Zalo OA</option>
+                <option value="Giới thiệu">Khách hàng giới thiệu</option>
+                <option value="Walk-in">Khách đến trực tiếp showroom</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giai Đoạn Xử Lý</label>
+              <select id="lead-stage" class="form-control">
+                <option value="Mới">Mới</option>
+                <option value="Đang liên hệ">Đang liên hệ</option>
+                <option value="Đã báo giá">Đã báo giá</option>
+                <option value="Thương lượng">Thương lượng</option>
+                <option value="Thành công">Thành công (Ký hợp đồng)</option>
+                <option value="Thất bại">Thất bại</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hẹn Liên Hệ Lại (Follow-up)</label>
+              <input type="date" id="lead-followup" class="form-control">
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label">Ghi Chú Nhu Cầu & Diễn Biến Trao Đổi</label>
+              <textarea id="lead-notes" class="form-control" rows="3" placeholder="Ghi lại ngân sách, số lượng máy, chi nhánh lắp đặt, yêu cầu đặc biệt..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeLeadFormModal()">Hủy</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu Lead
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: LEAD DETAIL & CONVERT -->
+  <div id="modal-lead-detail" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-address-card" style="color: var(--primary);"></i>
+          Chi Tiết Cơ Hội: <span id="lead-detail-title-name" style="margin-left: 6px; color: var(--primary);"></span>
+        </div>
+        <button class="btn-close-modal" onclick="closeLeadDetailModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="lead-detail-content">
+        <!-- Dynamically injected -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeLeadDetailModal()">Đóng</button>
+        <button class="btn btn-secondary" id="btn-edit-lead-from-detail">
+          <i class="fa-solid fa-pen-to-square"></i> Sửa Lead
+        </button>
+        <button class="btn btn-success" id="btn-convert-to-customer">
+          <i class="fa-solid fa-user-check"></i> Chuyển Thành Khách Hàng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-core.js"></script>
+  <script>
+    let currentViewMode = 'kanban';
+    let draggedLeadId = null;
+    let activeViewingLeadId = null;
+
+    const STAGE_KEYS = {
+      'Mới': 'moi',
+      'Đang liên hệ': 'contacting',
+      'Đã báo giá': 'quoted',
+      'Thương lượng': 'negotiating',
+      'Thành công': 'won',
+      'Thất bại': 'lost'
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLeads();
+
+      // View toggle
+      document.getElementById('btn-view-kanban').addEventListener('click', () => setViewMode('kanban'));
+      document.getElementById('btn-view-table').addEventListener('click', () => setViewMode('table'));
+
+      // Filter events
+      document.getElementById('lead-search').addEventListener('input', renderLeads);
+      document.getElementById('lead-filter-source').addEventListener('change', renderLeads);
+      document.getElementById('lead-filter-stage').addEventListener('change', renderLeads);
+      document.getElementById('btn-reset-lead-filters').addEventListener('click', () => {
+        document.getElementById('lead-search').value = '';
+        document.getElementById('lead-filter-source').value = '';
+        document.getElementById('lead-filter-stage').value = '';
+        renderLeads();
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-leads-csv').addEventListener('click', exportLeadsToCSV);
+
+      // Add Lead
+      document.getElementById('btn-open-add-lead').addEventListener('click', () => openLeadFormModal());
+      document.getElementById('form-lead').addEventListener('submit', handleSaveLead);
+
+      // Convert lead in detail modal
+      document.getElementById('btn-convert-to-customer').addEventListener('click', handleConvertActiveLead);
+      document.getElementById('btn-edit-lead-from-detail').addEventListener('click', () => {
+        if (activeViewingLeadId) {
+          closeLeadDetailModal();
+          openLeadFormModal(activeViewingLeadId);
+        }
+      });
+    });
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      const kanbanBtn = document.getElementById('btn-view-kanban');
+      const tableBtn = document.getElementById('btn-view-table');
+      const kanbanView = document.getElementById('leads-kanban-view');
+      const tableView = document.getElementById('leads-table-view');
+      const stageFilterGroup = document.getElementById('filter-group-stage');
+
+      if (mode === 'kanban') {
+        kanbanBtn.style.background = '#fff';
+        kanbanBtn.style.color = 'var(--text-primary)';
+        tableBtn.style.background = 'transparent';
+        tableBtn.style.color = '#64748b';
+        kanbanView.style.display = 'grid';
+        tableView.style.display = 'none';
+        stageFilterGroup.style.display = 'none';
+      } else {
+        tableBtn.style.background = '#fff';
+        tableBtn.style.color = 'var(--text-primary)';
+        kanbanBtn.style.background = 'transparent';
+        kanbanBtn.style.color = '#64748b';
+        kanbanView.style.display = 'none';
+        tableView.style.display = 'block';
+        stageFilterGroup.style.display = 'flex';
+      }
+      renderLeads();
+    }
+
+    function renderLeads() {
+      const leads = QLAdmin.DataStore.getLeads();
+      const q = document.getElementById('lead-search').value.trim().toLowerCase();
+      const sourceFilter = document.getElementById('lead-filter-source').value;
+      const stageFilter = document.getElementById('lead-filter-stage').value;
+
+      const filtered = leads.filter(l => {
+        const matchQ = !q ||
+          l.id.toLowerCase().includes(q) ||
+          (l.name && l.name.toLowerCase().includes(q)) ||
+          (l.company && l.company.toLowerCase().includes(q)) ||
+          (l.phone && l.phone.includes(q)) ||
+          (l.interestedProduct && l.interestedProduct.toLowerCase().includes(q));
+
+        const matchSource = !sourceFilter || l.source === sourceFilter;
+        const matchStage = !stageFilter || l.stage === stageFilter;
+
+        return matchQ && matchSource && matchStage;
+      });
+
+      if (currentViewMode === 'kanban') {
+        renderKanban(filtered);
+      } else {
+        renderTable(filtered);
+      }
+    }
+
+    function renderKanban(leads) {
+      const cols = {
+        'moi': document.getElementById('col-stage-moi'),
+        'contacting': document.getElementById('col-stage-contacting'),
+        'quoted': document.getElementById('col-stage-quoted'),
+        'negotiating': document.getElementById('col-stage-negotiating'),
+        'won': document.getElementById('col-stage-won'),
+        'lost': document.getElementById('col-stage-lost')
+      };
+
+      const counts = {
+        'moi': 0, 'contacting': 0, 'quoted': 0, 'negotiating': 0, 'won': 0, 'lost': 0
+      };
+
+      // Clear columns
+      Object.values(cols).forEach(col => col.innerHTML = '');
+
+      leads.forEach(l => {
+        const colKey = STAGE_KEYS[l.stage] || 'moi';
+        counts[colKey]++;
+
+        const card = document.createElement('div');
+        card.className = 'lead-card';
+        card.setAttribute('draggable', 'true');
+        card.setAttribute('data-id', l.id);
+        card.addEventListener('dragstart', (e) => handleDragStart(e, l.id));
+        card.addEventListener('click', () => openLeadDetailModal(l.id));
+
+        card.innerHTML = `
+          <div class="lead-title">${l.name}</div>
+          <div class="lead-phone"><i class="fa-solid fa-phone"></i> ${l.phone}</div>
+          <div class="lead-product">${l.interestedProduct}</div>
+          <div class="lead-meta">
+            <span><i class="fa-solid fa-tag"></i> ${l.source}</span>
+            <span>${QLAdmin.formatDateShort(l.createdAt)}</span>
+          </div>
+        `;
+        cols[colKey].appendChild(card);
+      });
+
+      // Update counters
+      Object.keys(counts).forEach(k => {
+        const el = document.getElementById(`count-stage-${k}`);
+        if (el) el.textContent = counts[k];
+      });
+    }
+
+    function renderTable(leads) {
+      const tbody = document.getElementById('leads-table-body');
+      if (leads.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align: center; padding: 32px; color: #94a3b8;">Không tìm thấy lead nào phù hợp</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = leads.map(l => {
+        let badgeClass = 'badge-primary';
+        if (l.stage === 'Thành công') badgeClass = 'badge-success';
+        if (l.stage === 'Đang liên hệ') badgeClass = 'badge-warning';
+        if (l.stage === 'Đã báo giá') badgeClass = 'badge-info';
+        if (l.stage === 'Thất bại') badgeClass = 'badge-danger';
+
+        return `
+          <tr>
+            <td><strong style="color: var(--primary); font-family: monospace;">${l.id}</strong></td>
+            <td>
+              <div style="font-weight: 600;">${l.name}</div>
+              <div style="font-size: 11px; color: #64748b;">${l.company || 'Cá nhân'}</div>
+            </td>
+            <td><strong style="color: var(--primary); font-size: 13px;">${l.phone}</strong></td>
+            <td>
+              <div style="max-width: 240px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${l.interestedProduct}">
+                ${l.interestedProduct}
+              </div>
+            </td>
+            <td><span style="font-size: 12px; font-weight: 500;">${l.source}</span></td>
+            <td><span class="badge ${badgeClass}">${l.stage}</span></td>
+            <td><span style="font-size: 12px; color: ${l.followUpDate ? '#b45309; font-weight:600;' : '#94a3b8'}">${l.followUpDate ? QLAdmin.formatDateShort(l.followUpDate) : '--'}</span></td>
+            <td><span style="font-size: 12px; color: #64748b;">${QLAdmin.formatDateShort(l.createdAt)}</span></td>
+            <td style="text-align: right;">
+              <div class="table-actions" style="justify-content: flex-end;">
+                <button class="btn-action" title="Chi tiết" onclick="openLeadDetailModal('${l.id}')">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+                <button class="btn-action" title="Sửa" onclick="openLeadFormModal('${l.id}')">
+                  <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+                <button class="btn-action delete" title="Xóa" onclick="deleteLead('${l.id}')">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // DRAG AND DROP
+    function handleDragStart(e, id) {
+      draggedLeadId = id;
+      e.dataTransfer.setData('text/plain', id);
+    }
+
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function handleDrop(e, newStage) {
+      e.preventDefault();
+      const id = e.dataTransfer.getData('text/plain') || draggedLeadId;
+      if (id) {
+        QLAdmin.DataStore.updateLeadStage(id, newStage);
+        QLAdmin.showToast('Cập nhật phễu', `Lead #${id} đã chuyển sang [${newStage}]!`, 'success');
+        renderLeads();
+      }
+    }
+
+    // MODAL FORM
+    function openLeadFormModal(leadId = null) {
+      const modal = document.getElementById('modal-lead-form');
+      const form = document.getElementById('form-lead');
+      form.reset();
+
+      if (leadId) {
+        const l = QLAdmin.DataStore.getLead(leadId);
+        if (!l) return;
+        document.getElementById('lead-form-title').textContent = `Chỉnh Sửa Lead [${l.id}]`;
+        document.getElementById('lead-id').value = l.id;
+        document.getElementById('lead-name').value = l.name || '';
+        document.getElementById('lead-phone').value = l.phone || '';
+        document.getElementById('lead-company').value = l.company || '';
+        document.getElementById('lead-email').value = l.email || '';
+        document.getElementById('lead-product').value = l.interestedProduct || '';
+        document.getElementById('lead-source').value = l.source || 'Website';
+        document.getElementById('lead-stage').value = l.stage || 'Mới';
+        document.getElementById('lead-followup').value = l.followUpDate || '';
+        document.getElementById('lead-notes').value = l.notes || '';
+      } else {
+        document.getElementById('lead-form-title').textContent = 'Tiếp Nhận Lead Mới';
+        document.getElementById('lead-id').value = '';
+        document.getElementById('lead-stage').value = 'Mới';
+        document.getElementById('lead-source').value = 'Website';
+      }
+
+      modal.classList.add('show');
+    }
+
+    function closeLeadFormModal() {
+      document.getElementById('modal-lead-form').classList.remove('show');
+    }
+
+    function handleSaveLead(e) {
+      e.preventDefault();
+      const id = document.getElementById('lead-id').value;
+      const name = document.getElementById('lead-name').value.trim();
+      const phone = document.getElementById('lead-phone').value.trim();
+      const company = document.getElementById('lead-company').value.trim();
+      const email = document.getElementById('lead-email').value.trim();
+      const product = document.getElementById('lead-product').value.trim();
+      const source = document.getElementById('lead-source').value;
+      const stage = document.getElementById('lead-stage').value;
+      const followUpDate = document.getElementById('lead-followup').value;
+      const notes = document.getElementById('lead-notes').value.trim();
+
+      const leadData = {
+        name,
+        phone,
+        company: company || 'Cá nhân',
+        email,
+        interestedProduct: product,
+        source,
+        stage,
+        followUpDate,
+        notes
+      };
+
+      if (id) {
+        leadData.id = id;
+      }
+
+      QLAdmin.DataStore.saveLead(leadData);
+      QLAdmin.showToast('Thành công', `Đã lưu thông tin lead [${name}]!`, 'success');
+      closeLeadFormModal();
+      renderLeads();
+    }
+
+    function deleteLead(id) {
+      if (confirm(`Bạn có chắc muốn xóa lead #${id}?`)) {
+        QLAdmin.DataStore.deleteLead(id);
+        QLAdmin.showToast('Đã xóa', `Đã xóa lead #${id}`, 'info');
+        renderLeads();
+      }
+    }
+
+    function openLeadDetailModal(leadId) {
+      activeViewingLeadId = leadId;
+      const l = QLAdmin.DataStore.getLead(leadId);
+      if (!l) return;
+
+      document.getElementById('lead-detail-title-name').textContent = `${l.name} (${l.id})`;
+
+      document.getElementById('lead-detail-content').innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 16px; border-radius: 8px; margin-bottom: 20px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Khách hàng</div>
+            <div style="font-size: 16px; font-weight: 700; margin-top: 2px;">${l.name}</div>
+            <div style="font-size: 13px; color: #475569;">${l.company || 'Cá nhân'}</div>
+            <div style="font-size: 13px; color: var(--primary); font-weight: 600; margin-top: 4px;">
+              <i class="fa-solid fa-phone"></i> ${l.phone}
+            </div>
+            ${l.email ? `<div style="font-size: 12px; color: #64748b;"><i class="fa-solid fa-envelope"></i> ${l.email}</div>` : ''}
+          </div>
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Thông tin cơ hội</div>
+            <div style="font-size: 12px; margin-top: 3px;"><strong>Nguồn:</strong> ${l.source}</div>
+            <div style="font-size: 12px; margin-top: 3px;"><strong>Ngày tiếp nhận:</strong> ${QLAdmin.formatDate(l.createdAt)}</div>
+            <div style="font-size: 12px; margin-top: 3px;"><strong>Hạn follow-up:</strong> <span style="color:#b45309; font-weight:600;">${l.followUpDate ? QLAdmin.formatDateShort(l.followUpDate) : 'Chưa đặt hẹn'}</span></div>
+          </div>
+        </div>
+
+        <div style="background: #eff6ff; border-left: 4px solid var(--primary); padding: 14px 16px; border-radius: 6px; margin-bottom: 16px;">
+          <div style="font-size: 11px; text-transform: uppercase; color: #1e40af; font-weight: 700;">Sản phẩm / Dịch vụ đang hỏi:</div>
+          <div style="font-size: 14px; font-weight: 700; color: #1e3a8a; margin-top: 2px;">${l.interestedProduct}</div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px; display: block;">Thay đổi giai đoạn phễu:</label>
+          <select id="detail-stage-select" class="form-control" onchange="quickUpdateStage('${l.id}', this.value)" style="font-weight: 600;">
+            <option value="Mới" ${l.stage === 'Mới' ? 'selected' : ''}>Mới tiếp nhận</option>
+            <option value="Đang liên hệ" ${l.stage === 'Đang liên hệ' ? 'selected' : ''}>Đang liên hệ tư vấn</option>
+            <option value="Đã báo giá" ${l.stage === 'Đã báo giá' ? 'selected' : ''}>Đã gửi bảng báo giá</option>
+            <option value="Thương lượng" ${l.stage === 'Thương lượng' ? 'selected' : ''}>Đang đàm phán hợp đồng</option>
+            <option value="Thành công" ${l.stage === 'Thành công' ? 'selected' : ''}>Thành công (Ký hợp đồng)</option>
+            <option value="Thất bại" ${l.stage === 'Thất bại' ? 'selected' : ''}>Thất bại (Khách không thuê/mua)</option>
+          </select>
+        </div>
+
+        <div style="background: #fffbeb; padding: 14px; border-radius: 8px; border: 1px solid #fef3c7;">
+          <div style="font-size: 12px; font-weight: 700; color: #92400e; margin-bottom: 4px;">
+            <i class="fa-solid fa-note-sticky"></i> Ghi chú trao đổi & nhu cầu:
+          </div>
+          <p style="font-size: 13px; color: #78350f; white-space: pre-wrap; margin: 0;">${l.notes || 'Chưa có ghi chú'}</p>
+        </div>
+      `;
+
+      document.getElementById('modal-lead-detail').classList.add('show');
+    }
+
+    function quickUpdateStage(leadId, newStage) {
+      QLAdmin.DataStore.updateLeadStage(leadId, newStage);
+      QLAdmin.showToast('Thành công', `Lead đã chuyển sang trạng thái [${newStage}]!`, 'success');
+      renderLeads();
+    }
+
+    function handleConvertActiveLead() {
+      if (!activeViewingLeadId) return;
+      const cust = QLAdmin.DataStore.convertLeadToCustomer(activeViewingLeadId);
+      if (cust) {
+        QLAdmin.showToast('Chuyển đổi thành công', `Đã chuyển Lead thành Khách Hàng [${cust.name}]!`, 'success');
+        closeLeadDetailModal();
+        renderLeads();
+      }
+    }
+
+    function closeLeadDetailModal() {
+      document.getElementById('modal-lead-detail').classList.remove('show');
+    }
+
+    function exportLeadsToCSV() {
+      const leads = QLAdmin.DataStore.getLeads();
+      const headers = ['Mã Lead', 'Họ Tên', 'Công Ty', 'Số ĐT', 'Email', 'Sản Phẩm Quan Tâm', 'Nguồn', 'Giai Đoạn', 'Ngày Nhận', 'Hẹn Gọi Lại', 'Ghi Chú'];
+      const rows = leads.map(l => [
+        l.id,
+        l.name,
+        l.company || '',
+        l.phone,
+        l.email || '',
+        l.interestedProduct,
+        l.source,
+        l.stage,
+        l.createdAt,
+        l.followUpDate || '',
+        (l.notes || '').replace(/\n/g, ' ')
+      ]);
+
+      QLAdmin.exportToCSV('danh-sach-leads-quang-loi.csv', rows, headers);
+    }
+  </script>
+</body>
+</html>
