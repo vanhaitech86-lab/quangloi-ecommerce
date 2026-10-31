@@ -251,6 +251,24 @@
       const leads = JSON.parse(localStorage.getItem(CRM_LEADS_KEY) || '[]');
       leads.push(leadData);
       localStorage.setItem(CRM_LEADS_KEY, JSON.stringify(leads));
+
+      // Đồng bộ trực tiếp vào CRM Admin (ql_leads)
+      const qlLeads = JSON.parse(localStorage.getItem('ql_leads') || '[]');
+      const newLead = {
+        id: `LEAD-${String(qlLeads.length + 1).padStart(3, '0')}`,
+        name: leadData.name || 'Khách hàng',
+        phone: leadData.phone || '',
+        email: leadData.email || '',
+        company: leadData.company || 'Doanh nghiệp',
+        interestedProduct: leadData.product || 'Tư vấn chung',
+        source: leadData.source || 'Website Popup',
+        stage: 'Mới',
+        createdAt: leadData.timestamp ? leadData.timestamp.replace('T', ' ').slice(0, 16) : new Date().toISOString().replace('T', ' ').slice(0, 16),
+        notes: leadData.notes || 'Khách đăng ký qua popup nhận báo giá.',
+        followUpDate: new Date(Date.now() + 86400000).toISOString().slice(0, 10)
+      };
+      qlLeads.unshift(newLead);
+      localStorage.setItem('ql_leads', JSON.stringify(qlLeads));
     } catch (e) {
       console.error("Lưu lead thất bại:", e);
     }
