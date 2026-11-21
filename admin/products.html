@@ -142,6 +142,12 @@
           <div class="page-header-actions">
             <!-- Hidden import file input -->
             <input type="file" id="input-import-csv" accept=".csv" style="display: none;">
+            <button class="btn btn-secondary" onclick="openCategoryManager()">
+              <i class="fa-solid fa-folder-tree"></i> Quản Lý Danh Mục
+            </button>
+            <button class="btn btn-secondary" onclick="resetCatalogToDefault()">
+              <i class="fa-solid fa-rotate"></i> Đồng Bộ 219 SP Gốc
+            </button>
             <button class="btn btn-secondary" onclick="document.getElementById('input-import-csv').click()">
               <i class="fa-solid fa-file-import"></i> Nhập CSV
             </button>
@@ -165,12 +171,14 @@
             <label>Danh mục:</label>
             <select id="prod-filter-category" class="filter-select">
               <option value="">Tất cả danh mục</option>
-              <option value="Máy In Laser">Máy In Laser</option>
-              <option value="Máy In Phun">Máy In Phun</option>
-              <option value="Máy Photocopy">Máy Photocopy</option>
-              <option value="Mực In & Phụ Kiện">Mực In & Phụ Kiện</option>
-              <option value="Thiết Bị IT">Thiết Bị IT</option>
-              <option value="Thiết Bị Văn Phòng">Thiết Bị Văn Phòng</option>
+              <option value="may-photocopy">Máy photocopy</option>
+              <option value="may-in">Máy in</option>
+              <option value="may-scan">Máy scan tài liệu</option>
+              <option value="may-huy">Máy hủy tài liệu</option>
+              <option value="hut-am">Máy hút ẩm - Lọc khí</option>
+              <option value="ma-vach">Máy quét mã vạch</option>
+              <option value="vat-tu">Vật tư - Linh kiện</option>
+              <option value="cho-thue">Cho thuê máy photocopy</option>
             </select>
           </div>
 
@@ -258,12 +266,14 @@
             <div class="form-group">
               <label class="form-label required">Danh Mục</label>
               <select id="prod-category" class="form-control" required>
-                <option value="Máy In Laser">Máy In Laser</option>
-                <option value="Máy In Phun">Máy In Phun</option>
-                <option value="Máy Photocopy">Máy Photocopy</option>
-                <option value="Mực In & Phụ Kiện">Mực In & Phụ Kiện</option>
-                <option value="Thiết Bị IT">Thiết Bị IT</option>
-                <option value="Thiết Bị Văn Phòng">Thiết Bị Văn Phòng</option>
+                <option value="may-photocopy">Máy photocopy</option>
+                <option value="may-in">Máy in</option>
+                <option value="may-scan">Máy scan tài liệu</option>
+                <option value="may-huy">Máy hủy tài liệu</option>
+                <option value="hut-am">Máy hút ẩm - Lọc khí</option>
+                <option value="ma-vach">Máy quét mã vạch</option>
+                <option value="vat-tu">Vật tư - Linh kiện</option>
+                <option value="cho-thue">Cho thuê máy photocopy</option>
               </select>
             </div>
 
@@ -322,6 +332,45 @@
     </div>
   </div>
 
+  <!-- MODAL: CATEGORY MANAGER -->
+  <div id="modal-category-mgr" class="modal-backdrop">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fa-solid fa-folder-tree" style="color: var(--primary);"></i>
+          <span>Quản Lý Danh Mục Sản Phẩm Trên Website</span>
+        </div>
+        <button class="btn-close-modal" onclick="closeCategoryManager()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-add-cat" style="display:grid;grid-template-columns:150px 1fr 1fr auto;gap:10px;margin-bottom:16px;background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0">
+          <input type="text" id="cat-id-in" class="form-control" required placeholder="Mã (vd: may-fax)">
+          <input type="text" id="cat-name-in" class="form-control" required placeholder="Tên danh mục (vd: Máy Fax)">
+          <input type="text" id="cat-desc-in" class="form-control" placeholder="Mô tả SEO danh mục">
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Thêm / Lưu</button>
+        </form>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Mã Danh Mục</th>
+                <th>Tên Hiển Thị</th>
+                <th>Mô Tả SEO</th>
+                <th>Số SP</th>
+                <th style="text-align:right">Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="cat-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeCategoryManager()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../data/products.js"></script>
   <script src="js/admin-core.js"></script>
   <script>
     let selectedProductIds = new Set();
@@ -623,6 +672,95 @@
       reader.readAsText(file, 'UTF-8');
       e.target.value = '';
     }
+
+    // =========================================================================
+    // CATEGORY MANAGEMENT & CATALOG SYNC
+    // =========================================================================
+    function syncCategoryDropdowns() {
+      const cats = QLAdmin.DataStore.getCategories();
+      const filterSel = document.getElementById('prod-filter-category');
+      const formSel = document.getElementById('prod-category');
+      if (filterSel) {
+        const cur = filterSel.value;
+        filterSel.innerHTML = '<option value="">Tất cả danh mục</option>' + cats.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        filterSel.value = cur;
+      }
+      if (formSel) {
+        formSel.innerHTML = cats.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      }
+    }
+
+    function openCategoryManager() {
+      renderCategoriesTable();
+      document.getElementById('modal-category-mgr').classList.add('show');
+    }
+
+    function closeCategoryManager() {
+      document.getElementById('modal-category-mgr').classList.remove('show');
+    }
+
+    function renderCategoriesTable() {
+      const cats = QLAdmin.DataStore.getCategories();
+      const prods = QLAdmin.DataStore.getProducts();
+      const tbody = document.getElementById('cat-table-body');
+      if (!tbody) return;
+      tbody.innerHTML = cats.map(c => {
+        const cnt = prods.filter(p => p.category === c.id).length;
+        return `
+          <tr>
+            <td><code>${c.id}</code></td>
+            <td><strong>${c.name}</strong></td>
+            <td style="font-size:12px;color:#64748b">${c.desc || ''}</td>
+            <td><span class="badge badge-primary">${cnt} SP</span></td>
+            <td style="text-align:right">
+              <button class="btn-action" title="Sửa" onclick="editCategory('${c.id}')"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn-action delete" title="Xóa" onclick="deleteCategory('${c.id}')"><i class="fa-regular fa-trash-can"></i></button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      syncCategoryDropdowns();
+    }
+
+    function editCategory(id) {
+      const c = QLAdmin.DataStore.getCategories().find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('cat-id-in').value = c.id;
+      document.getElementById('cat-name-in').value = c.name;
+      document.getElementById('cat-desc-in').value = c.desc || '';
+    }
+
+    function deleteCategory(id) {
+      if (!confirm(`Xóa danh mục [${id}]?`)) return;
+      const cats = QLAdmin.DataStore.getCategories().filter(c => c.id !== id);
+      QLAdmin.DataStore.saveCategories(cats);
+      renderCategoriesTable();
+      QLAdmin.showToast('Đã xóa', `Đã xóa danh mục [${id}]`, 'info');
+    }
+
+    document.getElementById('form-add-cat').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const id = document.getElementById('cat-id-in').value.trim().toLowerCase().replace(/\s+/g, '-');
+      const name = document.getElementById('cat-name-in').value.trim();
+      const desc = document.getElementById('cat-desc-in').value.trim();
+      if (!id || !name) return;
+      const cats = QLAdmin.DataStore.getCategories();
+      const idx = cats.findIndex(c => c.id === id);
+      if (idx > -1) cats[idx] = { ...cats[idx], name, desc };
+      else cats.push({ id, name, icon: 'fa-folder', desc });
+      QLAdmin.DataStore.saveCategories(cats);
+      this.reset();
+      renderCategoriesTable();
+      QLAdmin.showToast('Thành công', `Đã lưu danh mục [${name}]!`, 'success');
+    });
+
+    function resetCatalogToDefault() {
+      if (!confirm('Đồng bộ lại toàn bộ 219 sản phẩm gốc từ quangloi.com.vn?')) return;
+      localStorage.removeItem('ql_products');
+      window.location.reload();
+    }
+
+    syncCategoryDropdowns();
   </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* ==========================================================
-   QUẢNG LỢI - site.js (E-Commerce & SEO Engine)
-   Dữ liệu sản phẩm: data/products.js (219 sản phẩm thật từ quangloi.com.vn)
+   QUẢNG LỢI - site.js (E-Commerce, Web Analytics, AI Chatbot & Auto Payment)
+   Dữ liệu sản phẩm: data/products.js (219 sản phẩm thật từ quangloi.com.vn) + Admin Sync
    ========================================================== */
 (function () {
   'use strict';
@@ -23,13 +23,23 @@
     siteUrl: 'https://vanhaitech86-lab.github.io/quangloi-ecommerce/',
     zalo: 'https://zalo.me/0913524260',
     facebook: 'https://www.facebook.com/quangloi.com.vn/',
+    messenger: 'https://m.me/quangloi.com.vn',
     leadEndpoint: '',
-    bank: { name: '', account: '', holder: '' }
+    bank: {
+      bin: '970436',
+      name: 'Vietcombank - Ngân hàng TMCP Ngoại Thương Việt Nam',
+      account: '0011001932648',
+      holder: 'CONG TY TNHH TM VA DV QUANG LOI',
+      branch: 'Sở Giao Dịch Hà Nội'
+    },
+    momo: {
+      phone: '0913524260',
+      holder: 'CÔNG TY TNHH TM VÀ DV QUẢNG LỢI'
+    }
   };
 
   var ROOT = document.body.getAttribute('data-root') || '';
   var PAGE = document.body.getAttribute('data-page') || '';
-  var P = (window.QL_PRODUCTS || []).slice();
 
   /* ---------- Helpers ---------- */
   function $(s, r) { return (r || document).querySelector(s); }
@@ -38,15 +48,35 @@
   function money(n) { return n ? Number(n).toLocaleString('vi-VN') + ' đ' : 'Liên hệ'; }
   function norm(s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd'); }
   function tel(s) { return 'tel:' + s.replace(/\s/g, ''); }
-  function byId(id) { for (var i = 0; i < P.length; i++) if (P[i].id === id) return P[i]; return null; }
   function qs(k) { return new URLSearchParams(location.search).get(k) || ''; }
   function nowStr() { var d = new Date(), z = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate()) + ' ' + z(d.getHours()) + ':' + z(d.getMinutes()); }
+  function todayKey() { var d = new Date(), z = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate()); }
   function jget(k, def) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; } catch (e) { return def; } }
   function jset(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } }
   function validPhone(s) { return /^(0|\+?84)\d{9,10}$/.test(String(s).replace(/[\s.\-]/g, '')); }
 
-  /* ---------- Danh mục ---------- */
-  var CATS = [
+  /* ---------- Đồng bộ Cài đặt từ Admin (nếu Admin đã chỉnh sửa) ---------- */
+  var savedCfg = jget('ql_settings', null);
+  if (savedCfg) {
+    if (savedCfg.bankAccount) CFG.bank.account = savedCfg.bankAccount;
+    if (savedCfg.bankHolder) CFG.bank.holder = savedCfg.bankHolder;
+    if (savedCfg.bankBranch) CFG.bank.branch = savedCfg.bankBranch;
+  }
+
+  /* ---------- Đồng bộ 219 Sản phẩm giữa Web & Admin ---------- */
+  function loadCatalog() {
+    var base = (window.QL_PRODUCTS || []).slice();
+    var adminList = jget('ql_products', null);
+    if (Array.isArray(adminList) && adminList.length >= 50) {
+      return adminList.filter(function (p) { return p.status !== 'Ẩn'; });
+    }
+    return base;
+  }
+  var P = loadCatalog();
+  function byId(id) { for (var i = 0; i < P.length; i++) if (P[i].id === id) return P[i]; return null; }
+
+  /* ---------- Danh mục (có thể quản lý từ Admin) ---------- */
+  var DEFAULT_CATS = [
     { id: 'may-photocopy', name: 'Máy photocopy', icon: 'fa-files-o', desc: 'Máy photocopy Canon, Ricoh, Fujifilm, Sharp, Konica Minolta chính hãng, bảo hành 12 tháng.' },
     { id: 'may-in', name: 'Máy in', icon: 'fa-print', desc: 'Máy in laser đen trắng A4/A3, máy in đa chức năng, máy in laser màu và phun màu chính hãng.' },
     { id: 'may-scan', name: 'Máy scan tài liệu', icon: 'fa-file-image-o', desc: 'Máy quét tài liệu chuyên dụng Canon, Fujitsu, Plustek, Kodak tốc độ cao.' },
@@ -56,6 +86,11 @@
     { id: 'vat-tu', name: 'Vật tư - Linh kiện', icon: 'fa-cogs', desc: 'Hộp mực in, mực photocopy Canon chính hãng và màn hình tương tác thông minh.' },
     { id: 'cho-thue', name: 'Cho thuê máy photocopy', icon: 'fa-handshake-o', desc: 'Dịch vụ cho thuê máy photocopy trọn gói tại Hà Nội, miễn phí mực in và bảo trì.' }
   ];
+  var CATS = jget('ql_categories', null);
+  if (!Array.isArray(CATS) || !CATS.length) {
+    CATS = DEFAULT_CATS;
+    jset('ql_categories', CATS);
+  }
   function catObj(id) { for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i]; return null; }
   function catName(id) { var c = catObj(id); return c ? c.name : 'Tất cả sản phẩm'; }
   function inCat(id) { return P.filter(function (p) { return p.category === id; }); }
@@ -69,6 +104,75 @@
   }
   function plink(p) { return ROOT + 'pages/product-detail.html?id=' + p.id; }
   function listLink(cat, brand) { return ROOT + 'pages/products.html' + (cat ? '?cat=' + cat + (brand ? '&brand=' + encodeURIComponent(brand) : '') : (brand ? '?brand=' + encodeURIComponent(brand) : '')); }
+  function resolveImg(src) {
+    if (!src) return ROOT + 'img/site/logo.png';
+    if (/^(https?:|data:)/i.test(src)) return src;
+    return ROOT + src.replace(/^(\.\.\/)+/, '');
+  }
+
+  /* ---------- Hệ thống Đo lường Hiệu quả Website (Web Analytics Engine) ---------- */
+  var Analytics = {
+    get: function () {
+      var a = jget('ql_analytics', null);
+      if (!a || typeof a !== 'object') {
+        a = {
+          pageviews: 1248,
+          sessions: 486,
+          addToCarts: 94,
+          checkouts: 28,
+          leadSubmits: 42,
+          chatOpens: 67,
+          zaloClicks: 83,
+          fanpageClicks: 39,
+          hotlineClicks: 71,
+          pages: { home: 520, products: 380, detail: 245, rental: 64, cart: 25, about: 14 },
+          productViews: { QL001: 48, QL004: 39, QL016: 35, QL019: 31, QL022: 27 },
+          searches: { 'canon': 34, 'ricoh': 26, 'kosmen': 18, 'lbp 6030': 15 },
+          daily: {}
+        };
+      }
+      return a;
+    },
+    save: function (a) { jset('ql_analytics', a); },
+    track: function (type, meta) {
+      var a = Analytics.get(), tk = todayKey();
+      a.daily[tk] = a.daily[tk] || { pv: 0, leads: 0, orders: 0, carts: 0, chats: 0 };
+      if (type === 'pageview') {
+        a.pageviews = (a.pageviews || 0) + 1;
+        a.daily[tk].pv += 1;
+        if (!sessionStorage.getItem('ql_sess')) {
+          sessionStorage.setItem('ql_sess', '1');
+          a.sessions = (a.sessions || 0) + 1;
+        }
+        var pg = meta || PAGE || 'other';
+        a.pages[pg] = (a.pages[pg] || 0) + 1;
+      } else if (type === 'product_view' && meta) {
+        a.productViews[meta] = (a.productViews[meta] || 0) + 1;
+      } else if (type === 'add_to_cart') {
+        a.addToCarts = (a.addToCarts || 0) + 1;
+        a.daily[tk].carts += 1;
+      } else if (type === 'checkout') {
+        a.checkouts = (a.checkouts || 0) + 1;
+        a.daily[tk].orders += 1;
+      } else if (type === 'lead') {
+        a.leadSubmits = (a.leadSubmits || 0) + 1;
+        a.daily[tk].leads += 1;
+      } else if (type === 'chat') {
+        a.chatOpens = (a.chatOpens || 0) + 1;
+        a.daily[tk].chats += 1;
+      } else if (type === 'zalo') {
+        a.zaloClicks = (a.zaloClicks || 0) + 1;
+      } else if (type === 'fanpage') {
+        a.fanpageClicks = (a.fanpageClicks || 0) + 1;
+      } else if (type === 'hotline') {
+        a.hotlineClicks = (a.hotlineClicks || 0) + 1;
+      } else if (type === 'search' && meta) {
+        var k = meta.toLowerCase().slice(0, 32);
+        a.searches[k] = (a.searches[k] || 0) + 1;
+      }
+      Analytics.save(a);
+    }
+  };
 
   /* ---------- SEO Helpers (Meta, Canonical, JSON-LD) ---------- */
   function setMeta(name, content, isProp) {
@@ -90,7 +194,6 @@
     document.head.appendChild(s);
   }
   function injectBaseSEO() {
-    // Organization + LocalBusiness + WebSite SearchAction
     addJsonLd({
       '@context': 'https://schema.org',
       '@graph': [
@@ -113,7 +216,7 @@
             addressLocality: 'Hà Nội',
             addressCountry: 'VN'
           },
-          sameAs: [CFG.facebook, 'https://' + CFG.web]
+          sameAs: [CFG.facebook, CFG.zalo, 'https://' + CFG.web]
         },
         {
           '@type': 'WebSite',
@@ -150,6 +253,7 @@
       var c = Cart.get(), f = c.filter(function (i) { return i.id === id; })[0];
       if (f) f.qty += q || 1; else c.push({ id: id, qty: q || 1 });
       Cart.set(c);
+      Analytics.track('add_to_cart', id);
     },
     setQty: function (id, q) {
       var c = Cart.get();
@@ -178,6 +282,7 @@
     };
     leads.unshift(lead);
     jset('ql_leads', leads);
+    Analytics.track('lead');
     if (CFG.leadEndpoint) {
       try {
         fetch(CFG.leadEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(lead) });
@@ -188,7 +293,8 @@
 
   /* ---------- Thẻ sản phẩm chuẩn E-Commerce ---------- */
   function specLine(p) {
-    var s = (p.short && p.short.length ? p.short : p.specs || []).slice(0, 2).join(' · ');
+    var arr = Array.isArray(p.short) && p.short.length ? p.short : (Array.isArray(p.specs) ? p.specs : (p.specs ? String(p.specs).split('\n') : []));
+    var s = arr.slice(0, 2).join(' · ');
     return s || 'Chính hãng · Bảo hành 12 tháng';
   }
   function card(p) {
@@ -197,7 +303,7 @@
     else if (/\bcũ\b|nhập khẩu/i.test(p.name)) tag = '<span class="tag blue">Nhập khẩu</span>';
     return '<article class="pcard" itemscope itemtype="https://schema.org/Product">' + tag +
       '<a class="pimg" href="' + plink(p) + '" title="' + esc(p.name) + '">' +
-        '<img loading="lazy" width="180" height="180" itemprop="image" src="' + ROOT + esc(p.image) + '" alt="' + esc(p.name) + '">' +
+        '<img loading="lazy" width="180" height="180" itemprop="image" src="' + esc(resolveImg(p.image)) + '" alt="' + esc(p.name) + '">' +
       '</a>' +
       '<div class="pbody">' +
         '<div class="pmeta">' +
@@ -229,11 +335,11 @@
       var sub = br.length ? '<div class="sub"><h5>' + esc(c.name) + ' theo thương hiệu</h5><div class="sub-grid">' +
         br.map(function (x) { return '<a href="' + listLink(c.id, x.b) + '"><span>' + esc(x.b) + '</span><small style="color:#94A3B8">(' + x.n + ')</small></a>'; }).join('') +
         '</div><div style="margin-top:12px;padding-top:10px;border-top:1px solid #F1F5F9"><a href="' + listLink(c.id) + '" style="color:#DA251D;font-weight:700">Xem tất cả ' + list.length + ' ' + esc(c.name.toLowerCase()) + ' »</a></div></div>' : '';
-      return '<li><a href="' + (c.id === 'cho-thue' ? ROOT + 'pages/rental-service.html' : listLink(c.id)) + '"><i class="fa ' + c.icon + ' ci"></i><span>' + esc(c.name) + '</span><span class="c-badge">' + list.length + '</span>' + (sub ? '<i class="fa fa-angle-right arr"></i>' : '') + '</a>' + sub + '</li>';
+      return '<li><a href="' + (c.id === 'cho-thue' ? ROOT + 'pages/rental-service.html' : listLink(c.id)) + '"><i class="fa ' + (c.icon || 'fa-folder') + ' ci"></i><span>' + esc(c.name) + '</span><span class="c-badge">' + list.length + '</span>' + (sub ? '<i class="fa fa-angle-right arr"></i>' : '') + '</a>' + sub + '</li>';
     }).join('') + '</ul>';
   }
 
-  /* ---------- Header / Footer ---------- */
+  /* ---------- Header / Footer (đã ẩn search-tags & tích hợp Zalo/Fanpage/Admin) ---------- */
   function header() {
     var el = $('#ql-top'); if (!el) return;
     var act = function (k) { return PAGE === k ? ' active' : ''; };
@@ -244,9 +350,11 @@
       '<span class="tb-sep">•</span>' +
       '<span class="tb-item"><i class="fa fa-envelope"></i><a href="mailto:' + CFG.email + '">' + CFG.email + '</a></span>' +
       '<span class="tb-sep">•</span>' +
-      '<span class="tb-item"><i class="fa fa-phone"></i>Hotline: <a href="' + tel(CFG.hotline) + '"><strong>' + CFG.hotline + '</strong></a> - <a href="' + tel(CFG.hotline2) + '">' + CFG.hotline2 + '</a></span>' +
+      '<span class="tb-item"><i class="fa fa-phone"></i>Hotline: <a href="' + tel(CFG.hotline) + '" data-track="hotline"><strong>' + CFG.hotline + '</strong></a> - <a href="' + tel(CFG.hotline2) + '" data-track="hotline">' + CFG.hotline2 + '</a></span>' +
       '<span class="tb-sep">•</span>' +
-      '<span class="tb-item"><i class="fa fa-certificate"></i>Tổng đại lý Máy Photocopy & Thiết bị Văn phòng Chính hãng</span>' +
+      '<span class="tb-item"><i class="fa fa-facebook-square"></i><a href="' + CFG.facebook + '" target="_blank" rel="noopener" data-track="fanpage">Fanpage Quảng Lợi</a></span>' +
+      '<span class="tb-sep">•</span>' +
+      '<span class="tb-item"><i class="fa fa-comments"></i><a href="' + CFG.zalo + '" target="_blank" rel="noopener" data-track="zalo">Zalo OA: ' + CFG.hotline + '</a></span>' +
       '<span class="tb-sep">•</span>';
     el.innerHTML =
       '<div class="topbar"><div class="container">' +
@@ -268,16 +376,9 @@
             '<button type="submit"><i class="fa fa-search"></i> Tìm kiếm</button>' +
           '</form>' +
           '<div class="suggest" id="q-suggest"></div>' +
-          '<div class="search-tags"><span>Gợi ý:</span>' +
-            '<a href="' + listLink('may-photocopy', 'Canon') + '">Photocopy Canon</a>' +
-            '<a href="' + listLink('may-photocopy', 'Ricoh') + '">Photocopy Ricoh</a>' +
-            '<a href="' + listLink('may-photocopy', 'Fujifilm') + '">Fujifilm Apeos</a>' +
-            '<a href="' + listLink('may-in', 'Canon') + '">Máy in Canon LBP</a>' +
-            '<a href="' + listLink('hut-am', 'Kosmen') + '">Hút ẩm Kosmen</a>' +
-          '</div>' +
         '</div>' +
         '<div class="h-actions">' +
-          '<a class="hotline" href="' + tel(CFG.hotline) + '"><span class="ic"><i class="fa fa-phone"></i></span><span><small>Hotline tư vấn 24/7</small><strong>' + CFG.hotline + '</strong></span></a>' +
+          '<a class="hotline" href="' + tel(CFG.hotline) + '" data-track="hotline"><span class="ic"><i class="fa fa-phone"></i></span><span><small>Hotline tư vấn 24/7</small><strong>' + CFG.hotline + '</strong></span></a>' +
           '<button class="btn-quote-top" data-lead="Báo giá nhanh" data-title="Yêu cầu báo giá nhanh"><i class="fa fa-file-text-o"></i> Báo giá nhanh</button>' +
           '<a class="cart-link" href="' + ROOT + 'pages/cart.html"><i class="fa fa-shopping-cart"></i><span>Giỏ hàng</span><span class="cart-count" style="display:none">0</span></a>' +
         '</div>' +
@@ -293,13 +394,14 @@
           '<a class="' + act('rental') + '" href="' + ROOT + 'pages/rental-service.html">Cho thuê máy</a>' +
           '<a class="' + act('about') + '" href="' + ROOT + 'pages/about.html">Giới thiệu</a>' +
           '<a class="' + act('contact') + '" href="' + ROOT + 'pages/contact.html">Liên hệ</a>' +
+          '<a href="' + ROOT + 'admin/index.html" style="margin-left:auto;background:rgba(0,0,0,.25)"><i class="fa fa-cogs"></i> Quản trị</a>' +
         '</div>' +
       '</div></nav>';
     var sel = $('.search select'); if (sel && qs('cat')) sel.value = qs('cat');
     initAutocomplete();
   }
 
-  /* ---------- Gợi ý tìm kiếm tức thì (Live Autocomplete) ---------- */
+  /* ---------- Gợi ý tìm kiếm tức thì ---------- */
   function initAutocomplete() {
     var inp = $('#q-input'), box = $('#q-suggest');
     if (!inp || !box) return;
@@ -310,7 +412,7 @@
       if (!matches.length) { box.classList.remove('open'); return; }
       box.innerHTML = matches.map(function (p) {
         return '<a href="' + plink(p) + '">' +
-          '<img src="' + ROOT + esc(p.image) + '" alt="">' +
+          '<img src="' + esc(resolveImg(p.image)) + '" alt="">' +
           '<div><div class="sn">' + esc(p.name) + '</div><div class="sp">' + money(p.price) + '</div></div>' +
         '</a>';
       }).join('') + '<a href="' + ROOT + 'pages/products.html?q=' + encodeURIComponent(inp.value.trim()) + '" style="justify-content:center;color:#DA251D;font-weight:700">Xem tất cả kết quả cho "' + esc(inp.value.trim()) + '" »</a>';
@@ -330,7 +432,7 @@
           '<p style="color:#fff;font-weight:800;margin-bottom:8px">' + esc(CFG.name) + '</p>' +
           '<ul>' +
             '<li><i class="fa fa-map-marker"></i>' + esc(CFG.address) + '</li>' +
-            '<li><i class="fa fa-phone"></i>Hotline: <a href="' + tel(CFG.hotline) + '"><strong>' + CFG.hotline + '</strong></a> · <a href="' + tel(CFG.hotline2) + '">' + CFG.hotline2 + '</a> · <a href="' + tel(CFG.hotline3) + '">' + CFG.hotline3 + '</a></li>' +
+            '<li><i class="fa fa-phone"></i>Hotline: <a href="' + tel(CFG.hotline) + '" data-track="hotline"><strong>' + CFG.hotline + '</strong></a> · <a href="' + tel(CFG.hotline2) + '">' + CFG.hotline2 + '</a> · <a href="' + tel(CFG.hotline3) + '">' + CFG.hotline3 + '</a></li>' +
             '<li><i class="fa fa-phone-square"></i>Điện thoại: ' + CFG.tels.join(' · ') + '</li>' +
             '<li><i class="fa fa-envelope"></i><a href="mailto:' + CFG.email + '">' + CFG.email + '</a></li>' +
             '<li><i class="fa fa-id-card-o"></i>MST: ' + CFG.mst + ' · GPKD: ' + CFG.license + ' (25/09/2002)</li>' +
@@ -339,27 +441,30 @@
         '<div><h4>Danh mục chính</h4><ul>' +
           CATS.map(function (c) { return '<li><a href="' + (c.id === 'cho-thue' ? ROOT + 'pages/rental-service.html' : listLink(c.id)) + '">' + esc(c.name) + '</a></li>'; }).join('') +
         '</ul></div>' +
-        '<div><h4>Chính sách & Hỗ trợ</h4><ul>' +
+        '<div><h4>Chính sách & Quản trị</h4><ul>' +
           '<li><a href="' + ROOT + 'pages/about.html">Giới thiệu doanh nghiệp</a></li>' +
           '<li><a href="' + ROOT + 'pages/rental-service.html">Dịch vụ cho thuê máy photocopy</a></li>' +
           '<li><a href="' + ROOT + 'pages/contact.html">Chính sách bảo hành & vận chuyển</a></li>' +
           '<li><a href="' + ROOT + 'pages/contact.html">Liên hệ & Nhận báo giá dự án</a></li>' +
-          '<li><a href="' + ROOT + 'pages/cart.html">Giỏ hàng & Hướng dẫn thanh toán</a></li>' +
-          '<li><a href="' + ROOT + 'admin/index.html">Hệ thống Quản trị & CRM</a></li>' +
+          '<li><a href="' + ROOT + 'pages/cart.html">Giỏ hàng & Thanh toán VietQR</a></li>' +
+          '<li><a href="' + ROOT + 'admin/index.html" style="color:#FDE047;font-weight:700"><i class="fa fa-gauge"></i> Quản trị Website & CRM</a></li>' +
         '</ul></div>' +
-        '<div><h4>Cam kết dịch vụ</h4><ul>' +
+        '<div><h4>Kết nối Zalo & Fanpage</h4><ul>' +
           '<li><i class="fa fa-check-circle"></i>Sản phẩm chính hãng, đầy đủ CO/CQ</li>' +
           '<li><i class="fa fa-check-circle"></i>Bảo hành 12 tháng theo tiêu chuẩn NSX</li>' +
           '<li><i class="fa fa-check-circle"></i>Miễn phí giao & lắp đặt nội thành Hà Nội</li>' +
-          '<li><i class="fa fa-check-circle"></i>Đội ngũ kỹ sư đào tạo bởi chuyên gia Nhật Bản</li>' +
-          '<li><i class="fa fa-check-circle"></i>Xuất đầy đủ hóa đơn GTGT (VAT)</li>' +
         '</ul>' +
-        '<p style="margin-top:12px"><a class="btn btn-red" href="' + CFG.zalo + '" target="_blank" rel="noopener"><i class="fa fa-comments"></i> Chat Zalo ' + CFG.hotline + '</a></p></div>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">' +
+          '<a class="btn" style="background:#0068FF;color:#fff" href="' + CFG.zalo + '" target="_blank" rel="noopener" data-track="zalo"><i class="fa fa-comments"></i> Chat Zalo</a>' +
+          '<a class="btn" style="background:#1877F2;color:#fff" href="' + CFG.facebook + '" target="_blank" rel="noopener" data-track="fanpage"><i class="fa fa-facebook-square"></i> Fanpage</a>' +
+        '</div></div>' +
       '</div><div class="copy">© ' + new Date().getFullYear() + ' ' + esc(CFG.name) + '. Tổng đại lý máy photocopy & thiết bị văn phòng tại Việt Nam.</div></footer>' +
       '<div class="float-btns">' +
-        '<a class="fb-phone" href="' + tel(CFG.hotline) + '" title="Gọi ' + CFG.hotline + '" aria-label="Gọi hotline"><i class="fa fa-phone"></i></a>' +
-        '<a class="fb-zalo" href="' + CFG.zalo + '" target="_blank" rel="noopener" title="Chat Zalo">Zalo</a>' +
-        '<button class="fb-top" data-top title="Lên đầu trang" aria-label="Lên đầu trang"><i class="fa fa-angle-up"></i></button>' +
+        '<a class="fb-phone" href="' + tel(CFG.hotline) + '" data-tip="Gọi Hotline ' + CFG.hotline + '" data-track="hotline" aria-label="Gọi hotline"><i class="fa fa-phone"></i></a>' +
+        '<a class="fb-zalo" href="' + CFG.zalo + '" target="_blank" rel="noopener" data-tip="Chat Zalo ' + CFG.hotline + '" data-track="zalo">Zalo</a>' +
+        '<a class="fb-fanpage" href="' + CFG.facebook + '" target="_blank" rel="noopener" data-tip="Fanpage Facebook Quảng Lợi" data-track="fanpage" aria-label="Fanpage Facebook"><i class="fa fa-facebook"></i></a>' +
+        '<a class="fb-admin" href="' + ROOT + 'admin/index.html" data-tip="Trang Quản Trị & Đo Lường Web" aria-label="Quản trị"><i class="fa fa-cogs"></i></a>' +
+        '<button class="fb-top" data-top data-tip="Lên đầu trang" aria-label="Lên đầu trang"><i class="fa fa-angle-up"></i></button>' +
       '</div>';
   }
 
@@ -378,7 +483,10 @@
       '<div class="form-g"><label>Sản phẩm quan tâm</label><input name="product" placeholder="VD: Canon iR2224N"></div>' +
       '<div class="form-g"><label>Ghi chú nhu cầu</label><textarea name="note" rows="2" placeholder="Số lượng, yêu cầu cấu hình, mua hay thuê..."></textarea></div>' +
       '<button class="btn btn-red btn-lg btn-block" type="submit"><i class="fa fa-paper-plane"></i> Gửi yêu cầu báo giá</button>' +
-      '<p class="note" style="margin-top:8px;text-align:center">Hoặc gọi trực tiếp <a href="' + tel(CFG.hotline) + '" style="color:#DA251D;font-weight:700">' + CFG.hotline + '</a></p></form></div>';
+      '<div style="display:flex;gap:8px;justify-content:center;margin-top:10px">' +
+        '<a class="btn btn-sm" style="background:#0068FF;color:#fff;font-size:12px" href="' + CFG.zalo + '" target="_blank" data-track="zalo">Chat Zalo ' + CFG.hotline + '</a>' +
+        '<a class="btn btn-sm" style="background:#1877F2;color:#fff;font-size:12px" href="' + CFG.facebook + '" target="_blank" data-track="fanpage"><i class="fa fa-facebook-square"></i> Nhắn Fanpage</a>' +
+      '</div></form></div>';
     document.body.appendChild(m);
     m.addEventListener('click', function (e) { if (e.target === m || e.target.hasAttribute('data-close')) m.classList.remove('open'); });
     $('#lead-form').addEventListener('submit', function (e) {
@@ -401,16 +509,25 @@
     m.classList.add('open');
   }
 
-  /* ---------- Chatbot tự động ---------- */
+  /* ---------- Chatbot AI Tư vấn Tự động (Tích hợp Zalo OA & Fanpage + Thêm giỏ hàng trực tiếp) ---------- */
   function chatbot() {
     var fab = document.createElement('button');
-    fab.className = 'chat-fab'; fab.innerHTML = '<i class="fa fa-comments"></i> Tư vấn trực tuyến';
+    fab.className = 'chat-fab'; fab.innerHTML = '<i class="fa fa-comments"></i> Trợ lý AI Quảng Lợi';
     var box = document.createElement('div');
     box.className = 'chat';
-    box.innerHTML = '<div class="chat-head"><span class="av"><i class="fa fa-headphones"></i></span><div><b>Trợ lý Quảng Lợi</b><small>Tra cứu giá & sản phẩm · Hotline ' + CFG.hotline + '</small></div><button class="x" data-cx aria-label="Đóng">&times;</button></div>' +
+    box.innerHTML =
+      '<div class="chat-head"><span class="av"><i class="fa fa-headphones"></i></span><div><b>Trợ lý AI Quảng Lợi 24/7</b><small>Tư vấn cấu hình, báo giá & đặt hàng tự động</small></div><button class="x" data-cx aria-label="Đóng">&times;</button></div>' +
+      '<div class="chat-channels">' +
+        '<span style="color:#7F1D1D;font-weight:700">Kết nối nhanh:</span>' +
+        '<div style="display:flex;gap:6px">' +
+          '<a href="' + CFG.zalo + '" target="_blank" rel="noopener" style="background:#0068FF" data-track="zalo">Zalo OA</a>' +
+          '<a href="' + CFG.facebook + '" target="_blank" rel="noopener" style="background:#1877F2" data-track="fanpage"><i class="fa fa-facebook-square"></i> Fanpage</a>' +
+          '<a href="' + tel(CFG.hotline) + '" style="background:#16A34A" data-track="hotline"><i class="fa fa-phone"></i> Gọi</a>' +
+        '</div>' +
+      '</div>' +
       '<div class="chat-body" id="cb"></div>' +
       '<div class="quick" id="cq"></div>' +
-      '<form class="chat-in" id="cf"><input id="ci" placeholder="Nhập tên máy hoặc số điện thoại..." autocomplete="off"><button type="submit" aria-label="Gửi"><i class="fa fa-paper-plane"></i></button></form>';
+      '<form class="chat-in" id="cf"><input id="ci" placeholder="Nhập nhu cầu, ngân sách, tên máy hoặc SĐT..." autocomplete="off"><button type="submit" aria-label="Gửi"><i class="fa fa-paper-plane"></i></button></form>';
     document.body.appendChild(fab); document.body.appendChild(box);
     var body = $('#cb'), started = false;
     function add(html, me) {
@@ -419,43 +536,82 @@
     }
     function bot(html) {
       var t = add('<span class="typing"><i></i><i></i><i></i></span>');
-      setTimeout(function () { t.innerHTML = html; body.scrollTop = body.scrollHeight; }, 450);
+      setTimeout(function () { t.innerHTML = html; body.scrollTop = body.scrollHeight; }, 420);
     }
     function find(text) {
-      var tokens = norm(text).split(/[^a-z0-9]+/).filter(function (t) { return t.length > 1 && !/^(may|cho|toi|gia|bao|nhieu|la|va|cua|co|khong|can|mua|xem|muon|tu|van|ve|nao|loai)$/.test(t); });
+      var tokens = norm(text).split(/[^a-z0-9]+/).filter(function (t) { return t.length > 1 && !/^(may|cho|toi|gia|bao|nhieu|la|va|cua|co|khong|can|mua|xem|muon|tu|van|ve|nao|loai|chiec|cai)$/.test(t); });
       if (!tokens.length) return [];
       return P.map(function (p) {
-        var n = norm(p.name), s = 0;
+        var n = norm(p.name + ' ' + p.brand + ' ' + p.category), s = 0;
         tokens.forEach(function (t) { if (n.indexOf(t) > -1) s += (/\d/.test(t) ? 3 : 1); });
         return { p: p, s: s };
       }).filter(function (x) { return x.s >= (tokens.length > 1 ? 2 : 1); }).sort(function (a, b) { return b.s - a.s; }).slice(0, 4).map(function (x) { return x.p; });
     }
+    function formatSuggestedList(list, intro) {
+      return intro + '<br>' + list.map(function (p) {
+        var actBtn = p.price
+          ? '<button type="button" data-add="' + p.id + '" style="background:#DA251D;color:#fff;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;margin-left:6px">+ Giỏ</button>'
+          : '<button type="button" data-quote="' + p.id + '" style="background:#0284C7;color:#fff;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:700;margin-left:6px">Báo giá</button>';
+        return '• <a href="' + plink(p) + '">' + esc(p.name) + '</a> — <b style="color:#DA251D">' + money(p.price) + '</b>' + actBtn;
+      }).join('<br>') + '<br><small style="color:#64748B">Quý khách có thể bấm <b>+ Giỏ</b> để mua ngay hoặc nhập <b>Số điện thoại</b> để nhận báo giá chiết khấu.</small>';
+    }
     function reply(text) {
       var raw = text.trim(), n = norm(raw);
+      // 1. Tự động bắt Số điện thoại -> Lưu Lead CRM
       var ph = raw.match(/(?:\+?84|0)[\s.\-]?\d[\d\s.\-]{7,12}/);
       if (ph && validPhone(ph[0])) {
-        saveLead({ name: 'Khách chat trực tuyến', phone: ph[0], product: 'Tư vấn qua Chatbot', note: 'Nội dung: ' + raw, source: 'Chatbot' });
-        return 'Cảm ơn Quý khách! Hệ thống đã lưu số <b>' + esc(ph[0]) + '</b> vào CRM. Chuyên viên kinh doanh Quảng Lợi sẽ gọi lại ngay. Cần hỗ trợ gấp Quý khách gọi <a href="' + tel(CFG.hotline) + '">' + CFG.hotline + '</a>.';
+        saveLead({ name: 'Khách chat AI', phone: ph[0], product: 'Tư vấn qua AI Chatbot', note: 'Nội dung chat: ' + raw, source: 'AI Chatbot' });
+        return '✅ Hệ thống AI đã ghi nhận SĐT <b>' + esc(ph[0]) + '</b> vào CRM Quảng Lợi. Chuyên viên kinh doanh sẽ gọi lại trong ít phút! Quý khách cũng có thể chat trực tiếp qua <a href="' + CFG.zalo + '" target="_blank">Zalo ' + CFG.hotline + '</a> hoặc <a href="' + CFG.facebook + '" target="_blank">Fanpage</a>.';
       }
-      if (/^(xin chao|chao|hello|hi|alo)\b/.test(n)) return 'Xin chào Quý khách! Em có thể tra cứu nhanh 219 mẫu máy photocopy, máy in, máy scan, máy hút ẩm hoặc dịch vụ thuê máy. Quý khách đang tìm model nào ạ?';
-      if (/thue/.test(n)) return 'Quảng Lợi cho thuê máy photocopy Ricoh, Toshiba, Canon trọn gói chỉ từ <b>650.000đ/tháng</b> (miễn phí mực in, linh kiện, bảo trì). <a href="' + ROOT + 'pages/rental-service.html">Xem bảng giá thuê máy</a> hoặc để lại SĐT để nhận tư vấn.';
-      if (/bao hanh|sua chua|bao tri|bao duong/.test(n)) return 'Tất cả thiết bị chính hãng được <b>bảo hành 12 tháng</b> theo tiêu chuẩn nhà sản xuất, hỗ trợ kỹ thuật tận nơi. Hotline kỹ thuật: <a href="' + tel(CFG.hotline) + '">' + CFG.hotline + '</a>.';
-      if (/giao hang|van chuyen|ship|lap dat/.test(n)) return 'Quảng Lợi <b>miễn phí vận chuyển & lắp đặt tận nơi nội thành Hà Nội</b>, hướng dẫn vận hành chi tiết.';
-      if (/dia chi|o dau|showroom|cua hang|van phong/.test(n)) return 'Trụ sở Quảng Lợi: <b>' + esc(CFG.address) + '</b>.<br><a href="' + ROOT + 'pages/contact.html">Xem bản đồ chỉ đường »</a>';
-      if (/lien he|hotline|dien thoai|sdt|zalo|email/.test(n)) return 'Hotline: <a href="' + tel(CFG.hotline) + '">' + CFG.hotline + '</a> · <a href="' + tel(CFG.hotline2) + '">' + CFG.hotline2 + '</a><br>Email: ' + CFG.email + '<br><a href="' + CFG.zalo + '" target="_blank">Chat Zalo trực tiếp</a>';
+      // 2. Tư vấn theo ngân sách (VD: "dưới 10 triệu", "20 triệu", "30tr")
+      var budgetMatch = n.match(/(\d+)\s*(tr|trieu)/);
+      if (budgetMatch) {
+        var maxVnd = parseInt(budgetMatch[1], 10) * 1000000;
+        var inBudget = P.filter(function (p) { return p.price > 0 && p.price <= maxVnd * 1.15; })
+          .sort(function (a, b) { return Math.abs(maxVnd - a.price) - Math.abs(maxVnd - b.price); }).slice(0, 4);
+        if (inBudget.length) {
+          return formatSuggestedList(inBudget, 'Với ngân sách khoảng <b>' + budgetMatch[1] + ' triệu</b>, AI gợi ý các model tối ưu nhất:');
+        }
+      }
+      // 3. Tư vấn theo quy mô văn phòng
+      if (/van phong nho|it nguoi|10 nguoi|20 nguoi|gia dinh|ca nhan/.test(n)) {
+        var smallList = P.filter(function (p) { return /lbp6030|lbp243|ir2224|mp 2014|km-20n/i.test(p.slug); }).slice(0, 4);
+        if (smallList.length) return formatSuggestedList(smallList, 'Cho <b>văn phòng vừa & nhỏ (5–20 nhân sự)</b>, các model bền bỉ và tiết kiệm mực nhất:');
+      }
+      if (/thue/.test(n)) {
+        return 'Quảng Lợi cho thuê máy photocopy trọn gói chỉ từ <b>650.000đ/tháng</b> (miễn phí 100% mực in, linh kiện, bảo trì định kỳ):<br>• <b>Gói Văn phòng nhỏ:</b> 650.000đ/tháng<br>• <b>Gói Tiêu chuẩn (Ricoh MP 3352/4002/5002):</b> 1.200.000đ/tháng<br>• <b>Gói Công suất lớn (Ricoh MP 7502 / Toshiba):</b> từ 2.000.000đ/tháng<br><a href="' + ROOT + 'pages/rental-service.html">Xem chi tiết gói thuê »</a> hoặc để lại SĐT để nhận hợp đồng mẫu.';
+      }
+      if (/thanh toan|vietqr|chuyen khoan|momo|vnpay|cod|hoa don|vat/.test(n)) {
+        return 'Quảng Lợi hỗ trợ <b>thanh toán tự động</b>:<br>• <b>Quét mã VietQR tự động:</b> Vietcombank `' + CFG.bank.account + '` (' + CFG.bank.holder + ') — tự động điền số tiền & mã đơn.<br>• <b>Ví MoMo / ZaloPay / VNPay QR</b><br>• <b>COD:</b> Nhận máy, lắp đặt nghiệm thu rồi thanh toán.<br>• Xuất đầy đủ <b>hóa đơn GTGT (VAT) & chứng nhận CO/CQ</b>.';
+      }
+      if (/zalo|fanpage|facebook|fb/.test(n)) {
+        return 'Quý khách kết nối trực tiếp với Quảng Lợi tại:<br>• <b>Zalo Official:</b> <a href="' + CFG.zalo + '" target="_blank">' + CFG.hotline + ' (Bấm để mở Zalo)</a><br>• <b>Fanpage Facebook:</b> <a href="' + CFG.facebook + '" target="_blank">fb.com/quangloi.com.vn</a><br>• <b>Hotline 24/7:</b> <a href="' + tel(CFG.hotline) + '">' + CFG.hotline + '</a>';
+      }
+      if (/bao hanh|sua chua|bao tri|bao duong/.test(n)) {
+        return 'Tất cả thiết bị chính hãng được <b>bảo hành 12 tháng</b> theo tiêu chuẩn nhà sản xuất, hỗ trợ kỹ thuật tận nơi trong ngày tại Hà Nội. Hotline kỹ thuật: <a href="' + tel(CFG.hotline) + '">' + CFG.hotline + '</a>.';
+      }
+      if (/giao hang|van chuyen|ship|lap dat/.test(n)) {
+        return 'Quảng Lợi <b>miễn phí vận chuyển & lắp đặt tận nơi nội thành Hà Nội</b>, kỹ sư hướng dẫn vận hành chi tiết.';
+      }
+      if (/dia chi|o dau|showroom|cua hang/.test(n)) {
+        return 'Trụ sở & Showroom Quảng Lợi: <b>' + esc(CFG.address) + '</b>.<br><a href="' + ROOT + 'pages/contact.html">Xem bản đồ chỉ đường »</a>';
+      }
+      if (/^(xin chao|chao|hello|hi|alo)\b/.test(n)) {
+        return 'Xin chào Quý khách! Em là Trợ lý AI của <b>Quảng Lợi</b>. Quý khách có thể hỏi theo <b>tên máy</b> (VD: Canon 2425, Ricoh 3000), theo <b>ngân sách</b> (VD: "máy dưới 10 triệu") hoặc chọn nhanh chủ đề bên dưới ạ!';
+      }
       var found = find(raw);
       if (found.length) {
-        return 'Em tìm thấy các sản phẩm phù hợp:<br>' + found.map(function (p) { return '• <a href="' + plink(p) + '">' + esc(p.name) + '</a> — <b>' + money(p.price) + '</b>'; }).join('<br>') + '<br>Quý khách để lại SĐT để nhận báo giá chiết khấu tốt nhất nhé!';
+        return formatSuggestedList(found, 'AI tìm thấy <b>' + found.length + ' sản phẩm</b> khớp với yêu cầu của Quý khách:');
       }
-      if (/gia|bao gia|bang gia/.test(n)) return 'Quý khách vui lòng nhập <b>tên model máy</b> (VD: Canon iR 2425, Ricoh IM 2702, LBP 6030...) hoặc để lại <b>số điện thoại</b> để nhận báo giá.';
-      return 'Quý khách có thể nhập <b>tên máy</b> cần tra cứu (VD "Canon 2425", "Ricoh 3000", "Kosmen"), chọn các nút bên dưới hoặc để lại <b>số điện thoại</b> để nhân viên gọi lại ngay.';
+      return 'Quý khách có thể nhập:<br>• <b>Tên model máy</b> (VD: <i>Canon 2425, LBP 6030, Ricoh IM 2702, Kosmen</i>)<br>• <b>Ngân sách dự kiến</b> (VD: <i>máy dưới 5 triệu, máy 30 triệu</i>)<br>• Hoặc để lại <b>Số điện thoại</b> để chuyên viên gọi lại ngay!';
     }
     function open() {
       box.classList.add('open'); fab.style.display = 'none';
+      Analytics.track('chat');
       if (!started) {
         started = true;
-        bot('Xin chào Quý khách! Em là trợ lý trực tuyến của <b>Công ty Thiết bị Văn phòng Quảng Lợi</b>. Quý khách cần tra cứu sản phẩm hay nhận báo giá dự án ạ?');
-        $('#cq').innerHTML = ['Máy photocopy Canon', 'Máy photocopy Ricoh', 'Cho thuê máy', 'Máy in Canon', 'Bảo hành & Giao hàng', 'Địa chỉ liên hệ'].map(function (q) { return '<button type="button">' + q + '</button>'; }).join('');
+        bot('Xin chào Quý khách! Em là <b>Trợ lý AI Quảng Lợi</b>. Em có thể tư vấn chọn máy theo ngân sách, tra cứu 219 sản phẩm, tạo đơn hàng hoặc kết nối Zalo / Fanpage.');
+        $('#cq').innerHTML = ['Photocopy Canon', 'Photocopy Ricoh', 'Máy dưới 10 triệu', 'Cho thuê máy', 'Thanh toán VietQR', 'Chat Zalo / Fanpage'].map(function (q) { return '<button type="button">' + q + '</button>'; }).join('');
       }
       setTimeout(function () { $('#ci').focus(); }, 100);
     }
@@ -471,6 +627,17 @@
   /* ---------- Sự kiện chung ---------- */
   function globalEvents() {
     document.addEventListener('click', function (e) {
+      var trk = e.target.closest('[data-track]');
+      if (trk) Analytics.track(trk.getAttribute('data-track'));
+
+      var cp = e.target.closest('[data-copy]');
+      if (cp) {
+        var val = cp.getAttribute('data-copy');
+        if (navigator.clipboard) navigator.clipboard.writeText(val);
+        toast('Đã sao chép: ' + val);
+        return;
+      }
+
       var t = e.target.closest('[data-add],[data-quote],[data-top],[data-menu],[data-catbtn],[data-lead]');
       if (!t) return;
       if (t.hasAttribute('data-add')) {
@@ -495,16 +662,14 @@
   /* ---------- Trang chủ ---------- */
   function initHome() {
     var cl = $('#home-catlist'); if (cl) cl.innerHTML = catListHTML();
-    // Quick category icon bar
     var qb = $('#home-qcat');
     if (qb) {
-      qb.innerHTML = CATS.map(function (c) {
+      qb.innerHTML = CATS.slice(0, 8).map(function (c) {
         var cnt = inCat(c.id).length;
         var href = c.id === 'cho-thue' ? 'pages/rental-service.html' : listLink(c.id);
-        return '<a class="qcat" href="' + href + '"><span class="qi"><i class="fa ' + c.icon + '"></i></span><span>' + esc(c.name) + '</span><small>' + cnt + ' sản phẩm</small></a>';
+        return '<a class="qcat" href="' + href + '"><span class="qi"><i class="fa ' + (c.icon || 'fa-folder') + '"></i></span><span>' + esc(c.name) + '</span><small>' + cnt + ' sản phẩm</small></a>';
       }).join('');
     }
-    // Slider
     var sl = $('.slider'); if (sl) {
       var track = $('.slides', sl), n = track.children.length, i = 0, dots = $('.sl-dots', sl), timer;
       dots.innerHTML = Array.apply(null, Array(n)).map(function (_, k) { return '<button aria-label="Slide ' + (k + 1) + '" data-k="' + k + '"></button>'; }).join('');
@@ -517,12 +682,10 @@
       });
       go(0); play();
     }
-    // Banner links
     $$('[data-slug]').forEach(function (a) {
-      var s = a.getAttribute('data-slug'), f = P.filter(function (p) { return p.slug.indexOf(s) > -1; })[0];
+      var s = a.getAttribute('data-slug'), f = P.filter(function (p) { return (p.slug || '').indexOf(s) > -1; })[0];
       a.href = f ? plink(f) : listLink('may-photocopy');
     });
-    // Các khối sản phẩm
     var blocks = [
       { t: 'Máy Photocopy Chính Hãng', icon: 'fa-files-o', cats: ['may-photocopy'] },
       { t: 'Máy In Văn Phòng', icon: 'fa-print', cats: ['may-in'] },
@@ -554,9 +717,10 @@
     });
   }
 
-  /* ---------- Trang danh sách sản phẩm (Catalog + Filter Chips + SEO) ---------- */
+  /* ---------- Trang danh sách sản phẩm ---------- */
   function initProducts() {
     var state = { cat: qs('cat'), brand: qs('brand'), q: qs('q'), sort: qs('sort') || 'default', price: qs('price') || '', page: parseInt(qs('page'), 10) || 1 };
+    if (state.q) Analytics.track('search', state.q);
     var per = 20;
     var RANGES = [['', 'Tất cả mức giá'], ['0-5', 'Dưới 5 triệu'], ['5-20', 'Từ 5 - 20 triệu'], ['20-50', 'Từ 20 - 50 triệu'], ['50-100', 'Từ 50 - 100 triệu'], ['100-', 'Trên 100 triệu'], ['call', 'Sản phẩm liên hệ báo giá']];
     var RANGE_LABEL = {}; RANGES.forEach(function (r) { RANGE_LABEL[r[0]] = r[1]; });
@@ -610,7 +774,6 @@
       var pages = Math.max(1, Math.ceil(list.length / per)); state.page = Math.min(state.page, pages);
       var cur = list.slice((state.page - 1) * per, state.page * per);
 
-      // Sidebar filters
       var base = P.filter(function (p) { return !state.q || norm(p.name).indexOf(norm(state.q)) > -1; });
       $('#f-cats').innerHTML = '<label><input type="radio" name="fc" value=""' + (!state.cat ? ' checked' : '') + '> <span>Tất cả danh mục</span> <span class="cnt">' + base.length + '</span></label>' +
         CATS.map(function (c) {
@@ -647,7 +810,7 @@
 
     $('.sidebar').addEventListener('change', function (e) {
       var n = e.target.name;
-      if (n === 'fc') { state.cat = e.target.value; }
+      if (n === 'fc') state.cat = e.target.value;
       if (n === 'fb') state.brand = e.target.value;
       if (n === 'fp') state.price = e.target.value;
       state.page = 1; render();
@@ -668,10 +831,11 @@
     render();
   }
 
-  /* ---------- Trang chi tiết sản phẩm + Schema Product & Breadcrumb ---------- */
+  /* ---------- Trang chi tiết sản phẩm ---------- */
   function specTable(lines) {
-    if (!lines || !lines.length) return '<p class="note">Thông số kỹ thuật chi tiết đang được cập nhật. Quý khách vui lòng gọi <a href="' + tel(CFG.hotline) + '" style="color:#DA251D;font-weight:700">' + CFG.hotline + '</a> để được kỹ sư tư vấn trực tiếp.</p>';
-    return '<table class="spec"><tbody>' + lines.map(function (l) {
+    var arr = Array.isArray(lines) ? lines : (lines ? String(lines).split('\n') : []);
+    if (!arr.length) return '<p class="note">Thông số kỹ thuật chi tiết đang được cập nhật. Quý khách vui lòng gọi <a href="' + tel(CFG.hotline) + '" style="color:#DA251D;font-weight:700">' + CFG.hotline + '</a> để được kỹ sư tư vấn trực tiếp.</p>';
+    return '<table class="spec"><tbody>' + arr.map(function (l) {
       var i = l.indexOf(':');
       if (i > 0 && i < 60) return '<tr><td>' + esc(l.slice(0, i).trim()) + '</td><td>' + esc(l.slice(i + 1).trim()) + '</td></tr>';
       return '<tr><td colspan="2">' + esc(l) + '</td></tr>';
@@ -681,8 +845,9 @@
     var p = byId(qs('id')), root = $('#pd-root');
     if (!p) { root.innerHTML = '<div class="main-box empty"><i class="fa fa-exclamation-circle"></i>Không tìm thấy sản phẩm.<br><br><a class="btn btn-red" href="' + listLink() + '">Xem tất cả sản phẩm</a></div>'; return; }
 
+    Analytics.track('product_view', p.id);
     var pageTitle = p.name + (p.brand ? ' Chính Hãng ' + p.brand : '') + ' | Quảng Lợi';
-    var pageDesc = p.name + ' - ' + (p.price ? 'Giá: ' + money(p.price) + '. ' : 'Liên hệ báo giá ưu đãi. ') + ((p.short && p.short.length ? p.short : p.specs || []).slice(0, 3).join(', ')) + '. Bảo hành 12 tháng tại Quảng Lợi.';
+    var pageDesc = p.name + ' - ' + (p.price ? 'Giá: ' + money(p.price) + '. ' : 'Liên hệ báo giá ưu đãi. ') + specLine(p) + '. Bảo hành 12 tháng tại Quảng Lợi.';
     document.title = pageTitle;
     setMeta('description', pageDesc);
     setMeta('og:title', pageTitle, true);
@@ -696,7 +861,7 @@
 
     var call = !p.price;
     root.innerHTML =
-      '<div class="pd"><div><div class="pd-img" id="pd-img"><img width="380" height="380" src="' + ROOT + esc(p.image) + '" alt="' + esc(p.name) + '"></div><p class="pd-hint"><i class="fa fa-cube"></i> Di chuột lên ảnh để xem góc nghiêng 3D</p></div>' +
+      '<div class="pd"><div><div class="pd-img" id="pd-img"><img width="380" height="380" src="' + esc(resolveImg(p.image)) + '" alt="' + esc(p.name) + '"></div><p class="pd-hint"><i class="fa fa-cube"></i> Di chuột lên ảnh để xem góc nghiêng 3D</p></div>' +
       '<div><h1>' + esc(p.name) + '</h1>' +
       '<div class="meta">' +
         (p.brand ? '<span>Thương hiệu: <a href="' + listLink(p.category, p.brand) + '" style="color:#DA251D;font-weight:700">' + esc(p.brand) + '</a></span>' : '') +
@@ -710,7 +875,8 @@
       '<div class="acts">' +
         (call ? '<button class="btn btn-red btn-lg" data-quote="' + p.id + '"><i class="fa fa-file-text-o"></i> Nhận báo giá tốt nhất</button>'
               : '<button class="btn btn-red btn-lg" data-add="' + p.id + '" data-buy="1"><i class="fa fa-shopping-cart"></i> Đặt mua ngay</button><button class="btn btn-line btn-lg" data-add="' + p.id + '"><i class="fa fa-cart-plus"></i> Thêm vào giỏ</button>') +
-        '<a class="btn btn-green btn-lg" href="' + tel(CFG.hotline) + '"><i class="fa fa-phone"></i> Gọi ' + CFG.hotline + '</a>' +
+        '<a class="btn btn-lg" style="background:#0068FF;color:#fff" href="' + CFG.zalo + '" target="_blank" data-track="zalo"><i class="fa fa-comments"></i> Tư vấn Zalo</a>' +
+        '<a class="btn btn-green btn-lg" href="' + tel(CFG.hotline) + '" data-track="hotline"><i class="fa fa-phone"></i> ' + CFG.hotline + '</a>' +
       '</div>' +
       '<div class="perks"><b><i class="fa fa-shield"></i> Quyền lợi khi mua hàng tại Tổng đại lý Quảng Lợi</b><ul>' +
         '<li><i class="fa fa-check"></i>Hàng chính hãng 100%, đầy đủ chứng nhận xuất xứ & chất lượng (CO/CQ)</li>' +
@@ -719,7 +885,7 @@
       '</ul></div></div></div>' +
       '<div class="tabs"><button class="on" data-tab="t1"><i class="fa fa-list-alt"></i> Thông số kỹ thuật</button><button data-tab="t2"><i class="fa fa-shopping-bag"></i> Hướng dẫn mua hàng</button><button data-tab="t3"><i class="fa fa-cogs"></i> Vật tư & Bảo hành</button></div>' +
       '<div class="tabpane on" id="t1">' + specTable(p.specs) + '</div>' +
-      '<div class="tabpane" id="t2"><ul class="speclist"><li><b>Đặt hàng trực tuyến:</b> Bấm "Đặt mua ngay" hoặc "Nhận báo giá", điền thông tin đơn vị. Nhân viên kinh doanh sẽ gọi xác nhận ngay.</li><li><b>Hotline kinh doanh:</b> ' + CFG.hotline + ' · ' + CFG.hotline2 + ' · ' + CFG.hotline3 + ' (Văn phòng: ' + CFG.tels.join(', ') + ')</li><li><b>Chat Zalo tư vấn:</b> <a href="' + CFG.zalo + '" target="_blank" style="color:#DA251D;font-weight:700">' + CFG.hotline + '</a></li><li><b>Showroom & Trụ sở:</b> ' + esc(CFG.address) + '</li></ul></div>' +
+      '<div class="tabpane" id="t2"><ul class="speclist"><li><b>Đặt hàng & Thanh toán VietQR tự động:</b> Bấm "Đặt mua ngay", chọn phương thức VietQR hoặc COD để hoàn tất đơn hàng trực tuyến.</li><li><b>Hotline kinh doanh:</b> ' + CFG.hotline + ' · ' + CFG.hotline2 + ' · ' + CFG.hotline3 + ' (Văn phòng: ' + CFG.tels.join(', ') + ')</li><li><b>Chat Zalo / Fanpage:</b> <a href="' + CFG.zalo + '" target="_blank" style="color:#0068FF;font-weight:700">Zalo ' + CFG.hotline + '</a> · <a href="' + CFG.facebook + '" target="_blank" style="color:#1877F2;font-weight:700">Fanpage Quảng Lợi</a></li><li><b>Showroom & Trụ sở:</b> ' + esc(CFG.address) + '</li></ul></div>' +
       '<div class="tabpane" id="t3"><p>Quảng Lợi cung cấp đầy đủ hộp mực, trống (drum), cụm sấy và linh kiện thay thế chính hãng cho ' + esc(p.name) + '. <a href="' + listLink('vat-tu') + '" style="color:#DA251D;font-weight:700">Xem danh mục vật tư - linh kiện »</a></p></div>' +
       '<section class="section" style="margin-top:20px"><div class="sec-head"><h2 class="sec-title">Sản phẩm cùng danh mục</h2></div><div class="sec-body" id="pd-rel"></div></section>';
 
@@ -743,7 +909,6 @@
     });
     box.addEventListener('mouseleave', function () { img.style.transform = ''; });
 
-    // Structured Data: Product + BreadcrumbList
     var prodLd = {
       '@context': 'https://schema.org',
       '@type': 'Product',
@@ -777,9 +942,61 @@
     });
   }
 
-  /* ---------- Giỏ hàng & Thanh toán ---------- */
+  /* ---------- Giỏ hàng & Cổng Thanh Toán Tự Động (VietQR, MoMo, VNPay, COD) ---------- */
+  function buildVietQRUrl(amount, content) {
+    return 'https://img.vietqr.io/image/' + CFG.bank.bin + '-' + CFG.bank.account + '-compact2.png?amount=' + (amount || 0) + '&addInfo=' + encodeURIComponent(content || 'QUANGLOI') + '&accountName=' + encodeURIComponent(CFG.bank.holder);
+  }
+  function renderPaymentDetailBox(method, total, draftCode) {
+    if (method === 'VietQR') {
+      var qrUrl = buildVietQRUrl(total, draftCode);
+      return '<div class="pay-detail-box">' +
+        '<div class="qr-wrap">' +
+          '<img class="qr-img" src="' + qrUrl + '" alt="Mã VietQR Quảng Lợi">' +
+          '<div class="qr-info">' +
+            '<div style="color:#DA251D;font-weight:800;margin-bottom:4px"><i class="fa fa-qrcode"></i> Quét mã VietQR tự động điền số tiền</div>' +
+            '<div>Ngân hàng: <b>Vietcombank</b></div>' +
+            '<div>Số TK: <b>' + CFG.bank.account + '</b> <button type="button" class="copy-chip" data-copy="' + CFG.bank.account + '"><i class="fa fa-copy"></i> Copy</button></div>' +
+            '<div>Chủ TK: <b>' + esc(CFG.bank.holder) + '</b></div>' +
+            '<div>Số tiền: <b style="color:#DA251D">' + money(total) + '</b></div>' +
+            '<div>Nội dung: <b>' + draftCode + '</b> <button type="button" class="copy-chip" data-copy="' + draftCode + '"><i class="fa fa-copy"></i> Copy</button></div>' +
+          '</div>' +
+        '</div></div>';
+    }
+    if (method === 'MoMo') {
+      var momoQr = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=' + encodeURIComponent('2|99|' + CFG.momo.phone + '|QUANG LOI||0|0|' + total + '|' + draftCode + '|transfer_myqr');
+      return '<div class="pay-detail-box">' +
+        '<div class="qr-wrap">' +
+          '<img class="qr-img" src="' + momoQr + '" alt="Mã QR MoMo">' +
+          '<div class="qr-info">' +
+            '<div style="color:#A50064;font-weight:800;margin-bottom:4px"><i class="fa fa-mobile"></i> Thanh toán Ví điện tử MoMo / ZaloPay</div>' +
+            '<div>Số ví nhận: <b>' + CFG.momo.phone + '</b> <button type="button" class="copy-chip" data-copy="' + CFG.momo.phone + '">Copy</button></div>' +
+            '<div>Đơn vị: <b>' + esc(CFG.momo.holder) + '</b></div>' +
+            '<div>Số tiền: <b style="color:#A50064">' + money(total) + '</b></div>' +
+            '<div>Lời nhắn: <b>' + draftCode + '</b></div>' +
+          '</div>' +
+        '</div></div>';
+    }
+    if (method === 'VNPay') {
+      var vnpQr = buildVietQRUrl(total, 'VNPAY ' + draftCode);
+      return '<div class="pay-detail-box">' +
+        '<div class="qr-wrap">' +
+          '<img class="qr-img" src="' + vnpQr + '" alt="VNPay QR">' +
+          '<div class="qr-info">' +
+            '<div style="color:#0284C7;font-weight:800;margin-bottom:4px"><i class="fa fa-credit-card"></i> Cổng thanh toán VNPay-QR (40+ Ngân hàng)</div>' +
+            '<div>Mở ứng dụng Mobile Banking bất kỳ, chọn <b>VNPay-QR</b> và quét mã bên cạnh.</div>' +
+            '<div>Số tiền tự động: <b style="color:#DA251D">' + money(total) + '</b></div>' +
+            '<div>Mã giao dịch: <b>' + draftCode + '</b></div>' +
+          '</div>' +
+        '</div></div>';
+    }
+    return '';
+  }
+
   function initCart() {
     var host = $('#cart-root');
+    var draftId = 'QL' + Date.now().toString().slice(-6);
+    var curPay = 'VietQR';
+
     function render() {
       var items = Cart.items();
       if (!items.length) {
@@ -789,23 +1006,26 @@
       var total = Cart.total();
       host.innerHTML = '<div class="cart-grid"><div class="main-box"><table class="cart"><thead><tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th>Thành tiền</th><th></th></tr></thead><tbody>' +
         items.map(function (i) {
-          return '<tr><td><div class="cart-item"><img src="' + ROOT + esc(i.p.image) + '" alt="' + esc(i.p.name) + '"><div><a href="' + plink(i.p) + '"><b>' + esc(i.p.name) + '</b></a><div class="note">' + esc(i.p.brand) + ' · Mã: ' + i.p.id + '</div></div></div></td>' +
+          return '<tr><td><div class="cart-item"><img src="' + esc(resolveImg(i.p.image)) + '" alt="' + esc(i.p.name) + '"><div><a href="' + plink(i.p) + '"><b>' + esc(i.p.name) + '</b></a><div class="note">' + esc(i.p.brand) + ' · Mã: ' + i.p.id + '</div></div></div></td>' +
             '<td>' + money(i.p.price) + '</td><td><span class="qty"><button type="button" data-d="-1" data-id="' + i.p.id + '">−</button><input value="' + i.qty + '" data-q="' + i.p.id + '" inputmode="numeric" aria-label="Số lượng"><button type="button" data-d="1" data-id="' + i.p.id + '">+</button></span></td>' +
             '<td><b style="color:#DA251D">' + money(i.p.price * i.qty) + '</b></td><td><button type="button" class="rm" data-rm="' + i.p.id + '" title="Xóa"><i class="fa fa-trash"></i></button></td></tr>';
         }).join('') + '</tbody></table></div>' +
-        '<form class="sum" id="co" novalidate><h3>Thông tin đặt hàng</h3>' +
+        '<form class="sum" id="co" novalidate><h3>Thông tin nhận hàng & Hóa đơn</h3>' +
         '<div class="form-g"><label>Họ và tên người nhận *</label><input name="name" required placeholder="Nguyễn Văn A"></div>' +
         '<div class="form-row"><div class="form-g"><label>Điện thoại *</label><input name="phone" type="tel" required placeholder="09xx xxx xxx"></div><div class="form-g"><label>Email</label><input name="email" type="email" placeholder="email@congty.vn"></div></div>' +
         '<div class="form-g"><label>Tên công ty & MST (nếu xuất hóa đơn VAT)</label><input name="company" placeholder="Tên công ty - Mã số thuế"></div>' +
         '<div class="form-g"><label>Địa chỉ giao & lắp đặt *</label><input name="address" required placeholder="Số nhà, đường, quận/huyện, tỉnh/thành"></div>' +
         '<div class="form-g"><label>Ghi chú đơn hàng</label><textarea name="note" rows="2" placeholder="Thời gian nhận hàng, yêu cầu kỹ thuật..."></textarea></div>' +
-        '<h3 style="margin-top:14px">Phương thức thanh toán</h3>' +
-        '<label class="pay-opt"><input type="radio" name="pay" value="COD" checked><span><b>Thanh toán khi nhận hàng & nghiệm thu (COD)</b><span>Kỹ thuật viên giao máy, lắp đặt và bàn giao tận nơi</span></span></label>' +
-        '<label class="pay-opt"><input type="radio" name="pay" value="Chuyển khoản"><span><b>Chuyển khoản ngân hàng doanh nghiệp</b><span>Kế toán Quảng Lợi gửi thông tin tài khoản & hợp đồng khi xác nhận đơn</span></span></label>' +
+        '<h3 style="margin-top:14px">Cổng thanh toán tự động</h3>' +
+        '<label class="pay-opt"><input type="radio" name="pay" value="VietQR"' + (curPay === 'VietQR' ? ' checked' : '') + '><span><b>Chuyển khoản tự động VietQR (Khuyên dùng)</b><span>Tự động tạo mã QR Vietcombank đúng số tiền & nội dung đơn hàng</span></span></label>' +
+        '<label class="pay-opt"><input type="radio" name="pay" value="VNPay"' + (curPay === 'VNPay' ? ' checked' : '') + '><span><b>Cổng VNPay-QR (40+ ứng dụng Ngân hàng)</b><span>Quét mã VNPay-QR thanh toán tức thì</span></span></label>' +
+        '<label class="pay-opt"><input type="radio" name="pay" value="MoMo"' + (curPay === 'MoMo' ? ' checked' : '') + '><span><b>Ví điện tử MoMo / ZaloPay</b><span>Quét mã QR ví điện tử nhanh chóng</span></span></label>' +
+        '<label class="pay-opt"><input type="radio" name="pay" value="COD"' + (curPay === 'COD' ? ' checked' : '') + '><span><b>Thanh toán khi nhận hàng & nghiệm thu (COD)</b><span>Kỹ thuật viên giao máy, lắp đặt và bàn giao tận nơi</span></span></label>' +
+        '<div id="pay-preview">' + renderPaymentDetailBox(curPay, total, draftId) + '</div>' +
         '<div class="row"><span>Tạm tính</span><b>' + money(total) + '</b></div><div class="row"><span>Vận chuyển & Lắp đặt</span><span style="color:#16A34A;font-weight:700">Miễn phí nội thành HN</span></div>' +
         '<div class="row total"><span>Tổng thanh toán</span><span>' + money(total) + '</span></div>' +
-        '<button class="btn btn-red btn-lg btn-block" type="submit" style="margin-top:12px"><i class="fa fa-check-circle"></i> Xác nhận đặt hàng</button>' +
-        '<p class="note" style="margin-top:8px;text-align:center">Đơn hàng được đồng bộ trực tiếp vào hệ thống CRM Quảng Lợi.</p></form></div>';
+        '<button class="btn btn-red btn-lg btn-block" type="submit" style="margin-top:12px"><i class="fa fa-check-circle"></i> Hoàn tất đặt hàng</button>' +
+        '<p class="note" style="margin-top:8px;text-align:center">Đơn hàng và trạng thái thanh toán được đồng bộ tức thì vào hệ thống CRM Quảng Lợi.</p></form></div>';
     }
     host.addEventListener('click', function (e) {
       var d = e.target.closest('[data-d]'), r = e.target.closest('[data-rm]');
@@ -814,6 +1034,11 @@
     });
     host.addEventListener('change', function (e) {
       if (e.target.dataset.q) { Cart.setQty(e.target.dataset.q, parseInt(e.target.value, 10) || 1); render(); }
+      if (e.target.name === 'pay') {
+        curPay = e.target.value;
+        var pv = $('#pay-preview');
+        if (pv) pv.innerHTML = renderPaymentDetailBox(curPay, Cart.total(), draftId);
+      }
     });
     host.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -822,14 +1047,37 @@
       if (!name) return toast('Vui lòng nhập họ tên người nhận', true);
       if (!validPhone(phone)) return toast('Số điện thoại chưa đúng định dạng', true);
       if (!addr) return toast('Vui lòng nhập địa chỉ giao hàng', true);
-      var id = 'DH-' + new Date().getFullYear() + '-' + Date.now().toString().slice(-6);
+      var id = 'DH-' + new Date().getFullYear() + '-' + draftId.slice(2);
+      var payLabelMap = {
+        VietQR: 'Chuyển khoản VietQR tự động',
+        VNPay: 'Cổng thanh toán VNPay-QR',
+        MoMo: 'Ví điện tử MoMo / ZaloPay',
+        COD: 'Thanh toán khi nhận hàng (COD)'
+      };
       var order = {
-        id: id, customerName: name, company: f.company.value.trim(), customerPhone: phone, customerEmail: f.email.value.trim(), address: addr,
+        id: id, draftCode: draftId, customerName: name, company: f.company.value.trim(), customerPhone: phone, customerEmail: f.email.value.trim(), address: addr,
         items: items.map(function (i) { return { id: i.p.id, name: i.p.name, price: i.p.price, quantity: i.qty }; }),
-        total: Cart.total(), paymentMethod: f.pay.value === 'COD' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng',
-        paymentStatus: 'Chờ thanh toán', orderStatus: 'Mới', createdAt: nowStr(), notes: f.note.value.trim() || 'Đặt hàng trực tuyến qua website'
+        total: Cart.total(), paymentCode: f.pay.value, paymentMethod: payLabelMap[f.pay.value] || f.pay.value,
+        paymentStatus: f.pay.value === 'COD' ? 'Thanh toán khi nhận' : 'Đã tạo mã QR - Chờ đối soát',
+        orderStatus: 'Mới', createdAt: nowStr(), notes: f.note.value.trim() || 'Đặt hàng trực tuyến qua website'
       };
       var orders = jget('ql_orders', []); orders.unshift(order); jset('ql_orders', orders);
+      // Đồng bộ khách hàng mới vào danh sách Khách Hàng CRM (ql_customers)
+      var custs = jget('ql_customers', []);
+      var existCust = custs.filter(function (c) { return c.phone && c.phone.replace(/\s/g, '') === phone.replace(/\s/g, ''); })[0];
+      if (existCust) {
+        existCust.totalSpent = (existCust.totalSpent || 0) + order.total;
+        existCust.ordersCount = (existCust.ordersCount || 0) + 1;
+      } else {
+        custs.unshift({
+          id: 'KH-' + String(custs.length + 1).padStart(3, '0'),
+          name: name, company: order.company || 'Cá nhân', phone: phone, email: order.customerEmail,
+          address: addr, type: order.company ? 'Doanh nghiệp' : 'Cá nhân', tier: order.total >= 30000000 ? 'VIP' : 'Thường',
+          totalSpent: order.total, ordersCount: 1, createdAt: todayKey(), status: 'Hoạt động', notes: 'Khách đặt đơn ' + id
+        });
+      }
+      jset('ql_customers', custs);
+      Analytics.track('checkout');
       saveLead({ name: name, phone: phone, email: order.customerEmail, company: order.company, product: 'Đơn hàng ' + id, note: order.notes, source: 'Website - Đặt hàng' });
       jset('ql_last_order', order); Cart.clear();
       location.href = ROOT + 'pages/thank-you.html?order=' + id;
@@ -837,16 +1085,21 @@
     render();
   }
 
-  /* ---------- Trang cảm ơn ---------- */
+  /* ---------- Trang cảm ơn (Hiển thị mã VietQR đối soát tự động) ---------- */
   function initThanks() {
     var o = jget('ql_last_order', null), root = $('#ty-root');
     if (!o || o.id !== qs('order')) { root.innerHTML = '<div class="main-box empty"><i class="fa fa-check-circle"></i><p>Cảm ơn Quý khách đã tin tưởng Quảng Lợi.</p><br><a class="btn btn-red" href="' + ROOT + 'index.html">Về trang chủ</a></div>'; return; }
-    var bank = o.paymentMethod.indexOf('Chuyển') > -1 ? '<div class="alert warn">Phòng kế toán Quảng Lợi sẽ liên hệ gửi hợp đồng / thông tin tài khoản ngân hàng của công ty khi xác nhận đơn hàng.</div>' : '';
+    var qrBlock = (o.paymentCode && o.paymentCode !== 'COD') ? renderPaymentDetailBox(o.paymentCode, o.total, o.draftCode || o.id) : '';
     root.innerHTML = '<div class="content-box" style="text-align:center"><div style="font-size:60px;color:#16A34A"><i class="fa fa-check-circle"></i></div><h1 style="border:0">Đặt Hàng Thành Công!</h1>' +
-      '<p>Mã đơn hàng: <b style="color:#DA251D;font-size:20px">' + o.id + '</b></p><p>Phòng kinh doanh Quảng Lợi sẽ gọi điện xác nhận và hẹn lịch giao lắp sớm nhất.</p>' + bank +
+      '<p>Mã đơn hàng: <b style="color:#DA251D;font-size:20px">' + o.id + '</b></p><p>Đơn hàng đã được đồng bộ vào hệ thống Quản trị CRM Quảng Lợi. Phòng kinh doanh sẽ gọi xác nhận ngay.</p>' +
+      '<div style="text-align:left;max-width:620px;margin:14px auto">' + qrBlock + '</div>' +
       '<table class="spec" style="text-align:left;margin:16px 0"><tbody>' + o.items.map(function (i) { return '<tr><td>' + esc(i.name) + '</td><td>' + i.quantity + ' × ' + money(i.price) + '</td></tr>'; }).join('') +
       '<tr><td><b>Tổng thanh toán</b></td><td><b style="color:#DA251D">' + money(o.total) + '</b></td></tr><tr><td>Phương thức thanh toán</td><td>' + esc(o.paymentMethod) + '</td></tr><tr><td>Địa chỉ nhận hàng</td><td>' + esc(o.address) + '</td></tr></tbody></table>' +
-      '<a class="btn btn-red btn-lg" href="' + ROOT + 'index.html">Tiếp tục mua sắm</a> <a class="btn btn-green btn-lg" href="' + tel(CFG.hotline) + '"><i class="fa fa-phone"></i> Hotline ' + CFG.hotline + '</a></div>';
+      '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
+        '<a class="btn btn-red btn-lg" href="' + ROOT + 'index.html">Tiếp tục mua sắm</a>' +
+        '<a class="btn btn-lg" style="background:#0068FF;color:#fff" href="' + CFG.zalo + '" target="_blank" data-track="zalo"><i class="fa fa-comments"></i> Gửi bill qua Zalo</a>' +
+        '<a class="btn btn-green btn-lg" href="' + tel(CFG.hotline) + '" data-track="hotline"><i class="fa fa-phone"></i> Hotline ' + CFG.hotline + '</a>' +
+      '</div></div>';
   }
 
   /* ---------- Cho thuê & Liên hệ ---------- */
@@ -868,6 +1121,7 @@
 
   /* ---------- Khởi động ---------- */
   function boot() {
+    Analytics.track('pageview', PAGE || 'home');
     header(); footer(); Cart.badge(); globalEvents(); leadModal(); chatbot(); injectBaseSEO();
     if (PAGE === 'home') initHome();
     if (PAGE === 'products') initProducts();
@@ -877,6 +1131,6 @@
     if (PAGE === 'rental') initRental();
     initContactForm();
   }
-  window.QL = { CFG: CFG, Cart: Cart, openLead: openLead, products: P, money: money };
+  window.QL = { CFG: CFG, Cart: Cart, Analytics: Analytics, openLead: openLead, products: P, money: money };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

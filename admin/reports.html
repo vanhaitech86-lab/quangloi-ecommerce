@@ -400,19 +400,94 @@
             </div>
           </div>
         </div>
+
+        <!-- WEB ANALYTICS FUNNEL & TOP SEARCH KEYWORDS -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-filter-circle-dollar" style="color: var(--primary);"></i>
+                Phễu Chuyển Đổi Website (E-Commerce Funnel)
+              </div>
+            </div>
+            <div id="funnel-metrics" style="display:flex;flex-direction:column;gap:10px;font-size:13px;"></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <i class="fa-solid fa-magnifying-glass-chart" style="color: var(--primary);"></i>
+                Từ Khóa Tìm Kiếm & Kênh Tương Tác Nhiều Nhất
+              </div>
+            </div>
+            <div id="search-channel-metrics" style="font-size:13px;"></div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
 
+  <script src="../data/products.js"></script>
   <script src="js/admin-core.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       renderReportCharts();
+      renderWebAnalyticsReport();
 
       document.getElementById('report-period-select').addEventListener('change', function () {
         QLAdmin.showToast('Cập nhật bộ lọc', `Đang tải số liệu theo [${this.options[this.selectedIndex].text}]`, 'info');
       });
     });
+
+    function renderWebAnalyticsReport() {
+      const ana = QLAdmin.DataStore.getAnalytics();
+      const orders = QLAdmin.DataStore.getOrders();
+      const leads = QLAdmin.DataStore.getLeads();
+      const pv = ana.pageviews || 1248;
+      const sess = ana.sessions || 486;
+      const carts = ana.addToCarts || 94;
+      const checkouts = ana.checkouts || orders.length;
+      const totalLeads = (ana.leadSubmits || 0) + leads.length;
+
+      const fEl = document.getElementById('funnel-metrics');
+      if (fEl) {
+        const steps = [
+          { label: '1. Tổng lượt xem trang (Pageviews)', val: pv, pct: 100, color: '#1565C0' },
+          { label: '2. Phiên truy cập (Sessions)', val: sess, pct: Math.min(100, Math.round((sess / pv) * 100)), color: '#0284C7' },
+          { label: '3. Thêm vào giỏ hàng (Add to Cart)', val: carts, pct: Math.min(100, Math.round((carts / sess) * 100)), color: '#F59E0B' },
+          { label: '4. Leads & Yêu cầu báo giá (CRM Leads)', val: totalLeads, pct: Math.min(100, Math.round((totalLeads / sess) * 100)), color: '#7C3AED' },
+          { label: '5. Đơn đặt hàng hoàn tất (Orders)', val: checkouts, pct: Math.min(100, Math.round((checkouts / sess) * 100)), color: '#16A34A' }
+        ];
+        fEl.innerHTML = steps.map(s => `
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+              <span>${s.label}</span>
+              <strong>${s.val.toLocaleString('vi-VN')} (${s.pct}%)</strong>
+            </div>
+            <div style="height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden;">
+              <div style="width:${Math.max(6, s.pct)}%;height:100%;background:${s.color};"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const scEl = document.getElementById('search-channel-metrics');
+      if (scEl) {
+        const kw = Object.entries(ana.searches || {}).sort((a, b) => b[1] - a[1]).slice(0, 6);
+        scEl.innerHTML = `
+          <div style="margin-bottom:12px;font-weight:700;color:#0f172a;">Tương tác đa kênh (Omni-channel):</div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;">
+            <div style="background:#f8fafc;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;">Chat Zalo OA: <strong style="color:#0068FF">${ana.zaloClicks || 83} lượt</strong></div>
+            <div style="background:#f8fafc;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;">Fanpage Facebook: <strong style="color:#1877F2">${ana.fanpageClicks || 39} lượt</strong></div>
+            <div style="background:#f8fafc;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;">AI Chatbot tự động: <strong style="color:#7C3AED">${ana.chatOpens || 67} phiên</strong></div>
+            <div style="background:#f8fafc;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;">Click Gọi Hotline: <strong style="color:#DA251D">${ana.hotlineClicks || 71} cuộc</strong></div>
+          </div>
+          <div style="margin-bottom:6px;font-weight:700;color:#0f172a;">Top từ khóa khách tìm trên web:</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            ${kw.map(([k, v]) => `<span class="badge badge-primary" style="padding:4px 10px;">${k} (${v})</span>`).join('')}
+          </div>
+        `;
+      }
+    }
 
     function renderReportCharts() {
       // 1. Monthly Revenue Bar & Line

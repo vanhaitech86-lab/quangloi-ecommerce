@@ -813,7 +813,27 @@
     if (!localStorage.getItem(STORAGE_KEYS.SETTINGS)) {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(SEED_SETTINGS));
     }
-    if (!localStorage.getItem(STORAGE_KEYS.PRODUCTS)) {
+    // Đồng bộ 219 sản phẩm thật từ window.QL_PRODUCTS vào Admin Store
+    let storedProds = [];
+    try { storedProds = JSON.parse(localStorage.getItem(STORAGE_KEYS.PRODUCTS)) || []; } catch (e) { storedProds = []; }
+    if (window.QL_PRODUCTS && Array.isArray(window.QL_PRODUCTS) && storedProds.length < 50) {
+      const syncedProds = window.QL_PRODUCTS.map(p => ({
+        id: p.id,
+        slug: p.slug,
+        name: p.name,
+        category: p.category,
+        brand: p.brand || 'Chính hãng',
+        price: p.price || 0,
+        oldPrice: p.oldPrice || 0,
+        stock: p.stock || 15,
+        status: (p.status === 'Ẩn' || p.status === 'Hết hàng') ? p.status : 'Đang bán',
+        image: p.image ? (p.image.startsWith('http') || p.image.startsWith('../') ? p.image : '../' + p.image) : '',
+        specs: Array.isArray(p.specs) ? p.specs.join('\n') : (p.specs || ''),
+        short: p.short || [],
+        origin: p.origin || ''
+      }));
+      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(syncedProds));
+    } else if (!storedProds.length) {
       localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(SEED_PRODUCTS));
     }
     if (!localStorage.getItem(STORAGE_KEYS.CUSTOMERS)) {
@@ -1291,6 +1311,45 @@
     },
     saveSettings(settings) {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
+    },
+
+    // CATEGORIES (Quản lý danh mục sản phẩm đồng bộ với trang chủ)
+    getCategories() {
+      const defaultCats = [
+        { id: 'may-photocopy', name: 'Máy photocopy', icon: 'fa-files-o', desc: 'Máy photocopy Canon, Ricoh, Fujifilm, Sharp, Konica Minolta chính hãng, bảo hành 12 tháng.' },
+        { id: 'may-in', name: 'Máy in', icon: 'fa-print', desc: 'Máy in laser đen trắng A4/A3, máy in đa chức năng, máy in laser màu và phun màu chính hãng.' },
+        { id: 'may-scan', name: 'Máy scan tài liệu', icon: 'fa-file-image-o', desc: 'Máy quét tài liệu chuyên dụng Canon, Fujitsu, Plustek, Kodak tốc độ cao.' },
+        { id: 'may-huy', name: 'Máy hủy tài liệu', icon: 'fa-scissors', desc: 'Máy hủy tài liệu văn phòng cắt sợi, cắt vụn bảo mật cao.' },
+        { id: 'hut-am', name: 'Máy hút ẩm - Lọc khí', icon: 'fa-tint', desc: 'Máy hút ẩm dân dụng & công nghiệp Kosmen, FujiE, Kasami và máy lọc không khí Coway.' },
+        { id: 'ma-vach', name: 'Máy quét mã vạch', icon: 'fa-barcode', desc: 'Đầu đọc mã vạch cầm tay có dây và không dây Newland chính hãng.' },
+        { id: 'vat-tu', name: 'Vật tư - Linh kiện', icon: 'fa-cogs', desc: 'Hộp mực in, mực photocopy Canon chính hãng và màn hình tương tác thông minh.' },
+        { id: 'cho-thue', name: 'Cho thuê máy photocopy', icon: 'fa-handshake-o', desc: 'Dịch vụ cho thuê máy photocopy trọn gói tại Hà Nội, miễn phí mực in và bảo trì.' }
+      ];
+      try {
+        return JSON.parse(localStorage.getItem('ql_categories')) || defaultCats;
+      } catch (e) {
+        return defaultCats;
+      }
+    },
+    saveCategories(cats) {
+      localStorage.setItem('ql_categories', JSON.stringify(cats));
+    },
+
+    // WEB ANALYTICS (Đo lường hiệu quả website)
+    getAnalytics() {
+      const def = {
+        pageviews: 1248, sessions: 486, addToCarts: 94, checkouts: 28, leadSubmits: 42,
+        chatOpens: 67, zaloClicks: 83, fanpageClicks: 39, hotlineClicks: 71,
+        pages: { home: 520, products: 380, detail: 245, rental: 64, cart: 25, about: 14 },
+        productViews: { QL001: 48, QL004: 39, QL016: 35, QL019: 31, QL022: 27 },
+        searches: { 'canon': 34, 'ricoh': 26, 'kosmen': 18, 'lbp 6030': 15 },
+        daily: {}
+      };
+      try {
+        return JSON.parse(localStorage.getItem('ql_analytics')) || def;
+      } catch (e) {
+        return def;
+      }
     }
   };
 
