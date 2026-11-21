@@ -3,11 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Danh Mục Sản Phẩm | Quảng Lợi</title>
-  <meta name="description" content="Danh mục máy photocopy, máy in, máy scan, máy hủy tài liệu, máy hút ẩm, máy quét mã vạch và vật tư linh kiện chính hãng tại Công ty Quảng Lợi.">
+  <title>Danh Mục Sản Phẩm Máy Photocopy, Máy In & Thiết Bị Văn Phòng | Quảng Lợi</title>
+  <meta name="description" content="Danh mục 219+ mẫu máy photocopy, máy in, máy scan, máy hủy tài liệu, máy hút ẩm, máy quét mã vạch và vật tư linh kiện chính hãng tại Công ty Quảng Lợi. Đầy đủ CO/CQ, bảo hành 12 tháng.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://vanhaitech86-lab.github.io/quangloi-ecommerce/pages/products.html">
+  <link rel="icon" type="image/png" href="../img/site/logo.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Quảng Lợi E-Commerce">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:title" content="Danh Mục Máy Photocopy, Máy In & Thiết Bị Văn Phòng Chính Hãng | Quảng Lợi">
+  <meta property="og:description" content="Phân phối máy photocopy Canon, Ricoh, Fujifilm, Sharp, Konica Minolta, máy in, máy scan, máy hút ẩm Kosmen chính hãng giá đại lý.">
+  <meta property="og:url" content="https://vanhaitech86-lab.github.io/quangloi-ecommerce/pages/products.html">
+  <meta property="og:image" content="https://vanhaitech86-lab.github.io/quangloi-ecommerce/img/site/slide-31.jpg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="../css/site.css">
 </head>
@@ -16,14 +28,14 @@
   <div id="ql-top"></div>
 
   <div class="container">
-    <div class="crumb">
+    <nav class="crumb" aria-label="Breadcrumb">
       <a href="../index.html"><i class="fa fa-home"></i> Trang chủ</a>
       <span class="sep">›</span>
       <span id="pl-crumb">Sản phẩm</span>
-    </div>
+    </nav>
 
     <div class="layout">
-      <aside class="sidebar">
+      <aside class="sidebar" aria-label="Bộ lọc sản phẩm">
         <div class="box">
           <div class="box-title"><i class="fa fa-folder-open"></i> Danh mục sản phẩm</div>
           <div class="box-body fl" id="f-cats"></div>
@@ -37,9 +49,9 @@
           <div class="box-body fl" id="f-price"></div>
         </div>
         <div class="box">
-          <div class="box-title"><i class="fa fa-phone"></i> Tư vấn mua hàng</div>
+          <div class="box-title"><i class="fa fa-phone"></i> Tư vấn & Báo giá dự án</div>
           <div class="box-body">
-            <p>Cần tư vấn chọn máy phù hợp công suất văn phòng hoặc báo giá dự án?</p>
+            <p>Cần tư vấn chọn máy phù hợp công suất văn phòng hoặc báo giá thầu?</p>
             <p style="margin:8px 0"><strong style="color:#DA251D;font-size:17px">0913 524 260</strong><br><span class="note">0941 238 384 · (024) 3565 7494</span></p>
             <button class="btn btn-red btn-block" data-lead="Tư vấn chọn thiết bị"><i class="fa fa-file-text-o"></i> Nhận báo giá nhanh</button>
           </div>
@@ -50,18 +62,24 @@
         <div class="toolbar">
           <div>
             <h1 id="pl-title">Tất cả sản phẩm</h1>
-            <span class="note" id="pl-count"></span>
+            <p class="note" id="pl-desc" style="margin-top:2px"></p>
           </div>
-          <div>
-            <label for="pl-sort" class="note">Sắp xếp: </label>
-            <select id="pl-sort">
-              <option value="default">Mặc định (ưu tiên có giá)</option>
-              <option value="asc">Giá: Thấp đến cao</option>
-              <option value="desc">Giá: Cao đến thấp</option>
-              <option value="name">Tên: A → Z</option>
-            </select>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <span class="note" id="pl-count" style="font-weight:600"></span>
+            <div>
+              <label for="pl-sort" class="note">Sắp xếp: </label>
+              <select id="pl-sort">
+                <option value="default">Mặc định (ưu tiên có giá)</option>
+                <option value="asc">Giá: Thấp đến cao</option>
+                <option value="desc">Giá: Cao đến thấp</option>
+                <option value="name">Tên: A → Z</option>
+              </select>
+            </div>
           </div>
         </div>
+
+        <!-- Thanh chip bộ lọc đang bật (có nút xóa từng bộ lọc) -->
+        <div class="active-filters" id="pl-chips" style="display:none"></div>
 
         <div id="pl-grid"></div>
         <div class="pager" id="pl-pager"></div>
