@@ -394,7 +394,7 @@
           '<a class="' + act('rental') + '" href="' + ROOT + 'pages/rental-service.html">Cho thuê máy</a>' +
           '<a class="' + act('about') + '" href="' + ROOT + 'pages/about.html">Giới thiệu</a>' +
           '<a class="' + act('contact') + '" href="' + ROOT + 'pages/contact.html">Liên hệ</a>' +
-          '<a href="' + ROOT + 'admin/index.html" style="margin-left:auto;background:rgba(0,0,0,.25)"><i class="fa fa-cogs"></i> Quản trị</a>' +
+          '<a href="' + ROOT + 'admin/index.html"><i class="fa fa-cogs"></i> Quản trị</a>' +
         '</div>' +
       '</div></nav>';
     var sel = $('.search select'); if (sel && qs('cat')) sel.value = qs('cat');
