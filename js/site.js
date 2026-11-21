@@ -657,6 +657,28 @@
         t.parentNode.classList.toggle('open');
       }
     });
+
+    // Hiệu ứng nghiêng 3D (3D Spatial Tilt & Specular Glare) cho mọi thẻ sản phẩm & banner
+    if (window.matchMedia('(hover:hover)').matches) {
+      document.addEventListener('mousemove', function (e) {
+        var c = e.target.closest && e.target.closest('.pcard');
+        if (!c) return;
+        var r = c.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        var rx = ((0.5 - py) * 11).toFixed(2);
+        var ry = ((px - 0.5) * 13).toFixed(2);
+        c.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        c.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+        c.style.transform = 'perspective(1000px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-6px)';
+      });
+      document.addEventListener('mouseout', function (e) {
+        var c = e.target.closest && e.target.closest('.pcard');
+        if (c && !c.contains(e.relatedTarget)) {
+          c.style.transform = '';
+        }
+      });
+    }
   }
 
   /* ---------- Trang chủ ---------- */
@@ -861,7 +883,27 @@
 
     var call = !p.price;
     root.innerHTML =
-      '<div class="pd"><div><div class="pd-img" id="pd-img"><img width="380" height="380" src="' + esc(resolveImg(p.image)) + '" alt="' + esc(p.name) + '"></div><p class="pd-hint"><i class="fa fa-cube"></i> Di chuột lên ảnh để xem góc nghiêng 3D</p></div>' +
+      '<div class="pd"><div>' +
+        '<div class="pd-view-toggle">' +
+          '<button type="button" class="on" id="btn-view-2d"><i class="fa fa-picture-o"></i> Ảnh thật & Góc nghiêng 3D</button>' +
+          '<button type="button" id="btn-view-3d"><i class="fa fa-cube"></i> Mô hình 3D 360° tương tác</button>' +
+        '</div>' +
+        '<div class="pd-img" id="pd-img"><img width="380" height="380" src="' + esc(resolveImg(p.image)) + '" alt="' + esc(p.name) + '"></div>' +
+        '<div class="pd-3d-stage" id="pd-3d-stage">' +
+          '<div id="three-viewer-container"></div>' +
+          '<div class="pd-3d-tools">' +
+            '<span style="font-size:11.5px;font-weight:700;color:#334155"><i class="fa fa-hand-pointer-o"></i> Kéo chuột xoay 360° · Cuộn để Zoom</span>' +
+            '<div style="display:flex;gap:5px">' +
+              '<button type="button" id="v3d-color-w">Trắng</button>' +
+              '<button type="button" id="v3d-color-g">Xám</button>' +
+              '<button type="button" id="v3d-color-b">Đen</button>' +
+              '<button type="button" id="v3d-wire">Khung lưới</button>' +
+              '<button type="button" id="v3d-reset">Reset</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="pd-hint" id="pd-hint"><i class="fa fa-cube"></i> Di chuột lên ảnh để xem góc nghiêng 3D hoặc chuyển sang tab <b>Mô hình 3D 360°</b></p>' +
+      '</div>' +
       '<div><h1>' + esc(p.name) + '</h1>' +
       '<div class="meta">' +
         (p.brand ? '<span>Thương hiệu: <a href="' + listLink(p.category, p.brand) + '" style="color:#DA251D;font-weight:700">' + esc(p.brand) + '</a></span>' : '') +
@@ -905,9 +947,32 @@
     var box = $('#pd-img'), img = $('img', box);
     box.addEventListener('mousemove', function (e) {
       var r = box.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      img.style.transform = 'rotateY(' + (x * 20).toFixed(1) + 'deg) rotateX(' + (-y * 16).toFixed(1) + 'deg) scale(1.06)';
+      img.style.transform = 'rotateY(' + (x * 22).toFixed(1) + 'deg) rotateX(' + (-y * 18).toFixed(1) + 'deg) scale(1.07)';
     });
     box.addEventListener('mouseleave', function () { img.style.transform = ''; });
+
+    // Chuyển đổi 2D <-> Mô hình 3D 360° WebGL
+    var btn2d = $('#btn-view-2d'), btn3d = $('#btn-view-3d'), stage3d = $('#pd-3d-stage'), viewer3d = null;
+    if (btn2d && btn3d && stage3d) {
+      btn2d.onclick = function () {
+        btn2d.classList.add('on'); btn3d.classList.remove('on');
+        box.style.display = 'flex'; stage3d.classList.remove('open');
+      };
+      btn3d.onclick = function () {
+        btn3d.classList.add('on'); btn2d.classList.remove('on');
+        box.style.display = 'none'; stage3d.classList.add('open');
+        if (!viewer3d && typeof window.initProductDetail3DViewer === 'function') {
+          viewer3d = window.initProductDetail3DViewer('three-viewer-container');
+          if (viewer3d) {
+            $('#v3d-color-w').onclick = function () { viewer3d.setPrinterColor(0xf8fafc); };
+            $('#v3d-color-g').onclick = function () { viewer3d.setPrinterColor(0x94a3b8); };
+            $('#v3d-color-b').onclick = function () { viewer3d.setPrinterColor(0x1e293b); };
+            $('#v3d-wire').onclick = function () { viewer3d.toggleWireframe(); };
+            $('#v3d-reset').onclick = function () { viewer3d.resetView(); };
+          }
+        }
+      };
+    }
 
     var prodLd = {
       '@context': 'https://schema.org',
@@ -1123,7 +1188,12 @@
   function boot() {
     Analytics.track('pageview', PAGE || 'home');
     header(); footer(); Cart.badge(); globalEvents(); leadModal(); chatbot(); injectBaseSEO();
-    if (PAGE === 'home') initHome();
+    if (PAGE === 'home') {
+      initHome();
+      if (typeof window.initHeroThreeScene === 'function') {
+        try { window.initHeroThreeScene(); } catch (e) { /* ignore */ }
+      }
+    }
     if (PAGE === 'products') initProducts();
     if (PAGE === 'detail') initDetail();
     if (PAGE === 'cart') initCart();

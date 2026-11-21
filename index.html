@@ -33,8 +33,9 @@
   <!-- H1 ẩn ngữ nghĩa cho SEO trang chủ -->
   <h1 class="sr-only">Quảng Lợi - Tổng Đại Lý Máy Photocopy, Máy In & Thiết Bị Văn Phòng Chính Hãng Tại Việt Nam</h1>
 
-  <!-- HERO: Danh mục trái + Slider giữa + 2 Banner phải -->
+  <!-- HERO: Danh mục trái + Slider giữa + 2 Banner phải + Không gian 3D WebGL -->
   <section class="home-hero" aria-label="Banner nổi bật">
+    <div id="hero-three-canvas" aria-hidden="true"></div>
     <div class="container">
       <div class="row">
         <div class="hero-cat">
@@ -144,6 +145,8 @@
 
   <div id="ql-foot"></div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="js/three-scene.js"></script>
   <script src="data/products.js"></script>
   <script src="js/site.js"></script>
 </body>
