@@ -270,10 +270,144 @@
                 </div>
               </form>
             </div>
+
+            <!-- 4. SECURITY AUDIT CENTER & ACCESS LOGS -->
+            <div class="card" style="border-top: 4px solid #10b981;">
+              <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div class="card-title">
+                  <i class="fa-solid fa-shield-halved" style="color:#10b981;"></i>
+                  Trung Tâm Bảo Mật Hệ Thống & Nhật Ký Truy Cập (Security Audit)
+                </div>
+                <span class="badge badge-success" style="font-size:11px;"><i class="fa-solid fa-lock"></i> 6/6 Lớp Bảo Vệ Đang Bật</span>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+                <div style="padding:10px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;">
+                  <div style="font-weight:700;font-size:12px;color:#166534;"><i class="fa-solid fa-check-circle"></i> Chống XSS & Injection</div>
+                  <div style="font-size:11px;color:#15803d;margin-top:2px;">Tự động lọc mã độc HTML/JS ở mọi form & bảng dữ liệu</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;">
+                  <div style="font-weight:700;font-size:12px;color:#166534;"><i class="fa-solid fa-check-circle"></i> Mã Hóa SHA-256 Salted</div>
+                  <div style="font-size:11px;color:#15803d;margin-top:2px;">Mật khẩu Admin băm một chiều có Salt bảo mật</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;">
+                  <div style="font-weight:700;font-size:12px;color:#166534;"><i class="fa-solid fa-check-circle"></i> Chống Brute-Force</div>
+                  <div style="font-size:11px;color:#15803d;margin-top:2px;">Tự động khóa 5 phút nếu đăng nhập sai 5 lần liên tiếp</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;">
+                  <div style="font-weight:700;font-size:12px;color:#166534;"><i class="fa-solid fa-check-circle"></i> Phiên Đăng Nhập 8 Giờ</div>
+                  <div style="font-size:11px;color:#15803d;margin-top:2px;">Token tự động hết hạn sau 8h làm việc</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;">
+                  <div style="font-weight:700;font-size:12px;color:#166534;"><i class="fa-solid fa-check-circle"></i> Chống Spam / Flood</div>
+                  <div style="font-size:11px;color:#15803d;margin-top:2px;">Giới hạn tần suất gửi form Lead & Đặt hàng</div>
+                </div>
+                <div style="padding:10px;border-radius:8px;background:#f0fdf4;border:1px solid #bbf7d0;">
+                  <div style="font-weight:700;font-size:12px;color:#166534;"><i class="fa-solid fa-check-circle"></i> CSP & Security Headers</div>
+                  <div style="font-size:11px;color:#15803d;margin-top:2px;">HSTS, X-Frame-Options, nosniff, Referrer-Policy</div>
+                </div>
+              </div>
+
+              <div style="font-weight:700;font-size:12.5px;margin-bottom:8px;color:#334155;">
+                <i class="fa-solid fa-clock-rotate-left"></i> Nhật ký bảo mật & đăng nhập gần đây:
+              </div>
+              <div class="table-responsive" style="max-height:210px;overflow-y:auto;">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Thời Gian</th>
+                      <th>Tài Khoản</th>
+                      <th>Sự Kiện Bảo Mật</th>
+                      <th>Trạng Thái</th>
+                    </tr>
+                  </thead>
+                  <tbody id="security-logs-tbody"></tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           <!-- RIGHT COLUMN: USERS, BACKUP & SECURITY -->
           <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- ADMIN USERS LIST & CREATE NEW ADMIN -->
+            <div class="card" style="border-top: 4px solid #1565C0;">
+              <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;">
+                <div class="card-title">
+                  <i class="fa-solid fa-user-shield"></i>
+                  Quản Lý Tài Khoản Admin
+                </div>
+                <span class="badge badge-info" id="admin-accounts-count">3 tài khoản</span>
+              </div>
+
+              <div id="admin-accounts-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+
+              <div style="border-top:1px dashed var(--border-color);padding-top:14px;">
+                <div style="font-weight:700;font-size:13px;color:var(--primary);margin-bottom:10px;">
+                  <i class="fa-solid fa-user-plus"></i> Tạo Tài Khoản Quản Trị Mới
+                </div>
+                <form id="form-create-admin">
+                  <div class="form-group">
+                    <label class="form-label required">Tên đăng nhập (Username)</label>
+                    <input type="text" id="new-admin-user" class="form-control" placeholder="VD: quanly01 (chữ thường, số)" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Họ và Tên Quản Trị Viên</label>
+                    <input type="text" id="new-admin-name" class="form-control" placeholder="VD: Nguyễn Văn Quản Lý" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Mật khẩu khởi tạo</label>
+                    <input type="text" id="new-admin-pass" class="form-control" placeholder="Tối thiểu 6 ký tự..." value="QuangLoi@2026" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email công vụ</label>
+                    <input type="email" id="new-admin-email" class="form-control" placeholder="user@quangloi.com.vn">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label required">Phân quyền vai trò</label>
+                    <select id="new-admin-role" class="form-control">
+                      <option value="Super Admin">Super Admin (Toàn quyền hệ thống)</option>
+                      <option value="Quản Lý Kinh Doanh">Quản Lý Kinh Doanh (Đơn hàng, Khách, Leads)</option>
+                      <option value="Quản Lý Kỹ Thuật">Quản Lý Kỹ Thuật (Thiết bị, Sản phẩm, Bảo trì)</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">
+                    <i class="fa-solid fa-plus-circle"></i> Tạo Tài Khoản Admin
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- CHANGE PASSWORD -->
+            <div class="card" style="border-top: 4px solid var(--accent-red);">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa-solid fa-key"></i>
+                  Đổi Mật Khẩu Quản Trị
+                </div>
+              </div>
+              <form id="form-change-password">
+                <div class="form-group">
+                  <label class="form-label">Tài Khoản Cần Đổi</label>
+                  <select id="pass-account-select" class="form-control"></select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Mật Khẩu Hiện Tại</label>
+                  <input type="password" id="pass-current" class="form-control" placeholder="Mật khẩu hiện tại..." required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Mật Khẩu Mới</label>
+                  <input type="password" id="pass-new" class="form-control" placeholder="Tối thiểu 6 ký tự..." required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label required">Xác Nhận Mật Khẩu Mới</label>
+                  <input type="password" id="pass-confirm" class="form-control" placeholder="Nhập lại mật khẩu..." required>
+                </div>
+                <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 10px;">
+                  <i class="fa-solid fa-shield-halved"></i> Cập Nhật Mật Khẩu SHA-256
+                </button>
+              </form>
+            </div>
+
             <!-- BACKUP & RESTORE -->
             <div class="card" style="border-top: 4px solid var(--primary);">
               <div class="card-header">
@@ -301,51 +435,6 @@
                 </button>
               </div>
             </div>
-
-            <!-- CHANGE PASSWORD -->
-            <div class="card" style="border-top: 4px solid var(--accent-red);">
-              <div class="card-header">
-                <div class="card-title">
-                  <i class="fa-solid fa-key"></i>
-                  Đổi Mật Khẩu Quản Trị
-                </div>
-              </div>
-              <form id="form-change-password">
-                <div class="form-group">
-                  <label class="form-label required">Mật Khẩu Hiện Tại</label>
-                  <input type="password" id="pass-current" class="form-control" placeholder="Mật khẩu cũ..." required>
-                </div>
-                <div class="form-group">
-                  <label class="form-label required">Mật Khẩu Mới</label>
-                  <input type="password" id="pass-new" class="form-control" placeholder="Tối thiểu 6 ký tự..." required>
-                </div>
-                <div class="form-group">
-                  <label class="form-label required">Xác Nhận Mật Khẩu Mới</label>
-                  <input type="password" id="pass-confirm" class="form-control" placeholder="Nhập lại mật khẩu..." required>
-                </div>
-                <button type="submit" class="btn btn-danger" style="width: 100%; margin-top: 10px;">
-                  <i class="fa-solid fa-shield-halved"></i> Cập Nhật Mật Khẩu
-                </button>
-              </form>
-            </div>
-
-            <!-- ADMIN USERS LIST -->
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title">
-                  <i class="fa-solid fa-user-shield"></i>
-                  Tài Khoản Quản Trị Viên
-                </div>
-              </div>
-              <div style="display: flex; align-items: center; gap: 12px; padding: 8px 0;">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80" alt="Avatar" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
-                <div>
-                  <div style="font-weight: 700; font-size: 13px;">admin (Super Admin)</div>
-                  <div style="font-size: 11px; color: #64748b;">admin@quangloi.com.vn</div>
-                  <span class="badge badge-success" style="font-size: 10px; margin-top: 2px;">Đang hoạt động</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </main>
@@ -356,6 +445,8 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       loadSettings();
+      renderAdminAccounts();
+      renderSecurityLogs();
 
       // Company info submit
       document.getElementById('form-settings-company').addEventListener('submit', handleSaveCompany);
@@ -365,6 +456,9 @@
 
       // Notification settings submit
       document.getElementById('form-settings-notifications').addEventListener('submit', handleSaveNotifications);
+
+      // Create new admin account
+      document.getElementById('form-create-admin').addEventListener('submit', handleCreateAdmin);
 
       // Change password
       document.getElementById('form-change-password').addEventListener('submit', handleChangePassword);
@@ -378,6 +472,95 @@
       // Reset Sample Data
       document.getElementById('btn-reset-sample-data').addEventListener('click', handleResetSampleData);
     });
+
+    function renderAdminAccounts() {
+      const accounts = QLAdmin.DataStore.getAdminAccounts();
+      const cur = QLAdmin.DataStore.getCurrentAdmin();
+      const listEl = document.getElementById('admin-accounts-list');
+      const countEl = document.getElementById('admin-accounts-count');
+      const selEl = document.getElementById('pass-account-select');
+
+      if (countEl) countEl.textContent = `${accounts.length} tài khoản`;
+      if (selEl) {
+        selEl.innerHTML = accounts.map(a =>
+          `<option value="${QLAdmin.escapeHTML(a.username)}" ${a.username === cur.username ? 'selected' : ''}>${QLAdmin.escapeHTML(a.username)} (${QLAdmin.escapeHTML(a.role)})</option>`
+        ).join('');
+      }
+      if (!listEl) return;
+      listEl.innerHTML = accounts.map(a => {
+        const isCurrent = a.username === cur.username;
+        const canDelete = a.username !== 'admin';
+        return `
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-radius:10px;border:1px solid ${isCurrent ? '#93c5fd' : '#e2e8f0'};background:${isCurrent ? '#eff6ff' : '#f8fafc'};">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <img src="${QLAdmin.escapeHTML(a.avatar || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80')}" alt="Avatar" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+              <div>
+                <div style="font-weight:700;font-size:13px;color:#0f172a;">
+                  ${QLAdmin.escapeHTML(a.name)} <code style="font-size:11px;color:#1565C0;">@${QLAdmin.escapeHTML(a.username)}</code>
+                </div>
+                <div style="font-size:11px;color:#475569;">${QLAdmin.escapeHTML(a.role)} · ${QLAdmin.escapeHTML(a.email)}</div>
+                <div style="font-size:10.5px;color:#64748b;">Quyền: ${QLAdmin.escapeHTML(a.permissions || 'Quản trị')}</div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+              <span class="badge ${isCurrent ? 'badge-info' : 'badge-success'}" style="font-size:10px;">${isCurrent ? 'Đang đăng nhập' : 'Hoạt động'}</span>
+              ${canDelete ? `<button type="button" class="btn btn-sm btn-danger" style="padding:2px 8px;font-size:10.5px;" onclick="handleDeleteAdmin('${QLAdmin.escapeHTML(a.username)}')"><i class="fa-solid fa-trash"></i> Xóa</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderSecurityLogs() {
+      const logs = QLAdmin.DataStore.getSecurityLogs();
+      const tbody = document.getElementById('security-logs-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = logs.map(l => {
+        let badgeCls = 'badge-success';
+        if (l.status === 'Cảnh báo') badgeCls = 'badge-warning';
+        if (l.status === 'Thất bại') badgeCls = 'badge-danger';
+        return `
+          <tr>
+            <td style="font-size:11.5px;white-space:nowrap;">${QLAdmin.escapeHTML(l.time)}</td>
+            <td><code>${QLAdmin.escapeHTML(l.actor)}</code></td>
+            <td style="font-size:12px;">${QLAdmin.escapeHTML(l.action)}</td>
+            <td><span class="badge ${badgeCls}" style="font-size:10.5px;">${QLAdmin.escapeHTML(l.status)}</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function handleCreateAdmin(e) {
+      e.preventDefault();
+      const username = document.getElementById('new-admin-user').value.trim();
+      const name = document.getElementById('new-admin-name').value.trim();
+      const password = document.getElementById('new-admin-pass').value;
+      const email = document.getElementById('new-admin-email').value.trim();
+      const role = document.getElementById('new-admin-role').value;
+
+      const res = QLAdmin.DataStore.createAdminAccount({ username, name, password, email, role });
+      if (!res.success) {
+        QLAdmin.showToast('Lỗi tạo tài khoản', res.message, 'danger');
+        return;
+      }
+      QLAdmin.showToast('Tạo tài khoản thành công', `Đã cấp tài khoản @${res.account.username} (${res.account.role})!`, 'success');
+      document.getElementById('form-create-admin').reset();
+      document.getElementById('new-admin-pass').value = 'QuangLoi@2026';
+      renderAdminAccounts();
+      renderSecurityLogs();
+    }
+
+    window.handleDeleteAdmin = function(username) {
+      if (!confirm(`Bạn có chắc chắn muốn xóa tài khoản quản trị @${username}?`)) return;
+      const res = QLAdmin.DataStore.deleteAdminAccount(username);
+      if (!res.success) {
+        QLAdmin.showToast('Không thể xóa', res.message, 'danger');
+        return;
+      }
+      QLAdmin.showToast('Đã xóa tài khoản', `Tài khoản @${username} đã được gỡ bỏ.`, 'warning');
+      renderAdminAccounts();
+      renderSecurityLogs();
+    };
 
     function loadSettings() {
       const s = QLAdmin.DataStore.getSettings();
@@ -448,14 +631,11 @@
 
     function handleChangePassword(e) {
       e.preventDefault();
+      const targetUser = document.getElementById('pass-account-select').value || 'admin';
       const cur = document.getElementById('pass-current').value;
       const n = document.getElementById('pass-new').value;
       const c = document.getElementById('pass-confirm').value;
 
-      if (cur !== 'quangloi2024') {
-        QLAdmin.showToast('Lỗi', 'Mật khẩu hiện tại không đúng (mặc định: quangloi2024)!', 'danger');
-        return;
-      }
       if (n !== c) {
         QLAdmin.showToast('Lỗi', 'Mật khẩu mới và xác nhận mật khẩu không khớp!', 'danger');
         return;
@@ -465,8 +645,16 @@
         return;
       }
 
-      QLAdmin.showToast('Thành công', 'Đã đổi mật khẩu quản trị thành công!', 'success');
+      const res = QLAdmin.DataStore.changeAdminPassword(targetUser, cur, n);
+      if (!res.success) {
+        QLAdmin.showToast('Lỗi xác thực', res.message, 'danger');
+        renderSecurityLogs();
+        return;
+      }
+
+      QLAdmin.showToast('Thành công', `Đã cập nhật mật khẩu SHA-256 cho tài khoản @${targetUser}!`, 'success');
       document.getElementById('form-change-password').reset();
+      renderSecurityLogs();
     }
 
     function handleExportBackup() {

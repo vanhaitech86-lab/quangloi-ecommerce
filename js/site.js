@@ -54,6 +54,21 @@
   function jget(k, def) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; } catch (e) { return def; } }
   function jset(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } }
   function validPhone(s) { return /^(0|\+?84)\d{9,10}$/.test(String(s).replace(/[\s.\-]/g, '')); }
+  /* Security: Strip HTML/Script payloads & enforce max length before saving to CRM */
+  function cleanInput(s, maxLen) {
+    return String(s == null ? '' : s)
+      .replace(/<[^>]*>?/gm, '')
+      .replace(/javascript:/gi, '')
+      .replace(/on\w+\s*=/gi, '')
+      .trim()
+      .slice(0, maxLen || 250);
+  }
+  function checkRateLimit(key, cooldownMs) {
+    var now = Date.now(), last = Number(sessionStorage.getItem('rl_' + key) || 0);
+    if (now - last < (cooldownMs || 4000)) return false;
+    sessionStorage.setItem('rl_' + key, String(now));
+    return true;
+  }
 
   /* ---------- Đồng bộ Cài đặt từ Admin (nếu Admin đã chỉnh sửa) ---------- */
   var savedCfg = jget('ql_settings', null);
@@ -272,12 +287,19 @@
 
   /* ---------- Lead -> CRM (ql_leads) ---------- */
   function saveLead(d) {
+    if (!checkRateLimit('lead', 3000)) return null;
     var leads = jget('ql_leads', []);
     var lead = {
       id: 'LEAD-' + Date.now().toString(36).toUpperCase(),
-      name: d.name || 'Khách hàng', phone: d.phone || '', email: d.email || '', company: d.company || '',
-      interestedProduct: d.product || 'Tư vấn chung', source: d.source || 'Website',
-      stage: 'Mới', createdAt: nowStr(), notes: d.note || '',
+      name: cleanInput(d.name, 100) || 'Khách hàng',
+      phone: cleanInput(d.phone, 25),
+      email: cleanInput(d.email, 120),
+      company: cleanInput(d.company, 150),
+      interestedProduct: cleanInput(d.product, 180) || 'Tư vấn chung',
+      source: cleanInput(d.source, 60) || 'Website',
+      stage: 'Mới',
+      createdAt: nowStr(),
+      notes: cleanInput(d.note, 500),
       followUpDate: new Date(Date.now() + 86400000).toISOString().slice(0, 10)
     };
     leads.unshift(lead);
@@ -718,14 +740,32 @@
       }).join('');
     }
     var sl = $('.slider'); if (sl) {
-      var track = $('.slides', sl), n = track.children.length, i = 0, dots = $('.sl-dots', sl), timer;
-      dots.innerHTML = Array.apply(null, Array(n)).map(function (_, k) { return '<button aria-label="Slide ' + (k + 1) + '" data-k="' + k + '"></button>'; }).join('');
-      function go(k) { i = (k + n) % n; track.style.transform = 'translateX(' + (-100 * i) + '%)'; $$('button', dots).forEach(function (b, j) { b.className = j === i ? 'on' : ''; }); }
-      function play() { clearInterval(timer); timer = setInterval(function () { go(i + 1); }, 5000); }
+      var track = $('.slides', sl), n = track.children.length, i = 0, dots = $('.sl-dots', sl), thumbs = $$('.sl-thumb', sl), timer;
+      if (dots) dots.innerHTML = Array.apply(null, Array(n)).map(function (_, k) { return '<button aria-label="Slide ' + (k + 1) + '" data-k="' + k + '"></button>'; }).join('');
+      function go(k) {
+        i = (k + n) % n;
+        track.style.transform = 'translateX(' + (-100 * i) + '%)';
+        if (dots) $$('button', dots).forEach(function (b, j) { b.className = j === i ? 'on' : ''; });
+        thumbs.forEach(function (t, j) { t.classList.toggle('on', j === i); });
+      }
+      function play() { clearInterval(timer); timer = setInterval(function () { go(i + 1); }, 5500); }
       sl.addEventListener('click', function (e) {
+        var th = e.target.closest('[data-k]');
         if (e.target.closest('.sl-prev')) { go(i - 1); play(); }
         else if (e.target.closest('.sl-next')) { go(i + 1); play(); }
-        else if (e.target.dataset && e.target.dataset.k) { go(+e.target.dataset.k); play(); }
+        else if (th) { go(+th.getAttribute('data-k')); play(); }
+      });
+      // 3D Parallax Mouse Tilt on Center Hero Stage
+      sl.addEventListener('mousemove', function (e) {
+        var st = $('.hero-slide:nth-child(' + (i + 1) + ') .hs-stage-3d', sl);
+        if (!st) return;
+        var r = sl.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        st.style.transform = 'rotateY(' + (px * 14).toFixed(2) + 'deg) rotateX(' + (-py * 10).toFixed(2) + 'deg) translateY(-3px)';
+      });
+      sl.addEventListener('mouseleave', function () {
+        $$('.hs-stage-3d', sl).forEach(function (st) { st.style.transform = ''; });
       });
       go(0); play();
     }
@@ -1187,8 +1227,9 @@
     });
     host.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (!checkRateLimit('order', 4000)) return toast('Hệ thống đang xử lý đơn hàng, vui lòng chờ giây lát', true);
       var f = e.target, items = Cart.items();
-      var name = f.name.value.trim(), phone = f.phone.value.trim(), addr = f.address.value.trim();
+      var name = cleanInput(f.name.value, 100), phone = cleanInput(f.phone.value, 25), addr = cleanInput(f.address.value, 250);
       if (!name) return toast('Vui lòng nhập họ tên người nhận', true);
       if (!validPhone(phone)) return toast('Số điện thoại chưa đúng định dạng', true);
       if (!addr) return toast('Vui lòng nhập địa chỉ giao hàng', true);
@@ -1200,11 +1241,11 @@
         COD: 'Thanh toán khi nhận hàng (COD)'
       };
       var order = {
-        id: id, draftCode: draftId, customerName: name, company: f.company.value.trim(), customerPhone: phone, customerEmail: f.email.value.trim(), address: addr,
+        id: id, draftCode: draftId, customerName: name, company: cleanInput(f.company.value, 150), customerPhone: phone, customerEmail: cleanInput(f.email.value, 120), address: addr,
         items: items.map(function (i) { return { id: i.p.id, name: i.p.name, price: i.p.price, quantity: i.qty }; }),
         total: Cart.total(), paymentCode: f.pay.value, paymentMethod: payLabelMap[f.pay.value] || f.pay.value,
         paymentStatus: f.pay.value === 'COD' ? 'Thanh toán khi nhận' : 'Đã tạo mã QR - Chờ đối soát',
-        orderStatus: 'Mới', createdAt: nowStr(), notes: f.note.value.trim() || 'Đặt hàng trực tuyến qua website'
+        orderStatus: 'Mới', createdAt: nowStr(), notes: cleanInput(f.note.value, 400) || 'Đặt hàng trực tuyến qua website'
       };
       var orders = jget('ql_orders', []); orders.unshift(order); jset('ql_orders', orders);
       // Đồng bộ khách hàng mới vào danh sách Khách Hàng CRM (ql_customers)
