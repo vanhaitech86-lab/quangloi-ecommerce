@@ -888,6 +888,14 @@
       return '<tr><td colspan="2">' + esc(l) + '</td></tr>';
     }).join('') + '</tbody></table>';
   }
+  function getProductVideoId(p) {
+    if (p && p.videoId) return p.videoId;
+    var s = norm((p && p.name || '') + ' ' + (p && p.brand || '') + ' ' + (p && p.category || ''));
+    if (/ricoh/.test(s)) return 'n-oKejnd6qw';
+    if (/kosmen|hut am|fujie|coway|kasami/.test(s)) return 'lfQdyJmrzXU';
+    if (/c3525|c3730|mau|apeos/.test(s)) return 'leWR5GWU-VQ';
+    return 'vyke5QixUI0';
+  }
   function initDetail() {
     var p = byId(qs('id')), root = $('#pd-root');
     if (!p) { root.innerHTML = '<div class="main-box empty"><i class="fa fa-exclamation-circle"></i>Không tìm thấy sản phẩm.<br><br><a class="btn btn-red" href="' + listLink() + '">Xem tất cả sản phẩm</a></div>'; return; }
@@ -907,11 +915,14 @@
       '<span class="sep">›</span><span>' + esc(p.name) + '</span>';
 
     var call = !p.price;
+    var vidId = getProductVideoId(p);
+    var ytSearch = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(p.name + ' review hướng dẫn');
     root.innerHTML =
       '<div class="pd"><div>' +
         '<div class="pd-view-toggle">' +
-          '<button type="button" class="on" id="btn-view-2d"><i class="fa fa-picture-o"></i> Ảnh thật & Góc nghiêng 3D</button>' +
-          '<button type="button" id="btn-view-3d"><i class="fa fa-cube"></i> Mô hình 3D 360° tương tác</button>' +
+          '<button type="button" class="on" id="btn-view-2d"><i class="fa fa-picture-o"></i> Ảnh & Nghiêng 3D</button>' +
+          '<button type="button" id="btn-view-3d"><i class="fa fa-cube"></i> Mô hình 3D 360°</button>' +
+          '<button type="button" id="btn-view-vid"><i class="fa fa-play-circle"></i> Xem Video</button>' +
         '</div>' +
         '<div class="pd-img" id="pd-img"><img width="380" height="380" src="' + esc(resolveImg(p.image)) + '" alt="' + esc(p.name) + '"></div>' +
         '<div class="pd-3d-stage" id="pd-3d-stage">' +
@@ -927,7 +938,14 @@
             '</div>' +
           '</div>' +
         '</div>' +
-        '<p class="pd-hint" id="pd-hint"><i class="fa fa-cube"></i> Di chuột lên ảnh để xem góc nghiêng 3D hoặc chuyển sang tab <b>Mô hình 3D 360°</b></p>' +
+        '<div class="pd-video-stage" id="pd-video-stage">' +
+          '<iframe id="pd-video-iframe" title="Video giới thiệu ' + esc(p.name) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+          '<div class="pd-video-bar">' +
+            '<span><i class="fa fa-youtube-play" style="color:#EF4444"></i> Video vận hành & giới thiệu dòng máy ' + esc(p.brand || 'Quảng Lợi') + '</span>' +
+            '<a href="' + ytSearch + '" target="_blank" rel="noopener">Xem thêm video ' + esc(p.name) + ' »</a>' +
+          '</div>' +
+        '</div>' +
+        '<p class="pd-hint" id="pd-hint"><i class="fa fa-cube"></i> Chọn <b>Ảnh & Nghiêng 3D</b>, <b>Mô hình 3D 360°</b> hoặc <b>Xem Video</b> vận hành thực tế</p>' +
       '</div>' +
       '<div><h1>' + esc(p.name) + '</h1>' +
       '<div class="meta">' +
@@ -950,8 +968,24 @@
         '<li><i class="fa fa-check"></i>Bảo hành 12 tháng theo tiêu chuẩn nhà sản xuất, bảo trì dài hạn</li>' +
         '<li><i class="fa fa-check"></i>Miễn phí vận chuyển, lắp đặt và hướng dẫn vận hành nội thành Hà Nội</li>' +
       '</ul></div></div></div>' +
-      '<div class="tabs"><button class="on" data-tab="t1"><i class="fa fa-list-alt"></i> Thông số kỹ thuật</button><button data-tab="t2"><i class="fa fa-shopping-bag"></i> Hướng dẫn mua hàng</button><button data-tab="t3"><i class="fa fa-cogs"></i> Vật tư & Bảo hành</button></div>' +
+      '<div class="tabs"><button class="on" data-tab="t1"><i class="fa fa-list-alt"></i> Thông số kỹ thuật</button><button data-tab="t4"><i class="fa fa-play-circle"></i> Video giới thiệu & Hướng dẫn</button><button data-tab="t2"><i class="fa fa-shopping-bag"></i> Hướng dẫn mua hàng</button><button data-tab="t3"><i class="fa fa-cogs"></i> Vật tư & Bảo hành</button></div>' +
       '<div class="tabpane on" id="t1">' + specTable(p.specs) + '</div>' +
+      '<div class="tabpane" id="t4">' +
+        '<div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px;align-items:center">' +
+          '<div style="aspect-ratio:16/9;background:#0F172A;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(15,23,42,.15)">' +
+            '<iframe style="width:100%;height:100%;border:0" loading="lazy" src="https://www.youtube.com/embed/' + vidId + '?rel=0" title="Video ' + esc(p.name) + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+          '</div>' +
+          '<div>' +
+            '<h3 style="font-size:17px;color:#0F172A;margin-bottom:8px"><i class="fa fa-video-camera" style="color:#DA251D"></i> Video Vận Hành & Giới Thiệu Công Nghệ ' + esc(p.brand || 'Quảng Lợi') + '</h3>' +
+            '<p style="margin-bottom:10px">Trải nghiệm thực tế khả năng sao chụp, in mạng tốc độ cao, màn hình điều khiển cảm ứng thông minh và quy trình vận hành ổn định của dòng máy <b>' + esc(p.name) + '</b>.</p>' +
+            '<ul class="speclist" style="margin-bottom:14px">' +
+              '<li>Kỹ sư Quảng Lợi giao máy, lắp đặt và hướng dẫn sử dụng trực tiếp tại văn phòng Quý khách.</li>' +
+              '<li>Hỗ trợ cài đặt driver in qua mạng LAN/Wi-Fi, Scan to Folder/Email trọn gói.</li>' +
+            '</ul>' +
+            '<a class="btn btn-red" href="' + ytSearch + '" target="_blank" rel="noopener"><i class="fa fa-youtube-play"></i> Xem thêm video thực tế trên YouTube</a>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
       '<div class="tabpane" id="t2"><ul class="speclist"><li><b>Đặt hàng & Thanh toán VietQR tự động:</b> Bấm "Đặt mua ngay", chọn phương thức VietQR hoặc COD để hoàn tất đơn hàng trực tuyến.</li><li><b>Hotline kinh doanh:</b> ' + CFG.hotline + ' · ' + CFG.hotline2 + ' · ' + CFG.hotline3 + ' (Văn phòng: ' + CFG.tels.join(', ') + ')</li><li><b>Chat Zalo / Fanpage:</b> <a href="' + CFG.zalo + '" target="_blank" style="color:#0068FF;font-weight:700">Zalo ' + CFG.hotline + '</a> · <a href="' + CFG.facebook + '" target="_blank" style="color:#1877F2;font-weight:700">Fanpage Quảng Lợi</a></li><li><b>Showroom & Trụ sở:</b> ' + esc(CFG.address) + '</li></ul></div>' +
       '<div class="tabpane" id="t3"><p>Quảng Lợi cung cấp đầy đủ hộp mực, trống (drum), cụm sấy và linh kiện thay thế chính hãng cho ' + esc(p.name) + '. <a href="' + listLink('vat-tu') + '" style="color:#DA251D;font-weight:700">Xem danh mục vật tư - linh kiện »</a></p></div>' +
       '<section class="section" style="margin-top:20px"><div class="sec-head"><h2 class="sec-title">Sản phẩm cùng danh mục</h2></div><div class="sec-body" id="pd-rel"></div></section>';
@@ -976,28 +1010,49 @@
     });
     box.addEventListener('mouseleave', function () { img.style.transform = ''; });
 
-    // Chuyển đổi 2D <-> Mô hình 3D 360° WebGL
-    var btn2d = $('#btn-view-2d'), btn3d = $('#btn-view-3d'), stage3d = $('#pd-3d-stage'), viewer3d = null;
-    if (btn2d && btn3d && stage3d) {
-      btn2d.onclick = function () {
-        btn2d.classList.add('on'); btn3d.classList.remove('on');
-        box.style.display = 'flex'; stage3d.classList.remove('open');
-      };
-      btn3d.onclick = function () {
-        btn3d.classList.add('on'); btn2d.classList.remove('on');
-        box.style.display = 'none'; stage3d.classList.add('open');
-        if (!viewer3d && typeof window.initProductDetail3DViewer === 'function') {
-          viewer3d = window.initProductDetail3DViewer('three-viewer-container');
-          if (viewer3d) {
-            $('#v3d-color-w').onclick = function () { viewer3d.setPrinterColor(0xf8fafc); };
-            $('#v3d-color-g').onclick = function () { viewer3d.setPrinterColor(0x94a3b8); };
-            $('#v3d-color-b').onclick = function () { viewer3d.setPrinterColor(0x1e293b); };
-            $('#v3d-wire').onclick = function () { viewer3d.toggleWireframe(); };
-            $('#v3d-reset').onclick = function () { viewer3d.resetView(); };
+    // Chuyển đổi 2D <-> Mô hình 3D 360° WebGL <-> Xem Video
+    var btn2d = $('#btn-view-2d'), btn3d = $('#btn-view-3d'), btnVid = $('#btn-view-vid');
+    var stage3d = $('#pd-3d-stage'), stageVid = $('#pd-video-stage'), vidFrame = $('#pd-video-iframe'), viewer3d = null;
+    function setViewMode(mode) {
+      [btn2d, btn3d, btnVid].forEach(function (b) { if (b) b.classList.remove('on'); });
+      box.style.display = mode === '2d' ? 'flex' : 'none';
+      stage3d.classList.toggle('open', mode === '3d');
+      if (stageVid) stageVid.classList.toggle('open', mode === 'vid');
+      if (mode === '2d' && btn2d) btn2d.classList.add('on');
+      if (mode === '3d' && btn3d) {
+        btn3d.classList.add('on');
+        requestAnimationFrame(function () {
+          if (!viewer3d && typeof window.initProductDetail3DViewer === 'function') {
+            viewer3d = window.initProductDetail3DViewer('three-viewer-container', {
+              name: p.name,
+              brand: p.brand,
+              image: resolveImg(p.image)
+            });
+            if (viewer3d) {
+              $('#v3d-color-w').onclick = function () { viewer3d.setPrinterColor(0xf8fafc); };
+              $('#v3d-color-g').onclick = function () { viewer3d.setPrinterColor(0x94a3b8); };
+              $('#v3d-color-b').onclick = function () { viewer3d.setPrinterColor(0x1e293b); };
+              $('#v3d-wire').onclick = function () { viewer3d.toggleWireframe(); };
+              $('#v3d-reset').onclick = function () { viewer3d.resetView(); };
+            }
+          } else if (viewer3d && typeof viewer3d.resize === 'function') {
+            viewer3d.resize();
           }
+        });
+      }
+      if (mode === 'vid' && btnVid) {
+        btnVid.classList.add('on');
+        if (vidFrame && !vidFrame.getAttribute('src')) {
+          vidFrame.setAttribute('src', 'https://www.youtube.com/embed/' + vidId + '?autoplay=1&rel=0');
         }
-      };
+      } else if (vidFrame && vidFrame.getAttribute('src')) {
+        // Dừng phát khi chuyển sang tab khác
+        vidFrame.setAttribute('src', '');
+      }
     }
+    if (btn2d) btn2d.onclick = function () { setViewMode('2d'); };
+    if (btn3d) btn3d.onclick = function () { setViewMode('3d'); };
+    if (btnVid) btnVid.onclick = function () { setViewMode('vid'); };
 
     var prodLd = {
       '@context': 'https://schema.org',
