@@ -684,6 +684,31 @@
   /* ---------- Trang chủ ---------- */
   function initHome() {
     var cl = $('#home-catlist'); if (cl) cl.innerHTML = catListHTML();
+    // Top Sản phẩm bán chạy nhất (cột phải Hero)
+    var topBox = $('#hero-top-bestsellers');
+    if (topBox) {
+      var topIds = ['QL009', 'QL177', 'QL011', 'QL014'];
+      var topList = topIds.map(byId).filter(Boolean);
+      if (topList.length < 4) {
+        topList = pricedFirst(P).slice(0, 4);
+      }
+      topBox.innerHTML = topList.map(function (p, idx) {
+        var actBtn = p.price
+          ? '<button type="button" class="ht-btn" data-add="' + p.id + '"><i class="fa fa-cart-plus"></i> +Giỏ</button>'
+          : '<button type="button" class="ht-btn" data-quote="' + p.id + '">Báo giá</button>';
+        return '<div class="ht-item">' +
+          '<span class="ht-rank">#' + (idx + 1) + '</span>' +
+          '<a class="ht-thumb" href="' + plink(p) + '"><img loading="lazy" src="' + esc(resolveImg(p.image)) + '" alt="' + esc(p.name) + '"></a>' +
+          '<div class="ht-body">' +
+            '<a class="ht-name" href="' + plink(p) + '" title="' + esc(p.name) + '">' + esc(p.name) + '</a>' +
+            '<div class="ht-foot">' +
+              '<span class="ht-price">' + money(p.price) + '</span>' +
+              actBtn +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
     var qb = $('#home-qcat');
     if (qb) {
       qb.innerHTML = CATS.slice(0, 8).map(function (c) {
