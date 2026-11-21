@@ -237,18 +237,28 @@
   function header() {
     var el = $('#ql-top'); if (!el) return;
     var act = function (k) { return PAGE === k ? ' active' : ''; };
+    var tickerSegment =
+      '<span class="tb-item"><i class="fa fa-map-marker"></i>' + esc(CFG.address) + '</span>' +
+      '<span class="tb-sep">•</span>' +
+      '<span class="tb-item"><i class="fa fa-shield"></i>MST: ' + CFG.mst + ' · GPKD: ' + CFG.license + '</span>' +
+      '<span class="tb-sep">•</span>' +
+      '<span class="tb-item"><i class="fa fa-envelope"></i><a href="mailto:' + CFG.email + '">' + CFG.email + '</a></span>' +
+      '<span class="tb-sep">•</span>' +
+      '<span class="tb-item"><i class="fa fa-phone"></i>Hotline: <a href="' + tel(CFG.hotline) + '"><strong>' + CFG.hotline + '</strong></a> - <a href="' + tel(CFG.hotline2) + '">' + CFG.hotline2 + '</a></span>' +
+      '<span class="tb-sep">•</span>' +
+      '<span class="tb-item"><i class="fa fa-certificate"></i>Tổng đại lý Máy Photocopy & Thiết bị Văn phòng Chính hãng</span>' +
+      '<span class="tb-sep">•</span>';
     el.innerHTML =
       '<div class="topbar"><div class="container">' +
-        '<div><span class="tb-badge">Từ 2002</span><i class="fa fa-map-marker"></i>' + esc(CFG.address) + '</div>' +
-        '<div class="tb-right">' +
-          '<span><i class="fa fa-shield"></i>MST: ' + CFG.mst + '</span>' +
-          '<a href="mailto:' + CFG.email + '"><i class="fa fa-envelope"></i>' + CFG.email + '</a>' +
-          '<a href="' + tel(CFG.hotline) + '"><i class="fa fa-phone"></i><strong>' + CFG.hotline + '</strong></a>' +
-        '</div>' +
+        '<span class="tb-badge">Từ 2002</span>' +
+        '<div class="tb-marquee"><div class="tb-track">' + tickerSegment + tickerSegment + '</div></div>' +
       '</div></div>' +
       '<header class="header"><div class="container">' +
         '<button class="menu-toggle" aria-label="Mở menu" data-menu><i class="fa fa-bars"></i></button>' +
-        '<a class="logo" href="' + ROOT + 'index.html" title="' + esc(CFG.name) + '"><img width="180" height="54" src="' + ROOT + 'img/site/logo.png" alt="Logo Quảng Lợi"></a>' +
+        '<a class="logo" href="' + ROOT + 'index.html" title="' + esc(CFG.name) + '">' +
+          '<img width="74" height="68" src="' + ROOT + 'img/site/logo.png" alt="Logo Quảng Lợi">' +
+          '<span class="logo-brand"><strong>QUẢNG LỢI</strong><span>Thiết bị văn phòng</span><small>Tổng đại lý chính hãng</small></span>' +
+        '</a>' +
         '<div class="search-wrap">' +
           '<form class="search" action="' + ROOT + 'pages/products.html" method="get" role="search">' +
             '<select name="cat" aria-label="Chọn danh mục"><option value="">Tất cả danh mục</option>' +
@@ -316,7 +326,7 @@
     el.innerHTML =
       '<footer class="footer"><div class="container cols">' +
         '<div>' +
-          '<a class="flogo" href="' + ROOT + 'index.html"><img src="' + ROOT + 'img/site/logo.png" alt="Quảng Lợi"></a>' +
+          '<a class="flogo" href="' + ROOT + 'index.html"><img src="' + ROOT + 'img/site/logo.png" alt="Quảng Lợi" style="height:48px;width:auto"><span style="color:#DA251D;font-weight:900;font-size:17px;margin-left:10px;letter-spacing:.3px">QUẢNG LỢI</span></a>' +
           '<p style="color:#fff;font-weight:800;margin-bottom:8px">' + esc(CFG.name) + '</p>' +
           '<ul>' +
             '<li><i class="fa fa-map-marker"></i>' + esc(CFG.address) + '</li>' +
