@@ -740,11 +740,11 @@
       }).join('');
     }
     var sl = $('.slider'); if (sl) {
-      var track = $('.slides', sl), n = track.children.length, i = 0, dots = $('.sl-dots', sl), thumbs = $$('.sl-thumb', sl), timer;
+      var slides = $$('.hero-slide', sl), n = slides.length, i = 0, dots = $('.sl-dots', sl), thumbs = $$('.sl-thumb', sl), timer;
       if (dots) dots.innerHTML = Array.apply(null, Array(n)).map(function (_, k) { return '<button aria-label="Slide ' + (k + 1) + '" data-k="' + k + '"></button>'; }).join('');
       function go(k) {
         i = (k + n) % n;
-        track.style.transform = 'translateX(' + (-100 * i) + '%)';
+        slides.forEach(function (s, j) { s.classList.toggle('active', j === i); });
         if (dots) $$('button', dots).forEach(function (b, j) { b.className = j === i ? 'on' : ''; });
         thumbs.forEach(function (t, j) { t.classList.toggle('on', j === i); });
       }
@@ -755,14 +755,14 @@
         else if (e.target.closest('.sl-next')) { go(i + 1); play(); }
         else if (th) { go(+th.getAttribute('data-k')); play(); }
       });
-      // 3D Parallax Mouse Tilt on Center Hero Stage
+      // 3D Parallax Mouse Tilt on active Hero Stage
       sl.addEventListener('mousemove', function (e) {
-        var st = $('.hero-slide:nth-child(' + (i + 1) + ') .hs-stage-3d', sl);
+        var st = $('.hero-slide.active .hs-stage-3d', sl);
         if (!st) return;
         var r = sl.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width - 0.5;
         var py = (e.clientY - r.top) / r.height - 0.5;
-        st.style.transform = 'rotateY(' + (px * 14).toFixed(2) + 'deg) rotateX(' + (-py * 10).toFixed(2) + 'deg) translateY(-3px)';
+        st.style.transform = 'rotateY(' + (px * 12).toFixed(2) + 'deg) rotateX(' + (-py * 8).toFixed(2) + 'deg) translateY(-3px)';
       });
       sl.addEventListener('mouseleave', function () {
         $$('.hs-stage-3d', sl).forEach(function (st) { st.style.transform = ''; });
