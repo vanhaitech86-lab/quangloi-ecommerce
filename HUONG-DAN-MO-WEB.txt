@@ -1,0 +1,32 @@
+HƯỚNG DẪN MỞ VÀ SỬ DỤNG WEBSITE THƯƠNG MẠI ĐIỆN TỬ QUẢNG LỢI
+================================================================
+
+1. CÁCH MỞ WEBSITE TRÊN MÁY TÍNH (CHẠY NGAY KHÔNG CẦN MẠNG)
+----------------------------------------------------------------
+- Cách nhanh nhất: Giải nén toàn bộ thư mục này ra ổ đĩa (VD: D:\quangloi-web\),
+  sau đó click đúp vào file:  MO-WEB-QUANG-LOI.bat
+  -> Trình duyệt sẽ tự động mở website tại http://localhost:8080/index.html
+- Cách đơn giản: Click đúp trực tiếp vào file  index.html  để mở bằng Chrome / Edge.
+
+2. MỞ TRANG QUẢN TRỊ ADMIN & CRM
+----------------------------------------------------------------
+- Khi đang mở trang chủ, bấm nút "Quản trị" trên thanh menu đỏ (cạnh chữ "Liên hệ"),
+  hoặc mở trực tiếp file:  admin\index.html
+- Danh sách tài khoản Admin đã tạo sẵn:
+  + Super Admin (Toàn quyền):  admin      /  QuangLoi@2026  (hoặc quangloi2024)
+  + Quản Lý Kinh Doanh:        kinhdoanh  /  Sales@2026
+  + Quản Lý Kỹ Thuật:          kythuat    /  Tech@2026
+
+3. ĐƯA LÊN HOSTING / TÊN MIỀN CHÍNH THỨC (quangloi.com.vn)
+----------------------------------------------------------------
+- Đây là website tĩnh chuẩn HTML5/CSS3/JS, tương thích 100% với mọi Hosting
+  (cPanel, DirectAdmin, VPS Nginx/Apache, Vercel, Netlify, GitHub Pages).
+- Chỉ cần upload toàn bộ các file và thư mục sau giải nén vào thư mục gốc
+  public_html (hoặc wwwroot) là hoạt động ngay lập tức, không cần cài database.
+
+4. NẾU KHÔNG TRUY CẬP ĐƯỢC LINK GITHUB PAGES (vanhaitech86-lab.github.io)
+----------------------------------------------------------------
+- Một số mạng VNPT / Viettel / FPT hoặc mạng cơ quan chặn tên miền *.github.io.
+- Giải pháp: Mở trực tiếp từ file đã tải về trên máy, hoặc đổi DNS máy tính/điện
+  thoại sang Cloudflare DNS (1.1.1.1) hoặc Google DNS (8.8.8.8), hoặc upload gói
+  web này lên hosting quangloi.com.vn / Vercel / Netlify.
